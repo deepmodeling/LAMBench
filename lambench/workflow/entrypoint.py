@@ -1,5 +1,6 @@
 import traceback
 from typing import Type
+from lambench.models.basemodel import BaseLargeAtomModel
 from lambench.tasks import DirectPredictTask, PropertyFinetuneTask
 from lambench.models.ase_models import ASEModel
 from lambench.models.dp_models import DPModel
@@ -13,7 +14,7 @@ FINETUNE_TASKS = "lambench/tasks/finetune/finetune_tasks.yml"
 MODELS = "lambench/models/models_config.yml"
 
 
-def gather_models() -> list[DPModel | ASEModel]:
+def gather_models() -> list[BaseLargeAtomModel]:
     """
     Gather models from the models_config.yml file.
     """
@@ -30,7 +31,9 @@ def gather_models() -> list[DPModel | ASEModel]:
             raise ValueError(f"Model type {model_param['model_type']} is not supported.")
     return models
 
-def gather_task_type(models, task_file: str, task_class: Type[BaseTask]) -> list[tuple[DirectPredictTask | PropertyFinetuneTask, DPModel | ASEModel]]:
+def gather_task_type(
+    models: list[BaseLargeAtomModel], task_file: str, task_class: Type[BaseTask]
+) -> list[tuple[BaseTask, BaseLargeAtomModel]]:
     """
     Gather tasks of a specific type from the task file.
     """
@@ -38,6 +41,8 @@ def gather_task_type(models, task_file: str, task_class: Type[BaseTask]) -> list
     with open(task_file, "r") as f:
         task_configs = yaml.safe_load(f)
     for model in models:
+        if isinstance(model, ASEModel) and not issubclass(task_class, DirectPredictTask):
+            continue  # ASEModel only supports DirectPredictTask
         for task_name, task_param in task_configs.items():
             task = task_class(task_name=task_name, **task_param)
             if not task.exist(model.model_name):
@@ -72,7 +77,7 @@ def submit_job(task, model):
         task.run_task(model)
     except ModuleNotFoundError as e:
         logging.error(e) # Import error for ASE models
-    except Exception as e:
+    except Exception as _:
         traceback.print_exc()
         logging.error(f"task={task.task_name}, model={model.model_name} failed!")
 if __name__ == "__main__":
