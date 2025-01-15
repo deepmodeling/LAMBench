@@ -10,7 +10,7 @@ dependencies = [
 	"python-dotenv",
 	"numpy",
 	"pydantic",
-	"SQLAlchemy",
+	"SQLAlchemy[pymysql]",
 	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@46251a71ac12762303445d08de36dedbb1355459#egg=dpdata",
 ]
 
