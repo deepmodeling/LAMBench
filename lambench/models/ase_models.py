@@ -20,7 +20,10 @@ class ASEModel(BaseLargeAtomModel):
             )
 
     def evaluate(self, task: DirectPredictTask) -> Optional[dict[str, float]]:
-        assert isinstance(task, DirectPredictTask), f"ASEModel only supports DirectPredictTask, got {type(task)=}"
+        if not isinstance(task, DirectPredictTask):
+            raise ValueError(
+                f"ASEModel only supports DirectPredictTask, got {type(task)=}"
+            )
 
         if self.model_name.lower().startswith("mace"):
             from mace.calculators import mace_mp
