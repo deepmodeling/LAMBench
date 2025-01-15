@@ -17,7 +17,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install .[test]
+        pip install .[test,deepmd]
 
     - name: Run tests
       run: |
