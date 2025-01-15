@@ -59,7 +59,7 @@ def gather_jobs():
 
     logging.info(f"Found {len(models)} models, gathering tasks.")
     jobs.extend(gather_task_type(models, DIRECT_TASKS, DirectPredictTask))
-    jobs.extend(gather_task_type(models, FINETUNE_TASKS, PropertyFinetuneTask))
+    # jobs.extend(gather_task_type(models, FINETUNE_TASKS, PropertyFinetuneTask)) # Not implemented yet
 
     return jobs
 
