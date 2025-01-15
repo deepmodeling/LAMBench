@@ -7,6 +7,7 @@ name = "lambench"
 version = "0.1.0"
 dependencies = [
 	"ase",
+	"python-dotenv",
 	"numpy",
 	"pydantic",
 	"SQLAlchemy",
