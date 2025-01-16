@@ -35,7 +35,7 @@ def gather_models() -> list[BaseLargeAtomModel]:
     return models
 
 def gather_task_type(
-    models: list[BaseLargeAtomModel], task_file: str, task_class: Type[BaseTask]
+    models: list[BaseLargeAtomModel], task_file: Path, task_class: Type[BaseTask]
 ) -> list[tuple[BaseTask, BaseLargeAtomModel]]:
     """
     Gather tasks of a specific type from the task file.
