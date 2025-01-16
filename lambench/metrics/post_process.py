@@ -1,11 +1,16 @@
-import yaml
+from pathlib import Path
+
 import numpy as np
-from lambench.models.basemodel import BaseLargeAtomModel
+import yaml
+
+import lambench
 from lambench.databases.direct_predict_table import DirectPredictRecord
+from lambench.models.basemodel import BaseLargeAtomModel
+from lambench.workflow.entrypoint import MODELS
 
 LEADERBOARD_MODELS = {
     k: v
-    for k, v in yaml.safe_load(open("lambench/models/models_config.yml", "r")).items()
+    for k, v in yaml.safe_load(open(MODELS, "r")).items()
     if any(
         [
             v.get("show_direct_task", False),
@@ -17,7 +22,7 @@ LEADERBOARD_MODELS = {
 DIRECT_TASKS = {
     k: v
     for k, v in yaml.safe_load(
-        open("lambench/metrics/direct_tasks_metrics.yml", "r")
+        open(Path(lambench.__file__).parent / "metrics/direct_tasks_metrics.yml", "r")
     ).items()
 }
 

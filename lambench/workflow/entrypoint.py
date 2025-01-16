@@ -1,17 +1,20 @@
-import traceback
-from typing import Type
-from lambench.models.basemodel import BaseLargeAtomModel
-from lambench.tasks import DirectPredictTask, PropertyFinetuneTask
-from lambench.models.ase_models import ASEModel
-from lambench.models.dp_models import DPModel
-import yaml
 import logging
+import traceback
+from pathlib import Path
+from typing import Type
 
+import yaml
+
+import lambench
+from lambench.models.ase_models import ASEModel
+from lambench.models.basemodel import BaseLargeAtomModel
+from lambench.models.dp_models import DPModel
+from lambench.tasks import DirectPredictTask, PropertyFinetuneTask
 from lambench.tasks.base_task import BaseTask
 
-DIRECT_TASKS = "lambench/tasks/direct/direct_tasks.yml"
-FINETUNE_TASKS = "lambench/tasks/finetune/finetune_tasks.yml"
-MODELS = "lambench/models/models_config.yml"
+DIRECT_TASKS = Path(lambench.__file__).parent / "tasks/direct/direct_tasks.yml"
+FINETUNE_TASKS = Path(lambench.__file__).parent / "tasks/finetune/finetune_tasks.yml"
+MODELS = Path(lambench.__file__).parent / "models/models_config.yml"
 
 
 def gather_models() -> list[BaseLargeAtomModel]:
