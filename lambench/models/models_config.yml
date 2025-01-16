@@ -4,7 +4,7 @@
 DP_2024Q4:
   model_name: dpa2_241126_v2_4_0
   model_type: DP
-  model_path: /bohr/lambench-model-55c1/v2/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
+  model_path: /bohr/lambench-model-55c1/v3/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
   virtualenv: dp_0103_prob_scp_e1a
   model_metadata:
       model_description: "DP 2024 Q4, 37head share fitting 120GPU pretrain"
@@ -37,7 +37,7 @@ SEVENNET_0:
 EQ_V2:
   model_name: eqV2_153M_omat_mp_salex
   model_type: ASE
-  model_path: lambench/models/ASE/eq_v2/eqV2_153M_omat_mp_salex.pt
+  model_path: /bohr/lambench-model-55c1/v3/eqV2_153M_omat_mp_salex/eqV2_153M_omat_mp_salex.pt
   virtualenv: eq_v2
   model_metadata:
       model_description: "eqV2_153M_omat_mp_salex"
