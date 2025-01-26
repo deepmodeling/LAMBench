@@ -10,6 +10,7 @@ class CalculatorTask(BaseTask):
     """
 
     record_type: ClassVar = CalculatorRecord
+    task_config: ClassVar = Path(__file__).parent / "calculator_tasks.yml"
     test_data: Optional[Path]
     calculator_params: dict
 

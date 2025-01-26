@@ -26,6 +26,7 @@ class PropertyFinetuneTask(BaseTask):
     """
 
     record_type: ClassVar = PropertyRecord
+    task_config: ClassVar = Path(__file__).parent / "finetune_tasks.yml"
     property_name: str  # The name of the property to be finetuned, e.g. dielectric
     intensive: bool = True
     property_dim: int = 1

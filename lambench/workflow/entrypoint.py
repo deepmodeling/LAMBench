@@ -10,14 +10,9 @@ import lambench
 from lambench.models.ase_models import ASEModel
 from lambench.models.basemodel import BaseLargeAtomModel
 from lambench.models.dp_models import DPModel
-from lambench.tasks import DirectPredictTask, CalculatorTask, PropertyFinetuneTask
+from lambench.tasks import PropertyFinetuneTask
 from lambench.tasks.base_task import BaseTask
 
-DIRECT_TASKS = Path(lambench.__file__).parent / "tasks/direct/direct_tasks.yml"
-FINETUNE_TASKS = Path(lambench.__file__).parent / "tasks/finetune/finetune_tasks.yml"
-CALCULATOR_TASKS = (
-    Path(lambench.__file__).parent / "tasks/calculator/calculator_tasks.yml"
-)
 MODELS = Path(lambench.__file__).parent / "models/models_config.yml"
 
 
@@ -50,7 +45,6 @@ job_list: TypeAlias = list[tuple[BaseTask, BaseLargeAtomModel]]
 
 def gather_task_type(
     models: list[BaseLargeAtomModel],
-    task_file: Path,
     task_class: Type[BaseTask],
     task_names: Optional[list[str]] = None,
 ) -> job_list:
@@ -58,9 +52,10 @@ def gather_task_type(
     Gather tasks of a specific type from the task file.
     """
     tasks = []
-    with open(task_file, "r") as f:
+    with open(task_class.task_config, "r") as f:
         task_configs: dict[str, dict] = yaml.safe_load(f)
     for model in models:
+        # TODO: use a better task-model compatibility check
         if isinstance(model, ASEModel) and issubclass(task_class, PropertyFinetuneTask):
             continue  # ASEModel does not support PropertyFinetuneTask
         for task_name, task_params in task_configs.items():
@@ -84,11 +79,14 @@ def gather_jobs(
         return jobs
 
     logging.info(f"Found {len(models)} models, gathering tasks.")
-    jobs.extend(gather_task_type(models, DIRECT_TASKS, DirectPredictTask, task_names))
-    jobs.extend(
-        gather_task_type(models, FINETUNE_TASKS, PropertyFinetuneTask, task_names)
-    )
-    jobs.extend(gather_task_type(models, CALCULATOR_TASKS, CalculatorTask, task_names))
+    # TODO: select task classes from cli args
+    for task_class in BaseTask.__subclasses__():
+        jobs.extend(
+            gather_task_type(
+                models=models, task_class=task_class, task_names=task_names
+            )
+        )
+
     return jobs
 
 

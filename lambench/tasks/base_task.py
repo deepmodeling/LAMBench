@@ -11,6 +11,7 @@ from lambench.models.basemodel import BaseLargeAtomModel
 class BaseTask(BaseModel):
     task_name: str
     test_data: Path
+    task_config: ClassVar[Path]
     model_config = ConfigDict(extra="allow")
     workdir: Path = Path(tempfile.gettempdir()) / "lambench"
     record_type: ClassVar = BaseRecord
