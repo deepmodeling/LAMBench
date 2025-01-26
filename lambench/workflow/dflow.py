@@ -30,18 +30,19 @@ def run_task_op(
     task.run_task(model)
 
 
-def get_dataset(paths: list[Optional[Path]]) -> list[BohriumDatasetsArtifact]:
+def get_dataset(paths: list[Optional[Path]]) -> Optional[list[BohriumDatasetsArtifact]]:
     r = []
     for path in paths:
         if path is not None and str(path).startswith("/bohr/"):
             r.append(BohriumDatasetsArtifact(path))
-    return r
+    # due the constraint of the dflow Task, return None if no dataset, but not an empty list
+    return r if r else None
 
 
 def submit_tasks_dflow(
     jobs: job_list,
     name="lambench",
-    image="registry.dp.tech/dptech/dp/native/prod-375/lambench:v1",
+    image="registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.1",
     machine_type="1 * NVIDIA V100_32g",
 ):
     job_group_id: int = create_job_group(name)
@@ -51,7 +52,7 @@ def submit_tasks_dflow(
     )
     wf = Workflow(name=name)
     for task, model in jobs:
-        name=f"{task.task_name}--{model.model_name}".replace("_", "-")
+        name = f"{task.task_name}--{model.model_name}".replace("_", "-")
         dflow_task = Task(
             name=name,
             template=PythonOPTemplate(
