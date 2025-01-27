@@ -16,10 +16,6 @@ from lambench.models.basemodel import BaseLargeAtomModel
 class ASEModel(BaseLargeAtomModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.model_type != "ASE":
-            raise ValueError(
-                f"Model type {self.model_type} is not supported by ASEModel"
-            )
 
     @cached_property
     def calc(self, head=None) -> Calculator:
@@ -62,7 +58,7 @@ class ASEModel(BaseLargeAtomModel):
 
             return DP(
                 model=self.model_path,
-                head="Domains_Drug",  # FIXME: just use mptrj head.
+                head="MP_traj_v024_alldata_mixu",
             )
         else:
             raise ValueError(f"Model {self.model_name} is not supported by ASEModel")

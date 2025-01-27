@@ -8,35 +8,13 @@ try:
 except ImportError:
     logging.info("deepmd-kit is not installed, DPModel will not work.")
 
-from lambench.models.basemodel import BaseLargeAtomModel
+from lambench.models.ase_models import ASEModel
 from lambench.tasks.base_task import BaseTask
-from lambench.tasks import DirectPredictTask, PropertyFinetuneTask
+from lambench.tasks import DirectPredictTask, PropertyFinetuneTask, CalculatorTask
 from lambench.tasks.utils import parse_dptest_log_file
 
 
-class DPModel(BaseLargeAtomModel):
-    # this need to be modified based on tasks
-    DP_TASK_CONFIG: dict[str, tuple[str, bool]] = {
-        # dataaset name: (head name, whether to change_bias)
-        "ANI": ("Domains_Drug", True),
-        "HEMC_HEMB": ("Domains_Alloy", True),
-        "HEA25_S": ("Domains_Alloy", True),
-        "HEA25_bulk": ("Domains_Alloy", True),
-        "MD22": ("Domains_Drug", True),
-        "Collision": ("Organic_Reactions", True),
-        "H_nature_2022": ("Organic_Reactions", True),
-        "REANN_CO2_Ni100": ("ODAC23", True),
-        "NequIP_NC_2022": ("Domains_SSE_PBE", True),
-        "AIMD-Chig": ("Domains_Drug", True),
-        "CGM_MLP_NC2023": ("OC20M", True),
-        "Cu_MgO_catalysts": ("OC20M", True),
-        "Subalex_9k": ("MP_traj_v024_alldata_mixu", True),
-        "WBM_downsampled": ("MP_traj_v024_alldata_mixu", True),
-        "Torsionnet500": ("Domains_Drug", True),
-        "Si_ZEO22": ("MP_traj_v024_alldata_mixu", True),
-        "HPt_NC_2022": ("OC20M", True),
-        "Ca_batteries_CM2021": ("Domains_Anode", True),
-    }
+class DPModel(ASEModel):
     model_path: Path
 
     def __init__(self, *args, **kwargs):
@@ -47,10 +25,8 @@ class DPModel(BaseLargeAtomModel):
             )
 
     def evaluate(self, task: BaseTask) -> Optional[dict[str, Optional[float]]]:
-        if isinstance(task, DirectPredictTask):
-            if task.task_name not in self.DP_TASK_CONFIG:
-                raise ValueError(f"Task {task.task_name} is not specified by DPModel")
-            head, change_bias = self.DP_TASK_CONFIG[task.task_name]
+        if isinstance(task, DirectPredictTask | CalculatorTask):
+            return super().evaluate(task)  # using ase interface
         elif isinstance(task, PropertyFinetuneTask):
             head, change_bias = None, False
         else:
@@ -69,9 +45,9 @@ class DPModel(BaseLargeAtomModel):
         test_output = self._test(model, task.test_data, head)
 
         if isinstance(task, PropertyFinetuneTask):
-            output_type="property"
+            output_type = "property"
         else:
-            output_type="standard"
+            output_type = "standard"
         result = parse_dptest_log_file(filepath=test_output, output_type=output_type)
         return result
 
