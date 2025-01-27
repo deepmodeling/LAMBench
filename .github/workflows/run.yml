@@ -1,0 +1,25 @@
+name: Run LAMBench
+
+on: workflow_dispatch
+
+jobs:
+  run-lambench:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: pip
+
+    - name: Install dependencies
+      run: |
+        pip install .[deepmd]
+
+    - name: Run LAMBench
+      run: |
+        lambench ${{ github.event.inputs.args }}
