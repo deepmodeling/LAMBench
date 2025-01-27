@@ -70,6 +70,7 @@ def gather_task_type(
 def gather_jobs(
     model_names: Optional[list[str]] = None,
     task_names: Optional[list[str]] = None,
+    task_types: Optional[list[Type[BaseTask]]] = None,
 ) -> job_list:
     jobs: job_list = []
 
@@ -79,8 +80,9 @@ def gather_jobs(
         return jobs
 
     logging.info(f"Found {len(models)} models, gathering tasks.")
-    # TODO: select task classes from cli args
     for task_class in BaseTask.__subclasses__():
+        if task_types and task_class.__name__ not in task_types:
+            continue
         jobs.extend(
             gather_task_type(
                 models=models, task_class=task_class, task_names=task_names
@@ -105,6 +107,12 @@ def main():
         help="The task names in `direct_tasks.yml` or `finetune_tasks.yml`. e.g. --tasks HPt_NC_2022 Si_ZEO22",
     )
     parser.add_argument(
+        "--task-types",
+        type=str,
+        nargs="*",
+        help="The task types. e.g. --task-types PropertyFinetuneTask",
+    )
+    parser.add_argument(
         "--local",
         action="store_true",
         help="Run tasks locally.",
@@ -112,7 +120,9 @@ def main():
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
 
-    jobs = gather_jobs(model_names=args.models, task_names=args.tasks)
+    jobs = gather_jobs(
+        model_names=args.models, task_names=args.tasks, task_types=args.task_types
+    )
     if not jobs:
         logging.warning("No jobs found, exiting.")
         return
