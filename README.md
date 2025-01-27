@@ -37,26 +37,6 @@ If there are errors importing the `torch` package regarding symbol error, try:
 export LD_LIBRARY_PATH=$CONDA_PREFIX/lib/python3.1/site-packages/torch/lib/../../nvidia/nvjitlink/lib:$LD_LIBRARY_PATH
 ```
 
-One should set the environment variables below in a `.env` file under current working directory:
-
-```bash
-MYSQL_HOST=rm-8vbh21tzg0622e3778o.mysql.zhangbei.rds.aliyuncs.com
-MYSQL_DATABASE_NAME=lambench
-MYSQL_USERNAME=[REDACTED]
-MYSQL_PASSWORD=[REDACTED]
-
-DFLOW_HOST=https://workflows.deepmodeling.com
-DFLOW_K8S_API_SERVER=https://workflows.deepmodeling.com
-DFLOW_S3_REPO_KEY=oss-bohrium
-DFLOW_S3_STORAGE_CLIENT=dflow.plugins.bohrium.TiefblueClient
-
-BOHRIUM_PROJECT_ID=27666
-BOHRIUM_USERNAME=[REDACTED]
-BOHRIUM_PASSWORD=[REDACTED]
-BOHRIUM_AUTHORIZATION=[REDACTED]
-```
-Your Bohrium account should have access to project 27666.
-
 ## Contributing
 
 We welcome contributions from the community. To contribute, please fork the repository, create a new branch, and submit a pull request with your changes.
