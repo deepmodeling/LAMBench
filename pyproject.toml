@@ -10,6 +10,7 @@ dependencies = [
 	"python-dotenv",
 	"numpy",
 	"pydantic",
+	"pyyaml",
 	"SQLAlchemy[pymysql]",
 	"tqdm",
 	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@944af9dfbe0a6ae78d87a189a589d7614cbd8989#egg=dpdata",
@@ -36,7 +37,7 @@ mattersim = ["mattersim"]
 orb = ["orb-models","pynanoflann@git+https://github.com/dwastberg/pynanoflann#egg=af434039ae14bedcbb838a7808924d6689274168"]
 sevenn = ["sevenn"]
 test = ["pytest"]
-dflow = ["dflow", "lbg"]
+dflow = ["pydflow", "lbg"]
 
 [project.urls]
 Homepage = "https://github.com/deepmodeling/LAMBench"
