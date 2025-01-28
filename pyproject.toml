@@ -46,5 +46,8 @@ Issues = "https://github.com/deepmodeling/LAMBench/issues"
 [project.scripts]
 lambench = "lambench.workflow.entrypoint:main"
 
-[tool.setuptools]
-packages = ["lambench"]
+[tool.setuptools.packages.find]
+include = ["lambench*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yml"]
