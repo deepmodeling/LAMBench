@@ -23,7 +23,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install .[deepmd]
+        pip install .[dflow]
 
     - name: Run LAMBench
       run: |
