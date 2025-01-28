@@ -14,9 +14,11 @@ LAMBench is a benchmarking tool designed to evaluate the performance of various 
 ```bash
 pip install git+https://github.com/deepmodeling/LAMBench.git#egg=lambench[deepmd,mace,sevenn,orb]
 ```
+
 The optional dependencies are required for the corresponding models.
 
 ### Installing with EquiformerV2 models
+
 Using EquiformerV2 models requires the installation of the additional pytorch-geometric packages.
 Follow [the instructions](https://pytorch-geometric.readthedocs.io/en/latest/notes/installation.html#additional-libraries), then install `lambench[fairchem]`, e.g.
 `pip install torch_geometric pyg_lib torch_scatter torch_sparse torch_cluster torch_spline_conv -f https://data.pyg.org/whl/torch-2.4.0+cu124.html`
@@ -29,6 +31,20 @@ To run the benchmarks, use the following command:
 
 ```bash
 lambench
+```
+
+### Command-line Arguments
+
+Use `--models` to specify which models to run, `--tasks` to limit tasks, and `--task-types` to select task classes. Each flag is followed by one or more args. Add `--local` to run tasks on your local machine, instead of submitting jobs with `dflow`. For example:
+
+```bash
+lambench --models DP_2024Q4 SSE_2024Q4 --tasks HPt_NC_2022 Si_ZEO22 --local
+```
+
+Run the command below to see all options:
+
+```bash
+lambench --help
 ```
 
 If there are errors importing the `torch` package regarding symbol error, try:
