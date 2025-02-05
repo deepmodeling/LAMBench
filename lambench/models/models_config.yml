@@ -3,7 +3,7 @@
   model_type: DP
   model_family: DP
   model_path: /bohr/lambench-model-55c1/v3/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
-  virtualenv: dp_0103_prob_scp_e1a
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: "DP 2024 Q4, 37head share fitting 120GPU pretrain"
   show_finetune_task: True
@@ -12,7 +12,7 @@
 - model_name: mace_mp_0_medium
   model_type: ASE
   model_family: MACE
-  virtualenv: mace
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: https://github.com/ACEsuit/mace-mp/releases/download/mace_mp_0/2023-12-03-mace-128-L1_epoch-199.model
   show_calculator_task: True
@@ -20,7 +20,7 @@
 - model_name: orb_v2
   model_type: ASE
   model_family: ORB
-  virtualenv: orb
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v2-20241011.ckpt
   show_calculator_task: True
@@ -28,7 +28,7 @@
 - model_name: 7net-0
   model_type: ASE
   model_family: SevenNet
-  virtualenv: sevennet
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: https://github.com/MDIL-SNU/SevenNet/blob/main/sevenn/pretrained_potentials/SevenNet_0__11Jul2024/checkpoint_sevennet_0.pth
 
@@ -36,7 +36,7 @@
   model_type: ASE
   model_family: EquiformerV2
   model_path: /bohr/lambench-model-55c1/v3/eqV2_153M_omat_mp_salex/eqV2_153M_omat_mp_salex.pt
-  virtualenv: eqv2
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: "eqV2_153M_omat_mp_salex"
   show_calculator_task: True
@@ -45,7 +45,7 @@
   model_type: ASE
   model_family: MatterSim
   model_path: lambench/models/ASE/mattersim_v1_5M/mattersim_v1_5M.pt
-  virtualenv: mattersim
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.3
   model_metadata:
     model_description: "mattersim_v1_5M"
   show_calculator_task: True
