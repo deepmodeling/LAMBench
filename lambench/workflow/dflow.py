@@ -40,7 +40,7 @@ def get_dataset(paths: list[Optional[Path]]) -> Optional[list[BohriumDatasetsArt
 def submit_tasks_dflow(
     jobs: job_list,
     name="lambench",
-    image=os.environ["DEAFULT_DFLOW_IMAGE"],
+    image=os.environ["DEFAULT_DFLOW_IMAGE"],
     machine_type="1 * NVIDIA V100_32g",
 ):
     job_group_id: int = create_job_group(name)
