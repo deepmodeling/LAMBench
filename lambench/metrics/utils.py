@@ -42,13 +42,13 @@ def filter_direct_task_results(
     """
     filtered_metrics = {}
     for k, v in task_result.items():
-        efv: Literal["energy", "force", "virial"] = k.split("_")[0]
-        weight = task_config.get(f"{efv}_weight")
+        efvp: Literal["energy", "force", "virial", "property"] = k.split("_")[0]
+        weight = task_config.get(f"{efvp}_weight")
         if weight is None:
             filtered_metrics[k] = None
             task_result[k] = None
             continue
-        std = task_config.get(f"{efv}_std")
+        std = task_config.get(f"{efvp}_std")
         if normalize and std is not None:
             weight /= std
 
@@ -929,7 +929,7 @@ METRICS_METADATA = (
         },
         "finetune_task_results": {
             "DISPLAY_NAME": "Property Finetune Accuracy",
-            "DESCRIPTION": "Accuracy of the property finetuning task.",
+            "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps.",
         },
         "calculator_task_results": {
             "DISPLAY_NAME": "Miscellaneous",

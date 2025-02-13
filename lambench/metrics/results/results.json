@@ -231,7 +231,36 @@
           "virial_rmse_natoms": 0.2762572
         }
       },
-      "finetune_task_results": {},
+      "finetune_task_results": {
+        "Matbench_mp_e_form": {
+          "property_rmse": 0.0632188,
+          "property_mae": 0.0311199
+        },
+        "Matbench_mp_gap": {
+          "property_rmse": 0.5251306,
+          "property_mae": 0.2851156
+        },
+        "Matbench_jdft2d": {
+          "property_rmse": 115.4753,
+          "property_mae": 46.93132
+        },
+        "Matbench_phonons": {
+          "property_rmse": 84.54974,
+          "property_mae": 41.0998
+        },
+        "Matbench_dielectric": {
+          "property_rmse": 1.8790388,
+          "property_mae": 0.43114
+        },
+        "Matbench_log_kvrh": {
+          "property_rmse": 0.1127642,
+          "property_mae": 0.0621266
+        },
+        "Matbench_log_gvrh": {
+          "property_rmse": 0.1187458,
+          "property_mae": 0.0795352
+        }
+      },
       "calculator_task_results": {
         "nve_md": {
           "slope": 2.8e-05,
@@ -2588,7 +2617,7 @@
       },
       "finetune_task_results": {
         "DISPLAY_NAME": "Property Finetune Accuracy",
-        "DESCRIPTION": "Accuracy of the property finetuning task."
+        "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps."
       },
       "calculator_task_results": {
         "DISPLAY_NAME": "Miscellaneous",

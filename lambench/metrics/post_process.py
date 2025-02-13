@@ -1,12 +1,15 @@
 import json
 import logging
 from pathlib import Path
+from collections import defaultdict
 
+import numpy as np
 import yaml
 
 import lambench
 from lambench.databases.direct_predict_table import DirectPredictRecord
 from lambench.databases.calculator_table import CalculatorRecord
+from lambench.databases.property_table import PropertyRecord
 from lambench.models.basemodel import BaseLargeAtomModel
 from lambench.workflow.entrypoint import gather_models
 from lambench.metrics.utils import (
@@ -16,11 +19,15 @@ from lambench.metrics.utils import (
 )
 from lambench.metrics.utils import METRICS_METADATA
 
-DIRECT_TASK_WEIGHTS = {
-    k: v
-    for k, v in yaml.safe_load(
-        open(Path(lambench.__file__).parent / "metrics/direct_task_weights.yml", "r")
-    ).items()
+DIRECT_TASK_WEIGHTS = yaml.safe_load(
+    open(Path(lambench.__file__).parent / "metrics/direct_task_weights.yml", "r")
+)
+PROPERTY_TASK_MAP = yaml.safe_load(
+    open(Path(lambench.__file__).parent / "metrics/finetune_tasks_metrics.yml", "r")
+)
+
+PROPERTY_TASK_REVERSE_MAP = {
+    v_i: k for k, v in PROPERTY_TASK_MAP.items() for v_i in v["subtasks"]
 }
 
 
@@ -62,7 +69,29 @@ def process_results_for_one_model(model: BaseLargeAtomModel):
 
     # Finetune Task
     if model.show_finetune_task:
-        pass
+        property_task_records = PropertyRecord.query(model_name=model.model_name)
+        if not property_task_records:
+            logging.warning(f"No property task records found for {model.model_name}")
+            return None
+
+        property_task_results = defaultdict(list)
+        for record in property_task_records:
+            property_task_results[PROPERTY_TASK_REVERSE_MAP[record.task_name]].append(
+                record.to_dict()
+            )
+
+        for task_name, results in property_task_results.items():
+            # Missing Data Check
+            if len(results) != len(PROPERTY_TASK_MAP[task_name]["subtasks"]):
+                logging.warning(f"Missing data for {model.model_name} in {task_name}")
+            property_task_results[task_name] = {
+                metric_name: np.round(
+                    np.mean([fold_results[metric_name] for fold_results in results]), 7
+                )
+                for metric_name in results[0]
+            }
+        # TODO: provide a weighted reults for property tasks
+        single_model_results["finetune_task_results"] = property_task_results
 
     # Calculator Task
     if model.show_calculator_task:
