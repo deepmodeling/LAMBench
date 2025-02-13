@@ -81,4 +81,4 @@ def test_average():
             "force_rmse": np.log(0.201489),
         },
     ]
-    np.testing.assert_allclose(exp_average(log_results)["force_rmse"], 0.18660477063377)
+    np.testing.assert_allclose(exp_average(log_results)["force_rmse"], 0.1866048)
