@@ -104,6 +104,8 @@ def process_finetune_task_for_one_model(model: BaseLargeAtomModel):
         # Missing Data Check
         if len(results) != len(PROPERTY_TASK_MAP[task_name]["subtasks"]):
             logging.warning(f"Missing data for {model.model_name} in {task_name}")
+            return {}
+
         property_task_results[task_name] = {
             metric_name: np.round(
                 np.mean([fold_results[metric_name] for fold_results in results]), 7
