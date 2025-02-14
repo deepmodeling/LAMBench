@@ -930,6 +930,38 @@ METRICS_METADATA = (
         "finetune_task_results": {
             "DISPLAY_NAME": "Property Finetune Accuracy",
             "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps.",
+            "Matbench_mp_e_form": {
+                "DISPLAY_NAME": "Matbench_mp_e_form",
+                "DESCRIPTION": "Formation energy of materials, in eV/atom. 5-fold average.",
+            },
+            "Matbench_mp_gap": {
+                "DISPLAY_NAME": "Matbench_mp_gap",
+                "DESCRIPTION": "Band gap of materials, in eV. 5-fold average.",
+            },
+            "Matbench_jdft2d": {
+                "DISPLAY_NAME": "Matbench_jdft2d",
+                "DESCRIPTION": "2D exfoliation energy from JARVIS-DFT dataset, in meV/atom. 5-fold average.",
+            },
+            "Matbench_phonons": {
+                "DISPLAY_NAME": "Matbench_phonons",
+                "DESCRIPTION": "Frequency of the highest frequency optical phonon mode peak, in units of 1/cm. 5-fold average.",
+            },
+            "Matbench_dielectric": {
+                "DISPLAY_NAME": "Matbench_dielectric",
+                "DESCRIPTION": "Refractive index of materials, unitless. 5-fold average.",
+            },
+            "Matbench_log_kvrh": {
+                "DISPLAY_NAME": "Matbench_log_kvrh",
+                "DESCRIPTION": "Logarithm of the DFT Voigt-Reuss-Hill average bulk moduli in GPa. 5-fold average.",
+            },
+            "Matbench_log_gvrh": {
+                "DISPLAY_NAME": "Matbench_log_gvrh",
+                "DESCRIPTION": "Logarithm of the DFT Voigt-Reuss-Hill average shear moduli in GPa. 5-fold average.",
+            },
+            "Matbench_perovskites": {
+                "DISPLAY_NAME": "Matbench_perovskites",
+                "DESCRIPTION": "Formation energy of perovskites, in eV/unit cell. 5-fold average.",
+            },
         },
         "calculator_task_results": {
             "DISPLAY_NAME": "Miscellaneous",

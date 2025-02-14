@@ -231,7 +231,40 @@
           "virial_rmse_natoms": 0.2762572
         }
       },
-      "finetune_task_results": {},
+      "finetune_task_results": {
+        "Matbench_mp_e_form": {
+          "property_rmse": 0.0632188,
+          "property_mae": 0.0311199
+        },
+        "Matbench_mp_gap": {
+          "property_rmse": 0.5251306,
+          "property_mae": 0.2851156
+        },
+        "Matbench_jdft2d": {
+          "property_rmse": 115.4753,
+          "property_mae": 46.93132
+        },
+        "Matbench_phonons": {
+          "property_rmse": 84.54974,
+          "property_mae": 41.0998
+        },
+        "Matbench_dielectric": {
+          "property_rmse": 1.8790388,
+          "property_mae": 0.43114
+        },
+        "Matbench_log_kvrh": {
+          "property_rmse": 0.1132172,
+          "property_mae": 0.0620914
+        },
+        "Matbench_log_gvrh": {
+          "property_rmse": 0.118422,
+          "property_mae": 0.0793934
+        },
+        "Matbench_perovskites": {
+          "property_rmse": 0.0861617,
+          "property_mae": 0.0606332
+        }
+      },
       "calculator_task_results": {
         "nve_md": {
           "slope": 2.8e-05,
@@ -2588,7 +2621,39 @@
       },
       "finetune_task_results": {
         "DISPLAY_NAME": "Property Finetune Accuracy",
-        "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps."
+        "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps.",
+        "Matbench_mp_e_form": {
+          "DISPLAY_NAME": "Matbench_mp_e_form",
+          "DESCRIPTION": "Formation energy of materials, in eV/atom. 5-fold average."
+        },
+        "Matbench_mp_gap": {
+          "DISPLAY_NAME": "Matbench_mp_gap",
+          "DESCRIPTION": "Band gap of materials, in eV. 5-fold average."
+        },
+        "Matbench_jdft2d": {
+          "DISPLAY_NAME": "Matbench_jdft2d",
+          "DESCRIPTION": "2D exfoliation energy from JARVIS-DFT dataset, in meV/atom. 5-fold average."
+        },
+        "Matbench_phonons": {
+          "DISPLAY_NAME": "Matbench_phonons",
+          "DESCRIPTION": "Frequency of the highest frequency optical phonon mode peak, in units of 1/cm. 5-fold average."
+        },
+        "Matbench_dielectric": {
+          "DISPLAY_NAME": "Matbench_dielectric",
+          "DESCRIPTION": "Refractive index of materials, unitless. 5-fold average."
+        },
+        "Matbench_log_kvrh": {
+          "DISPLAY_NAME": "Matbench_log_kvrh",
+          "DESCRIPTION": "Logarithm of the DFT Voigt-Reuss-Hill average bulk moduli in GPa. 5-fold average."
+        },
+        "Matbench_log_gvrh": {
+          "DISPLAY_NAME": "Matbench_log_gvrh",
+          "DESCRIPTION": "Logarithm of the DFT Voigt-Reuss-Hill average shear moduli in GPa. 5-fold average."
+        },
+        "Matbench_perovskites": {
+          "DISPLAY_NAME": "Matbench_perovskites",
+          "DESCRIPTION": "Formation energy of perovskites, in eV/unit cell. 5-fold average."
+        }
       },
       "calculator_task_results": {
         "DISPLAY_NAME": "Miscellaneous",
