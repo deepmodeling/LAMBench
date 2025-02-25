@@ -48,7 +48,7 @@
   virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.2
   model_metadata:
     model_description: "eqV2_153M_omat_mp_salex"
-  show_calculator_task: True
+  show_direct_task: False # Hide EqV2 test results due to license restrictions.
 
 - model_name: MatterSim_v1.0.0_5M
   model_type: ASE
