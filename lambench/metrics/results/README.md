@@ -1,6 +1,6 @@
 # Overview
 
-Large atom models (LAM), also know as machine learning interatomic potential models (MLIPs), are considered fondation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmarking tool designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the generalizability of their machine learning models.
+Large atomic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered fondation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmarking tool designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
 
 ### Our mission includes:
 
