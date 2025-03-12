@@ -858,7 +858,7 @@
     }
   },
   "finetune_task_results": {
-    "DISPLAY_NAME": "Transfer Learning Accuracy",
+    "DISPLAY_NAME": "Property Finetuning Accuracy",
     "DESCRIPTION": "Accuracy of the property finetuning task. Note: The test results does not represent the converged accuracy due to limited fine-tuning steps.",
     "Matbench_mp_e_form": {
       "DISPLAY_NAME": "Matbench, mp_e_form",

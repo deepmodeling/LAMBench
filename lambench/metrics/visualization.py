@@ -52,7 +52,9 @@ def aggregate_domain_results_for_one_model(model: BaseLargeAtomModel):
         else:
             domain_results[domain] = exp_average(norm_log_results)
 
-            # aggregate over E, F, V, TODO refactor
+            # aggregate over E, F, V, TODO refactor, need to fix normalization
+            # currently std used in normalization is per atom based, so the normalization
+            # only works for per atom based metrics
             normalized_e = domain_results[domain]["energy_mae_natoms"]
             normalized_f = domain_results[domain]["force_mae"]
             normalized_v = domain_results[domain]["virial_mae_natoms"]
