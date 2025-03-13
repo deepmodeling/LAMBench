@@ -45,6 +45,8 @@ To assess model performance across these domains, we use zero-shot inference wit
     0.5 \times S_E + 0.5 \times S_F & \text{otherwise}
     \end{cases}$$
 
+    **Note**: $S_{\text{domain}}$ values are displayed on the bar plot of each domain.
+
 4. **Cross-Model Normalization**: We normalize using negative logarithm:
     $$\hat{S}_{\text{domain}} = \frac{-\log(S_{\text{domain}})}{\max_{\text{models}}(-\log(S_{\text{domain}}))}$$
 
