@@ -961,8 +961,8 @@
     "DISPLAY_NAME": "Downstream Tasks",
     "DESCRIPTION": "Evaluation metrics for downstream tasks.",
     "nve_md": {
-      "DISPLAY_NAME": "Conservativeness",
-      "DESCRIPTION": "Inspecting conservativeness via NVE Molecular Dynamics simulation.",
+      "DISPLAY_NAME": "NVE Molecular Dynamics",
+      "DESCRIPTION": "A standard NVE MD simulation over 9 different atomic systems, sampled from multiple domains.",
       "std": {
         "DISPLAY_NAME": "Energy standard deviation (eV/atom)",
         "DESCRIPTION": "The standard deviation of the energy during NVE-MD."
