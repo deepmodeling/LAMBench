@@ -956,8 +956,7 @@
         "DESCRIPTION": "The mean absolute error of the formation energy of perovskites"
       }
     }
-  }
-  ,
+  },
   "calculator_task_results": {
     "DISPLAY_NAME": "Downstream Tasks",
     "DESCRIPTION": "Evaluation metrics for downstream tasks.",
@@ -992,9 +991,9 @@
     "inference_efficiency": {
       "DISPLAY_NAME": "Inference Efficiency",
       "DESCRIPTION": "Evaluation metrics for the computational efficiency of inference tasks.",
-      "inference_efficiency": {
-        "DISPLAY_NAME": "Inference Efficiency (frame/sec)",
-        "DESCRIPTION": "The computational efficiency of e/f/v inference on 1000 frames with a 20% warmup ratio averaged from 5 sets of structures, measured in frame per second."
+      "average_time_per_step": {
+        "DISPLAY_NAME": "Inference Efficiency (s/frame)",
+        "DESCRIPTION": "The average computational time of e/f/v inference on 1000 frames with a 20% warmup ratio from 5 sets of structures in second.",
       }
     },
     "phonon_mdr": {
