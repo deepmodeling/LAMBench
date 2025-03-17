@@ -1,6 +1,6 @@
 # Overview
 
-Large atomic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered foundation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmarking tool designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
+Large atomic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered foundation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmark designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
 
 ### Our mission includes
 
@@ -16,6 +16,13 @@ Large atomic models (LAM), also known as machine learning interatomic potentials
 - **Detailed Reports**: Generates detailed performance reports and visualizations.
 
 # LAMBench Leaderboard
+
+<!-- radar plot -->
+Figure 1: Normalized Accuracy $\hat{S}_{\text{domain}}$ of Energy, Force, and Virial Predicting Tasks
+<!-- scatter plot -->
+Figure 2: Accuracy-Efficiency Trade-off
+
+> Results are aggregated from all 5 domains of [zero-shot prediction tasks](https://www.aissquare.com/openlam?tab=Benchmark&type=direct_task_results). The [inference efficiency](https://www.aissquare.com/openlam?tab=Benchmark&type=calculator_task_results&task=inference_efficiency) is displayed as the x-axis of the scatter plot. Other metrics are not visualized here.
 
 ### Domain Zero-shot Accuracy
 
