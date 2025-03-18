@@ -50,7 +50,7 @@
     "MD22": {
       "DISPLAY_NAME": "MD22",
       "DESCRIPTION": "Dataset containing MD trajectories of the 42-atom tetrapeptide Ac-Ala3-NHMe from the MD22 benchmark set. Calculations were performed using FHI-aims and i-Pi software at the DFT-PBE+MBD level of theory. Trajectories were sampled at temperatures between 400-500 K at 1 fs resolution. [https://www.science.org/doi/10.1126/sciadv.adf0873]",
-      "domain": "Biomoleculars\nSupramoleculars",
+      "domain": "Biomoleculars & Supramoleculars",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -95,7 +95,7 @@
     "Ca_batteries_CM2021": {
       "DISPLAY_NAME": "Torres2019Analysis",
       "DESCRIPTION": "A dataset of Ca-bearing minerals, focusing on silicates and carbonates such as olivine, pyroxene, garnet, amphibole, and double carbonates. Calculations were performed using VASP with spin-polarized PBE/PAW and an energy cutoff of 600 eV. [https://www.nature.com/articles/s41598-019-46002-4]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -140,7 +140,7 @@
     "NequIP_NC_2022": {
       "DISPLAY_NAME": "Batzner2022equivariant",
       "DESCRIPTION": "A downsampled dataset with ~7500 frames. The original dataset contains approximately 57,000 configurations from the evaluation datasets for NequIP graph neural network model for interatomic potentials. Trajectories have been taken from Li-P-S, Li-P-O glass melt-quench simulation. Calculations were performed using VASP with PBE/PAW and an energy cutoff of 400 eV. [https://www.nature.com/articles/s41467-022-29939-5]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -365,7 +365,7 @@
     "Subalex_9k": {
       "DISPLAY_NAME": "SubAlex_9k",
       "DESCRIPTION": "A subsampled, Matbench-Discovery compliant version of the original Alexandria dataset. Calculations were performed using VASP with PBE/PAW and 520 eV cutoff. [https://arxiv.org/abs/2410.12771]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -500,7 +500,7 @@
     "Si_ZEO22": {
       "DISPLAY_NAME": "Sours2023Applications",
       "DESCRIPTION": "Dataset consisting of 350000 DFT single point energy calculations from 219 different pure silica zeolite topologies. Calculations were performed using VASP with PBE-D3(BJ)/PAW and 400 eV cutoff. [https://github.com/tysours/Si-ZEO22]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -545,7 +545,7 @@
     "AIMD-Chig": {
       "DISPLAY_NAME": "AIMD-Chig",
       "DESCRIPTION": "MD dataset including 2 million conformations of 166-atom protein Chignolin sampled at the density functional theory (DFT) level. Ab initio simulations were driven by M062X/6-31G* with a Berendsen thermostat at 340 K.[https://www.nature.com/articles/s41597-023-02465-9]",
-      "domain": "Biomoleculars\nSupramoleculars",
+      "domain": "Biomoleculars & Supramoleculars",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -590,7 +590,7 @@
     "HEA25_S": {
       "DISPLAY_NAME": "Lopanitsyna2023Modeling_A",
       "DESCRIPTION": "A dataset of 25-atom high entropy alloy surfaces, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -635,7 +635,7 @@
     "HEMC_HEMB": {
       "DISPLAY_NAME": "Dai2024Deep",
       "DESCRIPTION": "DFT dataset of high-entropy transition metal diboride (HEMB₂) and carbide (HEMC) ceramics. Calculations were performed using VASP with PBE/PAW, 900 eV cutoff, and k-spacing of 0.15 Å⁻¹. [https://www.oaepublish.com/articles/jmi.2024.14]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -680,7 +680,7 @@
     "HEA25_bulk": {
       "DISPLAY_NAME": "Lopanitsyna2023Modeling_B",
       "DESCRIPTION": "A dataset of 25-atom high entropy alloy bulk structures, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
@@ -725,7 +725,7 @@
     "WBM_downsampled": {
       "DISPLAY_NAME": "WBM_25k",
       "DESCRIPTION": "A downsampled version of the original WBM dataset. [https://www.nature.com/articles/s41524-020-00481-6]",
-      "domain": "Inorganic\nMaterials",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
