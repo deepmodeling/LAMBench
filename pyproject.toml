@@ -13,7 +13,7 @@ dependencies = [
 	"pyyaml",
 	"SQLAlchemy[pymysql]",
 	"tqdm",
-	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@944af9dfbe0a6ae78d87a189a589d7614cbd8989#egg=dpdata",
+	"dpdata >= 0.2.22",
 ]
 
 authors = [
