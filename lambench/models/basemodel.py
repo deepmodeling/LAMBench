@@ -17,6 +17,7 @@ class SkipTaskType(str, Enum):
 
 
 class ModelMetadata(BaseModel):
+    pretty_name: str
     model_config = ConfigDict(extra="allow")
     num_parameters: int
 

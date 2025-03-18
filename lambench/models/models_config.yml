@@ -79,8 +79,9 @@
   model_path: /bohr/lambench-model-55c1/v3/eqV2_153M_omat_mp_salex/eqV2_153M_omat_mp_salex.pt
   virtualenv: *bohrium_image
   model_metadata:
+    pretty_name: eqV2 M
     num_parameters: 86589068
-    model_description: "eqV2_153M_omat_mp_salex"
+    model_description: eqV2_153M_omat_mp_salex
   show_direct_task: False # Hide EqV2 test results due to license restrictions.
 
 - model_name: MatterSim_v1.0.0_5M

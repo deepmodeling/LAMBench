@@ -97,6 +97,7 @@ def valid_model_data():
         "model_path": Path("oss://lambench/DP/model.ckpt-1000.pt"),
         "virtualenv": "oss://lambench/DP/model1/venv",
         "model_metadata": {
+            "pretty_name": "fancy model",
             "author": "author1",
             "description": "description1",
             "num_parameters": 1000,
@@ -114,6 +115,7 @@ def invalid_model_data():
         "model_path": Path("oss://lambench/DP/model.ckpt-1000.pt"),
         # "virtualenv": "oss://lambench/DP/model1/venv",
         "model_metadata": {
+            "pretty_name": "fancy model",
             "author": "author1",
             "description": "description1",
             "num_parameters": 1000,

@@ -32,6 +32,7 @@ def setup_model(setup_calculator):
         model_type="ASE",
         model_name="",
         model_metadata={
+            "pretty_name": "test",
             "num_parameters": 1000,
         },
         virtualenv="",
