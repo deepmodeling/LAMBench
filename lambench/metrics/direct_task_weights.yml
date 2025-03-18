@@ -1,164 +1,144 @@
 ANI:
+  domain: Small Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.19852160741109035
   force_std: 2.134650444786246
   virial_std: null
-  domain: Small Molecules
 HEA25_S:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
   energy_std: 0.4030134901622356
   force_std: 1.5479359067976695
   virial_std: 1.4293255096528095
-  domain: |
-    Inorganic
-    Materials
 HEA25_bulk:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
   energy_std: 0.4086027291354181
   force_std: 2.075184012071992
   virial_std: 2.065014356039771
-  domain: |
-    Inorganic
-    Materials
 HEMC_HEMB:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
   energy_std: 0.4750117425061965
   force_std: 1.8089415904253994
   virial_std: 0.4589409203427954
-  domain: |
-    Inorganic
-    Materials
 MD22:
+  domain: Biomoleculars & Supramoleculars
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.007773825548398275
   force_std: 1.1374624718556865
   virial_std: null
-  domain: |
-    Biomoleculars
-    Supramoleculars
 Collision:
+  domain: Reactions
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.4690509429726113
   force_std: 1.9436163951047407
   virial_std: null
-  domain: Reactions
 H_nature_2022:
+  domain: Reactions
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.3915623031231297
   force_std: 2.0571296230388896
   virial_std: null
-  domain: Reactions
 REANN_CO2_Ni100:
+  domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.011019047357696455
   force_std: 0.6822029356434589
   virial_std: null
-  domain: Catalysis
 NequIP_NC_2022:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.007872460518687731
   force_std: 0.9434954645234603
   virial_std: null
-  domain: |
-    Inorganic
-    Materials
 AIMD-Chig:
+  domain: Biomoleculars & Supramoleculars
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.012375194479857722
   force_std: 0.8613627348206556
   virial_std: null
-  domain: |
-    Biomoleculars
-    Supramoleculars
 CGM_MLP_NC2023:
+  domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.9875093490539156
   force_std: 2.022155629243275
   virial_std: null
-  domain: Catalysis
 Cu_MgO_catalysts:
+  domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.013837285997415875
   force_std: 0.18923742282763548
   virial_std: null
-  domain: Catalysis
 Ca_batteries_CM2021:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.016540792734058157
   force_std: 0.17821831827935788
   virial_std: null
-  domain: |
-    Inorganic
-    Materials
 HPt_NC_2022:
+  domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
   energy_std: 0.04891938011948422
   force_std: 1.1641152396504415
   virial_std: 0.27071525803447116
-  domain: Catalysis
 Si_ZEO22:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.03534121167926313
   force_std: 1.2410267785352673
   virial_std: null
-  domain: |
-    Inorganic
-    Materials
 WBM_downsampled:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: null
   virial_weight: null
   energy_std: 0.3743104865117501
   force_std: null
   virial_std: null
-  domain: |
-    Inorganic
-    Materials
 Subalex_9k:
+  domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
   energy_std: 0.7749643377228371
   force_std: 1.1503770816187873
   virial_std: 0.8678699239404154
-  domain: |
-    Inorganic
-    Materials
 Torsionnet500:
+  domain: Small Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
   energy_std: 0.033879357854299824
   force_std: 0.05088788030453556
   virial_std: null
-  domain: Small Molecules
