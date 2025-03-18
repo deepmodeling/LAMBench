@@ -291,6 +291,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 6637036,
+        "pretty_name": "DPA-2.4-7M",
         "model_description": "DP 2024 Q4, 37head share fitting 120GPU pretrain"
       },
       "show_direct_task": true,
@@ -591,6 +592,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 7021990,
+        "pretty_name": "DPA-3.0-7M",
         "model_description": "DP 2025 Q1, 7M parameters"
       },
       "show_direct_task": true,
@@ -858,6 +860,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 4688656,
+        "pretty_name": "MACE-MP-0",
         "model_description": "https://github.com/ACEsuit/mace-mp/releases/download/mace_mp_0/2023-12-03-mace-128-L1_epoch-199.model"
       },
       "show_direct_task": true,
@@ -1125,6 +1128,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 9063204,
+        "pretty_name": "MACE-MPA-0",
         "model_description": "https://github.com/ACEsuit/mace-mp/releases/download/mace_mpa_0/mace-mpa-0-medium.model"
       },
       "show_direct_task": true,
@@ -1392,6 +1396,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 25161727,
+        "pretty_name": "ORB",
         "model_description": "https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v2-20241011.ckpt"
       },
       "show_direct_task": true,
@@ -1659,6 +1664,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 842440,
+        "pretty_name": "SevenNet-0",
         "model_description": "https://github.com/MDIL-SNU/SevenNet/blob/main/sevenn/pretrained_potentials/SevenNet_0__11Jul2024/checkpoint_sevennet_0.pth"
       },
       "show_direct_task": true,
@@ -1926,6 +1932,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 1171144,
+        "pretty_name": "SevenNet-l3i5",
         "model_description": "https://github.com/MDIL-SNU/SevenNet/blob/main/sevenn/pretrained_potentials/SevenNet_l3i5/checkpoint_l3i5.pth"
       },
       "show_direct_task": true,
@@ -2193,6 +2200,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 4549142,
+        "pretty_name": "MatterSim-v1-5M",
         "model_description": "mattersim_v1_5M"
       },
       "show_direct_task": true,
@@ -2460,6 +2468,7 @@
       "virtualenv": "registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.6",
       "model_metadata": {
         "num_parameters": 12597516,
+        "pretty_name": "GRACE-2L-OAM",
         "model_description": "A two-layer semi-local GRACE model, pre-fitted on the OMat24 and fine-tuned on sAlex+MPTraj datasets, with fixed 6 \u00c5 cutoff."
       },
       "show_direct_task": true,
