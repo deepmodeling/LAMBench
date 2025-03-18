@@ -75,6 +75,8 @@ The file contains a list of models with the following structure:
     model_path: local path to the model weight; null if not required
     virtualenv: (not used yet)
     model_metadata:
+      pretty_name: a human-readable name for the model
+      num_parameters: the number of parameters in the model
       model_description:
   ```
 
