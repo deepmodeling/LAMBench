@@ -1,8 +1,11 @@
-# LAMBench (in development)
+# LAMBench
 
+> [!NOTE]
+> Please visit [**the OpenLAM project webpage**](https://www.aissquare.com/openlam?tab=Benchmark) for comprehensive information, interactive results, and community rankings.
 
 ## Overview
-LAMBench is a benchmarking tool designed to evaluate the performance of various machine learning interatomic potential models (MLIPs). It provides a comprehensive suite of tests and metrics to help developers and researchers understand the generalizability of their machine learning models.
+
+**LAMBench** is a benchmark designed to evaluate the performance of various machine learning interatomic potentials (MLIPs). It provides a comprehensive suite of tests and metrics to help developers and researchers understand the generalizability of their machine learning models.
 
 Our mission is to:
 
@@ -40,10 +43,12 @@ pip install torch_geometric pyg_lib torch_scatter torch_sparse torch_cluster tor
 ## Usage
 
 To reproduce the results locally or test a custom model, please refer to the `ASEModel.evaluate` method.
+
 - For direct prediction tasks, you can use the staticmethod `run_ase_dptest(calc: Calculator, test_data: Path) -> dict`. The test data can be found [here](https://www.aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-TestData-v1&id=295).
 - For calculator tasks, you can use the corresponding scripts provided in `lambench.tasks.calculator`.
   - The phonon test data can be found [here](https://www.aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-Phonon-MDR&id=310).
   - An `ASEModel` object is needed for such tasks; you can create a dummy model as follows:
+
     ```python
     model = ASEModel(
             model_name="dummy",
