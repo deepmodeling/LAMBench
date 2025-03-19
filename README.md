@@ -5,7 +5,7 @@
 
 ## Overview
 
-**LAMBench** is a benchmark designed to evaluate the performance of various machine learning interatomic potentials (MLIPs). It provides a comprehensive suite of tests and metrics to help developers and researchers understand the generalizability of their machine learning models.
+**LAMBench** is a benchmark designed to evaluate the performance of machine learning interatomic potentials (MLIPs) across multiple domains. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the generalizability of their machine learning models.
 
 Our mission is to:
 
