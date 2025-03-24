@@ -76,12 +76,12 @@ To evaluate model efficiency, we measure inference speed and success rate across
 1. **Warmup Phase**: First `warmup_ratio × 100%` of test samples initialize model parameters (excluded from timing)
 2. **Timed Inference**: Measure execution time for remaining samples
 3. **Metrics Calculation**:
-   - Time Consuming: Average time per inference step (lower is better)
-     $$\text{Time Consuming} = \frac{1}{n_{\text{valid}}}\sum_{i=1}^{n_{\text{valid}}} t_i$$
-   - Success Rate: Percentage of completed inferences
-     $$\text{Success Rate} = \frac{n_{\text{success}}}{n_{\text{total}}} \times 100\%$$
-   - Efficiency: Reciprocal of inference speed (higher is better)
-     $$\text{Efficiency} = \frac{1}{\text{Time Consuming}}$$
+   - Success Rate ($\omega$): Percentage of completed inferences
+     $$\omega = \frac{n_{\text{success}}}{n_{\text{total}}} \times 100\%$$
+   - Time Consumed ($\bar T$): Average time per inference step
+     $$\bar T = \frac{1}{n_{\text{valid}}}\sum_{i=1}^{n_{\text{valid}}} t_i$$
+   - Efficiency ($\eta$): Average inference speed in frames/s
+     $$\eta = \frac{1}{\bar T}$$
 
 **Benchmark Structure**:
 ![Efficiency Test Architecture](image/structures_efficiency.png)
