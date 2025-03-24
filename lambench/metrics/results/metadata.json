@@ -815,6 +815,7 @@
     "Weighted": {
       "DISPLAY_NAME": "Weighted Results",
       "DESCRIPTION": "Weighted results of all the aformentioned datasets.",
+      "domain": "Weighted Results",
       "energy_rmse": {
         "DISPLAY_NAME": "Energy RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction."
