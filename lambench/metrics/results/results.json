@@ -832,7 +832,6 @@
         "virial_rmse_natoms": 276.7
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "inference_efficiency": {
         "average_time_per_step": 0.095705
@@ -1095,7 +1094,6 @@
         "virial_rmse_natoms": 416.5
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "nve_md": {
         "std": 2.7e-05,
@@ -1363,7 +1361,6 @@
         "virial_rmse_natoms": 275.8
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "phonon_mdr": {
         "mae_entropy": 19.792200927923805,
@@ -1631,7 +1628,6 @@
         "virial_rmse_natoms": 392.5
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "nve_md": {
         "std": 0.079079,
@@ -1899,7 +1895,6 @@
         "virial_rmse_natoms": 291.1
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "nve_md": {
         "std": 1.6e-05,
@@ -2167,7 +2162,6 @@
         "virial_rmse_natoms": 300.8
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "nve_md": {
         "std": 2.8e-05,
@@ -2435,7 +2429,6 @@
         "virial_rmse_natoms": 241.5
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "inference_efficiency": {
         "average_time_per_step": 0.348826
@@ -2696,7 +2689,6 @@
         "virial_rmse_natoms": 296.9
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "nve_md": {
         "std": 3.2e-05,
@@ -2964,7 +2956,6 @@
         "virial_rmse_natoms": 270.9
       }
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "inference_efficiency": {
         "average_time_per_step": 0.047002
@@ -3197,7 +3188,6 @@
       },
       "Weighted": null
     },
-    "finetune_task_results": {},
     "calculator_task_results": {
       "inference_efficiency": {
         "average_time_per_step": 0.151777
