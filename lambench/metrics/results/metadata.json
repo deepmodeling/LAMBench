@@ -959,7 +959,7 @@
     }
   },
   "calculator_task_results": {
-    "DISPLAY_NAME": "Downstream Tasks",
+    "DISPLAY_NAME": "Downstream & Utility Tasks",
     "DESCRIPTION": "Evaluation metrics for downstream tasks.",
     "nve_md": {
       "DISPLAY_NAME": "NVE Molecular Dynamics",
