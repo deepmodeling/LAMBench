@@ -89,7 +89,6 @@
     num_parameters: 842440
     packages:
       sevenn: 0.11.0
-
   show_calculator_task: True
 
 - model_name: 7net-l3i5
