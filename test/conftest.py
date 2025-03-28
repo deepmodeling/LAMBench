@@ -101,6 +101,7 @@ def valid_model_data():
             "author": "author1",
             "description": "description1",
             "num_parameters": 1000,
+            "packages": {"torch": "2.0.0"},
         },
         "show_direct_task": True,
     }
@@ -119,5 +120,6 @@ def invalid_model_data():
             "author": "author1",
             "description": "description1",
             "num_parameters": 1000,
+            "packages": {"torch": "2.0.0"},
         },
     }

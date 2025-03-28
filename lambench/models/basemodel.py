@@ -20,6 +20,7 @@ class ModelMetadata(BaseModel):
     pretty_name: str
     model_config = ConfigDict(extra="allow")
     num_parameters: int
+    packages: dict[str, str]
 
 
 class BaseLargeAtomModel(BaseModel):
