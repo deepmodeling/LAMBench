@@ -12,7 +12,12 @@ def _create_dp_model(skip_tasks=[]):
         model_type="DP",
         model_path="test_path",
         virtualenv="test_env",
-        model_metadata={"pretty_name": "test", "test": "test", "num_parameters": 1000},
+        model_metadata={
+            "pretty_name": "test",
+            "extra_content": "test",
+            "num_parameters": 1000,
+            "packages": {"torch": "2.0.0"},
+        },
         skip_tasks=skip_tasks,
     )
 

@@ -34,6 +34,7 @@ def setup_model(setup_calculator):
         model_metadata={
             "pretty_name": "test",
             "num_parameters": 1000,
+            "packages": {"torch": "2.0.0"},
         },
         virtualenv="",
     )
