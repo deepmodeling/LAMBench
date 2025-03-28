@@ -52,7 +52,6 @@
     num_parameters: 4688656
     packages:
       macetorch: 0.3.12
-
   show_calculator_task: True
 
 - model_name: mace_medium-mpa-0
@@ -126,7 +125,6 @@
     model_description: eqV2_153M_omat_mp_salex
     packages:
       fairchem-core: 1.4.0
-
   show_direct_task: False # Hide EqV2 test results due to license restrictions.
   skip_tasks: [CalculatorTask, DirectPredictTask] # skip to avoid rerun failed tasks
 
