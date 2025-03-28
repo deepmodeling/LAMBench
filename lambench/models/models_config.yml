@@ -3,7 +3,7 @@
   model_type: DP
   model_family: DP
   model_path: /bohr/lambench-model-55c1/v3/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
-  virtualenv: &bohrium_image registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.8
+  virtualenv: &bohrium_image registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.9
   model_metadata:
     pretty_name: DPA-2.4-7M
     model_description: DP 2024 Q4, 37head share fitting 120GPU pretrain
@@ -76,7 +76,7 @@
     model_description: https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v2-20241011.ckpt
     num_parameters: 25161727
     packages:
-      orb-models: 0.4.1
+      orb-models: 0.4.2
   show_calculator_task: True
 
 - model_name: 7net-0
@@ -140,7 +140,7 @@
     model_description: mattersim_v1_5M
     num_parameters: 4549142
     packages:
-      mattersim: 1.1.0
+      mattersim: 1.1.2
   show_calculator_task: True
 
 - model_name: GRACE_2L_OAM_28Jan25
