@@ -1113,18 +1113,15 @@
       "DESCRIPTION": "Evaluation of torsional barrier related metrics on the TorsionNet-500 dataset at the ωB97M-D3(BJ)/def2-TZVPPD level.",
       "MAE": {
         "DISPLAY_NAME": "MAE (kcal/mol)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction across all configurations.",
-        "scale":1000
+        "DESCRIPTION": "The mean absolute error of the energy prediction across all configurations."
       },
       "RMSE": {
         "DISPLAY_NAME": "RMSE (kcal/mol)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction across all configurations.",
-        "scale":1000
+        "DESCRIPTION": "The root mean squared error of the energy prediction across all configurations."
       },
       "MAEB":{
         "DISPLAY_NAME": "Torsional Barrier MAE (kcal/mol)",
-        "DESCRIPTION": "The mean absolute error of the torsional barrier height.",
-        "scale":1000
+        "DESCRIPTION": "The mean absolute error of the torsional barrier height."
       },
       "NABH_h":{
         "DISPLAY_NAME": "Molecules with Barrier Error > 1 kcal/mol",

@@ -2,14 +2,14 @@
 
 Large atomic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered foundation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmark designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
 
-### Our mission includes
+## Our mission includes
 
 - **Provide a comprehensive benchmark**: Covering diverse atomic systems across multiple domains, moving beyond domain-specific benchmarks.
 - **Align with real-world applications**: Bridging the gap between model performance on benchmarks and their impact on scientific discovery.
 - **Enable clear model differentiation**: Offering high discriminative power to distinguish between models with varying performance.
 - **Facilitate continuous improvement**: Creating dynamically evolving benchmarks that grow with the community, integrating new tasks and models.
 
-### Features
+## Features
 
 - **Easy to Use**: Simple setup and configuration to get started quickly.
 - **Extensible**: Easily add new benchmarks and metrics.
@@ -22,11 +22,11 @@ Figure 1: Normalized Accuracy $\hat{S}_{\text{domain}}$ of Energy, Force, and Vi
 <!-- scatter plot -->
 Figure 2: Accuracy-Efficiency Trade-off
 
-> Results are aggregated from all 5 domains of [zero-shot prediction tasks](https://www.aissquare.com/openlam?tab=Benchmark&type=direct_task_results). The [inference efficiency](https://www.aissquare.com/openlam?tab=Benchmark&type=calculator_task_results&task=inference_efficiency) is displayed as the x-axis of the scatter plot. Other metrics are not visualized here.
+# LAMBench Metrics Calculations
+## Generalizability
 
-### Domain Zero-shot Accuracy
-
-We categorize all zero-shot prediction tasks into 5 domains:
+### Force Field Prediction
+We categorize all force-field prediction tasks into 5 domains:
 
 - **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `SubAlex_9k`, `Sours2023Applications`, `Lopanitsyna2023Modeling_A`, `Lopanitsyna2023Modeling_B`, `Dai2024Deep`, `WBM_25k`
 - **Small Molecules**: `ANI-1x`
@@ -36,37 +36,85 @@ We categorize all zero-shot prediction tasks into 5 domains:
 
 To assess model performance across these domains, we use zero-shot inference with energy-bias term adjustments based on test dataset statistics. Performance metrics are aggregated as follows:
 
-1. **Metric Normalization**: Each test metric is normalized by its dataset's standard deviation:
-    $$\hat{M}_{i,j} = \frac{M_{i,j}}{\sigma_{i,j}}, \quad i \in \{\text{E}, \text{F}, \text{V}\}, \quad j \in \{1,2,\ldots,n\}$$
+1. The error metric is normalized against the error metric of a baseline model (dummy model) as follows:
+$$\hat{M}^m_{k,p,i} = \frac{M^m_{k,p,i}}{M^{\mathrm{dummy}}_{k,p,i}}$$
 
-    where:
-    - $\hat{M}_{i,j}$ is the normalized metric for type $i$ on dataset $j$
-    - $M_{i,j}$ is the original metric value (mean absolute error)
-    - $\sigma_{i,j}$ is the standard deviation of the metric on dataset $j$
-    - $i$ denotes the type of metric: E (energy), F (force), V (virial)
-    - $j$ indexes over the $n$ datasets in a domain
+where $ M^m_{k,p,i} $ is the original error metric, $ m $ indicates the model, $ k $ denotes the domain index, $ p $ signifies the prediction index, and $ i $ represents the test set index.
+For instance, in force field tasks, the domains include Small Molecules, Inorganic Materials, Biomolecules, Reactions, and Catalysis, such that $ k \in \{\text{Small Molecules, Inorganic Materials, Biomolecules, Reactions, Catalysis}\} $. The prediction types are categorized as energy ($E$), force ($F$), or virial ($V$), with $ p \in \{E, F, V\} $.
+For the specific domain of Reactions, the test sets are indexed as $ i \in \{\text{Guan2022Benchmark, Gasteiger2020Fast}\} $. This baseline model predicts energy based solely on the chemical formula, disregarding any structural details, thereby providing a reference point for evaluating the improvement offered by more sophisticated models.
 
-2. **Domain Aggregation**: For each domain, we compute the log-average of normalized metrics across tasks:
-    $$\bar{M}_i = \exp\left(\frac{1}{n}\sum_{j=1}^{n}\log \hat{M}_{i,j}\right)$$
+2. For each domain, we compute the log-average of normalized metrics across all datasets  within this domain by
 
-3. **Combined Score**: We calculate a weighted domain score (lower is better):
-    $$\bar{M}_{\text{domain}} = \begin{cases}
-    0.45 \times \bar{M}_E + 0.45 \times \bar{M}_F + 0.1 \times \bar{M}_V & \text{if virial data available} \\
-    0.5 \times \bar{M}_E + 0.5 \times \bar{M}_F & \text{otherwise}
-    \end{cases}$$
+    $$\bar{M}^m_{k,p} = \exp\left(\frac{1}{n_{k,p}}\sum_{j=1}^{n_{k,p}}\log \hat{M}^m_{k,p,i}\right)$$
 
-    **Note**: $\bar{M}_{\text{domain}}$ values are displayed on the bar plot of each domain.
+where $n_{k,p}$ denotes the number of test sets for domain $k$ and prediction type $p$.
 
-4. **Cross-Model Normalization**: We normalize using negative logarithm:
-    $$S_{\text{domain}} = \frac{-\log(\bar{M}_{\text{domain}})}{\max_{\text{models}}(-\log(\bar{M}_{\text{domain}}))}$$
+3. Subsequently, we calculate a weighted dimensionless domain error metric to encapsulate the overall error across various prediction types:
 
-    **Note**: $S_{\text{domain}}$ values are displayed on the radar plot.
+    $$\bar{M}^m_{k}  = \sum_p w_{p} \bar{M}^m_{k,p} \Bigg/ \sum_p w_{p}$$
 
-5. **Overall Performance**: The final model score is the arithmetic mean of all domain scores:
-    $$S_{\text{overall}} = \frac{1}{D}\sum_{d=1}^{D} S_{\text{domain}}^d, \quad D=5$$
+where $ w_{p} $ denotes the weights assigned to each prediction type $p$.
 
-    **Note**: $S_{\text{overall}}$ values are displayed on the y-axis of the scatter plot.
+4. The dimensionless domain error metric $ \bar{M}^m_{k} $ is normalized using the negative logarithm to obtain a comparable generalizability score across models:
 
+$${S}^m_{k} = \frac{-\log \bar{M}^m_{k} }{\max_{m}\left(-\log\bar{M}^m_{k}\right)}$$
+
+In this equation, $\max_{m}$ represents the maximum value obtained from all LAM models under comparison.
+Thus, a model achieving a score of 1 indicates optimal generalizability among all the models evaluated, whereas the dummy baseline yields a score of 0.
+
+5. Finally the generalizability score of a model across all the domains is defined by the average of the domain scores,
+
+$${S^m}= \frac{1}{n_D}\sum_{i=1}^{n_D}{S^m_{k}}$$
+
+where $n_D$ denotes the number of domains under consideration.
+
+The score $ S^m $ allows for the comparison of generalizability across different models.
+It reflects the overall generalization capability across all domains, prediction types, and test sets, with a higher score indicating superior performance.
+The only tunable parameter is the weights assigned to prediction types, thereby minimizing arbitrariness in the comparison system.
+It is important to note that the score is a relative measure against the best model in the comparison set.
+Consequently, the score may change if a better-performing model is introduced into the comparison.
+
+For the force field generalizability tasks, we adopt RMSE as error metric.
+The prediction types include energy and force, with weights assigned as $ w_E = w_F = 0.5 $.
+When periodic boundary conditions are assumed and virial labels are available, virial predictions are also considered.
+In this scenario, the prediction weights are adjusted to $ w_E = w_F = 0.45 $ and $ w_V = 0.1 $.
+The resulting score is refered to as $S^{m}_{FF}$.
+
+### Domain Specific Properties
+
+For the domain-specific property tasks, we adopt the MAE as the error metric.
+In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon
+frequency, entropy, free energy, and heat capacity at constant volume, with each prediction type assigned a weight of 0.25.
+In the Small Molecules domain, the TorsionNet 500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
+Each prediction type in this domain is assigned a weight of $\frac{1}{3}$.
+The resulting score is denoted as $S^{m}_{DS}$.
+
+
+## Applicability
 ### Efficiency
 
 To assess the efficiency of the model, we randomly selected 2000 frames from the domain of Inorganic Materials and Catalysis using the aforementioned out-of-distribution datasets. Each frame was expanded to include 800 to 1000 atoms through the replication of the unit cell, ensuring that measurements of inference efficiency occurred within the regime of convergence. The initial 20% of the test samples were considered a warm-up phase and thus were excluded from the efficiency timing. We have reported the average efficiency across the remaining 1600 frames.
+
+We apply min-max normalization to the average inference efficiency across all LAMs, rescaling it to a range between zero and one. This normalized metric is then subtracted
+from one to yield an efficiency score, where a score of one indicates the most efficient model.
+
+$$S_{\eta}^m  = 1 - \frac{\eta^m - \eta_{\min}}{\eta_{\max} - \eta_{\min}}$$
+
+where $ \eta^m $ is the average inference efficiency of the $ m $-th LAM, and $ \eta_{\min} $, $ \eta_{\max} $ are the minimum and maximum efficiency values across all LAMs, respectively.
+
+### Stability
+For stability, the same normalization procedure is applied to both the total energy STD and the total energy drift metrics in `NVE Molecular Dynamics`, resulting in two individual stability scores.
+$$\tilde{S}_p^m = 1- \frac{S_p^m - S_{\min,p}}{S_{\max,p} - S_{\min,p}} \quad p \in \{{\Phi_{STD}}, {\Phi_{Drift}}\}$$
+These are averaged and, if applicable, penalized by multiplying with the success rate to obtain the final stability score.
+
+$$\bar{S^m} = (0.5\times \tilde{S}_{,\Phi_{STD}}^m + 0.5\times \tilde{S}_{\Phi_{Drift}}^m) \times \omega^m$$
+
+The overall applicability score is then calculated as the average of the stability and efficiency scores.
+
+$$S_{A}^m = 0.5\times \bar{S^m} + 0.5\times S_{\eta}^m$$
+
+
+## Overall Score
+The overall score is computed by averaging the two generalizability scores (for force-field and domain-specific tasks) and the applicability score.
+
+$$\text{Overall Score} = \frac{S^{m}_{\text{FF}} + S^{m}_{\text{DS}} + S_A^m}{3}$$
