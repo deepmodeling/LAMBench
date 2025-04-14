@@ -84,7 +84,7 @@ The resulting score is referred to as $S^{m}_{FF}$.
 For the domain-specific property tasks, we adopt the MAE as the error metric.
 In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon
 frequency, entropy, free energy, and heat capacity at constant volume, with each prediction type assigned a weight of 0.25.
-In the Small Molecules domain, the TorsionNet 500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
+In the Small Molecules domain, the TorsionNet500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
 Each prediction type in this domain is assigned a weight of $\frac{1}{3}$.
 The resulting score is denoted as $S^{m}_{DS}$.
 
