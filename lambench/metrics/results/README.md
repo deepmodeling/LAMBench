@@ -78,8 +78,7 @@ For the force field generalizability tasks, we adopt RMSE as error metric.
 The prediction types include energy and force, with weights assigned as $ w_E = w_F = 0.5 $.
 When periodic boundary conditions are assumed and virial labels are available, virial predictions are also considered.
 In this scenario, the prediction weights are adjusted to $ w_E = w_F = 0.45 $ and $ w_V = 0.1 $.
-The resulting score is refered to as $S^{m}_{FF}$.
-
+The resulting score is referred to as $S^{m}_{FF}$.
 ### Domain Specific Properties
 
 For the domain-specific property tasks, we adopt the MAE as the error metric.
