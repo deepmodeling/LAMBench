@@ -18,9 +18,9 @@ Large atomic models (LAM), also known as machine learning interatomic potentials
 # LAMBench Leaderboard
 
 <!-- radar plot -->
-Figure 1: Normalized Accuracy $\hat{S}_{\text{domain}}$ of Energy, Force, and Virial Predicting Tasks
+Figure 1: Generalizability score ${S}^m_{k}$ on force field prediction tasks.
 <!-- scatter plot -->
-Figure 2: Accuracy-Efficiency Trade-off
+Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m$ vs $\eta^m$.
 
 # LAMBench Metrics Calculations
 ## Generalizability
