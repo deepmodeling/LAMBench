@@ -7,6 +7,7 @@
       "MACE-MP-0",
       "MACE-MPA-0",
       "Orb-v2",
+      "Orb-v3",
       "SevenNet-0",
       "SevenNet-l3i5",
       "SevenNet-MF-ompa",
@@ -112,6 +113,16 @@
             0.6699999999999999,
             0.76,
             0.27
+          ]
+        },
+        {
+          "name": "Orb-v3",
+          "value": [
+            0.81,
+            0.77,
+            0.74,
+            0.79,
+            0.5
           ]
         },
         {

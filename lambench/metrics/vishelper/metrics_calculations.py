@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
+from lambench.metrics.utils import NVEMD_NSTEPS
 
 
 class MetricsCalculator:
@@ -159,26 +160,34 @@ class MetricsCalculator:
         stability_results = self.fetcher.fetch_stability_results()
         # filter out models with missing stability results
         stability_results = {
-            model: metrics
-            for model, metrics in stability_results.items()
-            if metrics is not None and metrics["success_rate"] > 0
+            model: metrics for model, metrics in stability_results.items()
         }
-        if not stability_results:
-            logging.warning("No stability results found.")
-            return {}
 
-        stability_results = pd.DataFrame.from_dict(stability_results, orient="index")[
-            ["slope", "success_rate"]
-        ]
-
-        # normalize the metrics by log scale with respect to reference values, and penalize by success rate
-        stability_results["slope"] = stability_results.apply(
-            lambda x: np.clip(np.log(x["slope"] / 1e-5), a_min=0, a_max=None)
-            + 1
-            - x["success_rate"],
-            axis=1,
+        stability_results = pd.DataFrame.from_dict(stability_results, orient="index")
+        stability_results = stability_results.applymap(
+            lambda cell: self._calculate_instability_error(cell)
         )
-        return stability_results[["slope"]].mean(axis=1).to_dict()
+        # average over all systems
+        stability_results = stability_results.mean(axis=1)
+        return stability_results.to_dict()
+
+    def _calculate_instability_error(self, cell: dict, lambda_0: float = 5e-4) -> float:
+        """
+        Private method applied to each cell of the stability_results DataFrame.
+        Calculates the instability error for a given LAM on a given NVE traj.
+        Penalty is applied if the simulation is not complete, by returning a large value.
+        """
+
+        if cell is None or cell.get("steps", None) is None:
+            return 5
+        if cell["steps"] != NVEMD_NSTEPS:
+            return 5
+        else:
+            slope = cell.get("slope", None)
+            if slope is None:
+                return 5
+            else:
+                return np.clip(np.log10(cell["slope"] / lambda_0), a_min=0, a_max=None)
 
     def calculate_efficiency_results(self) -> dict[str, float]:
         efficiency_results = self.fetcher.fetch_inference_efficiency_results()

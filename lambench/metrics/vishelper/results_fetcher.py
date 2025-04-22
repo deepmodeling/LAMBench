@@ -11,7 +11,6 @@ from lambench.metrics.utils import (
     filter_generalizability_force_field_results,
     get_domain_to_direct_task_mapping,
     get_leaderboard_models,
-    aggregated_nve_md_results,
     aggregated_inference_efficiency_results,
 )
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -77,7 +76,7 @@ class ResultsFetcher:
             )
         return results
 
-    def fetch_stability_results(self) -> dict[str, float]:
+    def fetch_stability_results(self) -> dict[str, dict]:
         """This calculates the stability score for a given LAM."""
         stability_results = {}
         for model in self.leaderboard_models:
@@ -89,8 +88,9 @@ class ResultsFetcher:
                     f"Expected one record for {model.model_name} and nve_md, but got {len(task_results)}"
                 )
                 continue
-            metrics = aggregated_nve_md_results(task_results[0].metrics)
-            stability_results[model.model_metadata.pretty_name] = metrics
+            stability_results[model.model_metadata.pretty_name] = task_results[
+                0
+            ].metrics
 
         return stability_results
 
