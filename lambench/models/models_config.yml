@@ -163,8 +163,7 @@
     model_description: eSEN_30M_OMat
     packages:
       fairchem-core: 1.9.0
-  # show_direct_task: False # Hide test results due to license restrictions.
-  # skip_tasks: [CalculatorTask, DirectPredictTask] # skip to avoid rerun failed tasks
+  show_direct_task: False # Hide test results due to license restrictions.
 
 - model_name: MatterSim_v1.0.0_5M
   model_type: ASE
