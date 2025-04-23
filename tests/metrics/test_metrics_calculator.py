@@ -53,12 +53,18 @@ def test_calculate_generalizability_ood_error_metric(
 
 def test_calculate_stability_results(metrics_calculator, mock_raw_results):
     mock_raw_results.fetch_stability_results.return_value = {
-        "model1": {"std": 0.0001, "slope": 0.00001, "success_rate": 0.9},
-        "model2": {"std": 0.1, "slope": 0.01, "success_rate": 1},
+        "model1": {
+            "system1": {"steps": 10000, "slope": 5e-4},
+            "system2": {"steps": 10000, "slope": 5e-3},
+        },  # log10[1], log10[10] --> 0, 1
+        "model2": {
+            "system1": {"steps": 10000, "slope": 0.05},
+            "system2": {"steps": None, "slope": None},
+        },  # log10[100], 5 --> 2, 5
     }
     result = metrics_calculator.calculate_stability_results()
-    np.testing.assert_almost_equal(result["model1"], 0.1)
-    np.testing.assert_almost_equal(result["model2"], np.log(1000))
+    np.testing.assert_almost_equal(result["model1"], 0.5)
+    np.testing.assert_almost_equal(result["model2"], 3.5)
 
 
 def test_calculate_efficiency_results(metrics_calculator, mock_raw_results):
