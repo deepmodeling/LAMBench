@@ -7,9 +7,11 @@
       "MACE-MP-0",
       "MACE-MPA-0",
       "Orb-v2",
+      "Orb-v3",
       "SevenNet-0",
       "SevenNet-l3i5",
       "SevenNet-MF-ompa",
+      "eSEN_30M",
       "MatterSim-v1-5M",
       "GRACE-2L-OAM",
       "PET-MAD"
@@ -115,6 +117,16 @@
           ]
         },
         {
+          "name": "Orb-v3",
+          "value": [
+            0.81,
+            0.77,
+            0.74,
+            0.79,
+            0.5
+          ]
+        },
+        {
           "name": "SevenNet-0",
           "value": [
             0.76,
@@ -142,6 +154,16 @@
             0.64,
             0.76,
             0.27
+          ]
+        },
+        {
+          "name": "eSEN_30M",
+          "value": [
+            0.83,
+            0.73,
+            0.78,
+            0.21999999999999997,
+            0.45999999999999996
           ]
         },
         {

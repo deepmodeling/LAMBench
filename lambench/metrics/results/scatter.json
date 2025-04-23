@@ -48,6 +48,14 @@
     "generalizability error": 0.36
   },
   {
+    "name": "Orb-v3",
+    "family": "ORB",
+    "nparams": 25161727,
+    "efficiency": 249.83,
+    "std": 32.71,
+    "generalizability error": 0.28
+  },
+  {
     "name": "SevenNet-0",
     "family": "SevenNet",
     "nparams": 842440,

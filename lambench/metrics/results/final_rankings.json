@@ -14,6 +14,13 @@
     "Applicability-Efficiency \u2191": 0.614
   },
   {
+    "Model": "Orb-v3",
+    "Generalizability-FF Error \u2193": 0.28,
+    "Generalizability-DS Error \u2193": 0.43,
+    "Applicability-Instability \u2193": 0.0,
+    "Applicability-Efficiency \u2191": 0.4
+  },
+  {
     "Model": "DPA-3.0-3M",
     "Generalizability-FF Error \u2193": 0.338,
     "Generalizability-DS Error \u2193": 0.257,
