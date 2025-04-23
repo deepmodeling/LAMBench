@@ -102,17 +102,25 @@ $$M_E^m = \frac{\eta^0 }{\bar \eta^m },\quad \eta^0= 100\  \mathrm{\mu s/atom}, 
 where $\eta_{i}^{m}$ is the inference time of configuration $i$ for model $m$.
 
 ### Stability
-Stability is quantified by measuring the total energy drift in NVE simulations across nine structures. For each simulation trajectory, an instability metric is defined based on the magnitude of the slope obtained via linear regression of total energy versus simulation time. This slope is then normalized on a logarithmic scale using a reference value defined as three times the standard deviation of slopes obtained through bootstrap sampling, accounting for numerical error accumulation. The normalized metric is clipped at 0, indicating that drifts smaller than this threshold are not considered significant. If a simulation fails, an instability score of 5 is assigned, representing a drift five orders of magnitude larger than typical numerical error.
+Stability is quantified by measuring the total energy drift in NVE simulations across nine structures.
+For each simulation trajectory, an instability metric is defined based on the magnitude of the slope obtained via linear regression of total energy per atom versus simulation time. A tolerance value, $5\times10^{-4} \ \mathrm{eV/atom/ps}$,  is determined as three times the statistical uncertainty in calculating the slope from a 10 ps NVE-MD trajectory using the MACE-MPA-0 model. If the measured slope is smaller than the tolerance value, the energy drift is considered negligible. We define the dimensionless measure of instability for structure $i$ as follows:
 
-$$\tilde{S}_{\Phi_{\mathrm{Drift}, i}}^m =
-\begin{cases}
-\max\left(0, \log_{10}\frac{\Phi_{\mathrm{Drift}, i}}{\lambda^0}\right), & \text{if success} \\
-5, & \text{otherwise}
-\end{cases}, \quad
-\lambda^0 = 5\times10^{-4} \ \mathrm{eV/atom/ps}$$
-where $\Phi_{\mathrm{Drift},i}$ represents the total energy drift of system $i$, and $\lambda ^0$ is the reference.
-The final instability metric, $M^m_{\mathrm{IS}}$ is computed as the average over all nine structures.
-$$
-M^m_{\mathrm{IS}} = \frac{1}{9}\sum_{i=1}^{9}{\tilde{S}_{\Phi_{\mathrm{Drift}, i}}^m}
-$$
-This result is bounded in the range of [0, $+\infty$], where a score of zero indicates better performance.
+If the computation is successful:
+
+$$M^m_{\mathrm{IS},i} = \max\left(0, \log_{10}\left(\frac{\Phi_{i}}{\Phi_{\mathrm{tol}}}\right)\right)$$
+
+Otherwise:
+
+$$M^m_{\mathrm{IS},i} = 5$$
+
+with
+$$\Phi_{\mathrm{tol}} = 5 \times 10^{-4} \ \mathrm{eV/atom/ps}$$
+where $\Phi_i$ represents the total energy drift , and $\Phi_{\mathrm{tol}}$ denotes the tolerance.
+This metric indicates the relative order of magnitude of the slope compared to the tolerance. 
+In cases where a MD simulation fails, a penalty of 5 is assigned, representing a drift five orders of magnitude larger than the typical statistical uncertainty in measuring the slope.
+The final instability metric is computed as the average over all nine structures.
+
+$$M^m_{\mathrm{IS}} = \frac{1}{9}\sum_{i=1}^{9} M^m_{\mathrm{IS},i}$$
+
+This result is bounded within the range [0, $+\infty$], where a lower value signifies greater stability.
+
