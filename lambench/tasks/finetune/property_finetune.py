@@ -55,9 +55,9 @@ class PropertyFinetuneTask(BaseTask):
         return None
 
     def prepare_property_directory(self, model: DPModel):
-        assert (
-            Path.cwd() == self.workdir
-        ), f"Current working directory is {os.getcwd()}, need to change working directory to {self.workdir}!"
+        assert Path.cwd() == self.workdir, (
+            f"Current working directory is {os.getcwd()}, need to change working directory to {self.workdir}!"
+        )
         assert model.model_path is not None, "Model path is not specified!"
         # 1. write the finetune input.json file
         with open(os.path.join(model.model_path.parent, "input.json"), "r") as f:

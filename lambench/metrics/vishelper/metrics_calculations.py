@@ -101,7 +101,7 @@ class MetricsCalculator:
 
             # Add penalty column and mapping if available
             if "penalty" in task_config:
-                penalty_column = f'{task_name}::{task_config["penalty"]}'
+                penalty_column = f"{task_name}::{task_config['penalty']}"
                 necessary_columns.append(penalty_column)
                 penalty_dict[penalty_column] = metrics_columns
 
@@ -115,9 +115,9 @@ class MetricsCalculator:
                 check_dummy = column.split(
                     "::"
                 )  # split the column name back to task name and metric name
-                assert (
-                    len(check_dummy) == 2
-                ), f"Column name {column} is not in the expected format"
+                assert len(check_dummy) == 2, (
+                    f"Column name {column} is not in the expected format"
+                )
                 if (
                     DOWNSTREAM_TASK_METRICS[check_dummy[0]].get("dummy", None)
                     is not None

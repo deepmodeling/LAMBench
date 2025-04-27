@@ -27,7 +27,7 @@ def run_torsionnet(
             assert len(frame) == 1
             atoms: Atoms = frame.to_ase_structure()[0]  # type: ignore
             atoms.calc = model.calc
-            pred_energy = atoms.get_potential_energy() * 23.0609 # eV to kcal/mol
+            pred_energy = atoms.get_potential_energy() * 23.0609  # eV to kcal/mol
             result[fragment.name].append(pred_energy)
             label_energy = frame.data["energies"][0]
             label[fragment.name].append(label_energy)

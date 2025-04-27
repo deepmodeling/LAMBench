@@ -27,18 +27,18 @@ def test_validate_model_config():
             clstype(**model_param)
         except Exception as e:
             model_config_error_list.append(f"Error in model config {model_param}: {e}")
-    assert (
-        not model_config_error_list
-    ), f"Model config errors: {model_config_error_list}"
+    assert not model_config_error_list, (
+        f"Model config errors: {model_config_error_list}"
+    )
 
 
 def test_validate_task_config():
     assert BaseTask.__subclasses__(), "No task classes found."
     for task in BaseTask.__subclasses__():
         task_config_error_list = []
-        assert (
-            task.task_config.exists()
-        ), f"{task.__name__} task config {task.task_config} does not exist."
+        assert task.task_config.exists(), (
+            f"{task.__name__} task config {task.task_config} does not exist."
+        )
         with open(task.task_config, "r") as f:
             task_configs = yaml.safe_load(f)
         for task_name, task_param in task_configs.items():

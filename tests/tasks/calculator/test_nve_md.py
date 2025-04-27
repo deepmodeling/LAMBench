@@ -93,13 +93,13 @@ def test_run_md_nve_simulation(setup_testing_data, setup_model):
         "momenta_diff",
     }, "Result should have keys 'simulation_time', 'steps', 'slope', 'momenta_diff'."
     assert result["H2O"]["steps"] > 0, "Steps should be greater than zero."
-    assert isinstance(
-        result["H2O"]["simulation_time"], float
-    ), "Simulation time should be a float."
+    assert isinstance(result["H2O"]["simulation_time"], float), (
+        "Simulation time should be a float."
+    )
     assert isinstance(result["H2O"]["slope"], float), "Slope should be a float."
-    assert isinstance(
-        result["H2O"]["momenta_diff"], float
-    ), "Momenta diff should be a float."
+    assert isinstance(result["H2O"]["momenta_diff"], float), (
+        "Momenta diff should be a float."
+    )
 
 
 def test_run_md_nve_simulation_crash_handling(setup_model, setup_testing_data):
