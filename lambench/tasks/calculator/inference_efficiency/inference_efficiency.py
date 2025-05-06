@@ -28,7 +28,9 @@ def get_efv(atoms: Atoms) -> tuple[float, np.ndarray]:
     return e, f, v
 
 
-def find_maximum_scaling(model: ASEModel, base_atoms: Atoms, max_trials: int = 10) -> int:
+def find_maximum_scaling(
+    model: ASEModel, base_atoms: Atoms, max_trials: int = 10
+) -> int:
     """
     Find the maximum expansion factor using binary search such that get_efv does not OOM.
 
@@ -37,6 +39,7 @@ def find_maximum_scaling(model: ASEModel, base_atoms: Atoms, max_trials: int = 1
     3. If OOM occurs, perform binary search between last successful and failed factor.
     Returns the largest safe integer scaling factor.
     """
+
     def test_scale(factor: int) -> bool:
         # Expand cell evenly in three directions
         scaled = base_atoms.repeat((factor, factor, factor))
@@ -44,14 +47,14 @@ def find_maximum_scaling(model: ASEModel, base_atoms: Atoms, max_trials: int = 1
         try:
             get_efv(scaled)
             return True
-        except MemoryError: 
+        except MemoryError:
             return False
         except RuntimeError as e:
             if "CUDA out of memory" in str(e) or "ResourceExhausted" in str(e):
                 return False
             else:
-                return True 
-        except Exception: 
+                return True
+        except Exception:
             return True
 
     # Find upper bound through exponential growth
@@ -74,10 +77,7 @@ def find_maximum_scaling(model: ASEModel, base_atoms: Atoms, max_trials: int = 1
 
 
 def run_inference(
-    model: ASEModel,
-    test_data: Path,
-    warmup_ratio: float,
-    mode: str = "direct_loop"
+    model: ASEModel, test_data: Path, warmup_ratio: float, mode: str = "direct_loop"
 ) -> dict[str, dict[str, float]]:
     """
     Inference for all trajectories. Supports 'direct_loop' or 'binary_search' mode.
@@ -107,10 +107,7 @@ def run_inference(
 
 
 def run_one_inference(
-    model: ASEModel,
-    test_traj: Path,
-    warmup_ratio: float,
-    mode: str = "direct_loop"
+    model: ASEModel, test_traj: Path, warmup_ratio: float, mode: str = "direct_loop"
 ) -> dict[str, float]:
     """
     Infer for one trajectory with selected mode.
@@ -127,17 +124,19 @@ def run_one_inference(
     if mode == "binary_search":
         base = test_atoms[0]
         scale_factor = find_maximum_scaling(model, base)
-        logging.info(f"Maximum safe scaling factor for {test_traj.name}: {scale_factor}")
+        logging.info(
+            f"Maximum safe scaling factor for {test_traj.name}: {scale_factor}"
+        )
 
     for i, atoms in enumerate(test_atoms):
         # Apply scaling if in binary search mode
         if mode == "binary_search":
             atoms = atoms.repeat((scale_factor, scale_factor, scale_factor))
-        
+
         atoms.calc = model.calc
         n_atoms = len(atoms)
         start = time.time()
-        
+
         try:
             get_efv(atoms)
             successful_inferences += 1
@@ -154,7 +153,11 @@ def run_one_inference(
     # Calculate performance metrics
     avg_eff = np.mean(efficiency) if valid_steps > 0 else None
     std_eff = np.std(efficiency) if valid_steps > 0 else None
-    success_rate = (successful_inferences / total_inferences * 100) if total_inferences > 0 else 0.0
+    success_rate = (
+        (successful_inferences / total_inferences * 100)
+        if total_inferences > 0
+        else 0.0
+    )
 
     return {
         "average_time": avg_eff,
