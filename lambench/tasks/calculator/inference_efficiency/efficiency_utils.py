@@ -1,8 +1,8 @@
 from ase.atoms import Atoms
-from ase.io import read
 from lambench.models.ase_models import ASEModel
 import numpy as np
 import math
+
 
 def get_efv(atoms: Atoms) -> tuple[float, np.ndarray, np.ndarray]:
     """
@@ -23,6 +23,7 @@ def get_efv(atoms: Atoms) -> tuple[float, np.ndarray, np.ndarray]:
     )
     return e, f, v
 
+
 def catch_oom_error(atoms: Atoms) -> bool:
     """
     Catch OOM error when running inference.
@@ -32,7 +33,6 @@ def catch_oom_error(atoms: Atoms) -> bool:
         return False
     except Exception as e:
         if "out of memory" in str(e) or "OOM" in str(e):
-
             return True
         else:
             return False
@@ -46,6 +46,7 @@ def get_divisors(num: int) -> list[int]:
             divisors.add(num // i)
     return sorted(divisors)
 
+
 def find_even_factors(num: int) -> tuple[int, int, int]:
     """
     Find three factors of a number that are as evenly distributed as possible.
@@ -54,7 +55,7 @@ def find_even_factors(num: int) -> tuple[int, int, int]:
     """
     divisors = get_divisors(num)
     best = None
-    min_spread = float('inf')
+    min_spread = float("inf")
 
     for a in divisors:
         num_div_a = num // a
@@ -76,7 +77,9 @@ def find_even_factors(num: int) -> tuple[int, int, int]:
     return best
 
 
-def binary_search_max_natoms(model:ASEModel, atoms: Atoms, upper_limit: int = 2000, safe_guard: int=50) -> int:
+def binary_search_max_natoms(
+    model: ASEModel, atoms: Atoms, upper_limit: int = 2000, safe_guard: int = 50
+) -> int:
     """
     Binary search for the maximum number of atoms that can be processed by the model.
 
@@ -87,7 +90,7 @@ def binary_search_max_natoms(model:ASEModel, atoms: Atoms, upper_limit: int = 20
         scaling_factor = np.int32(np.floor(mid / len(atoms)))
         scaled_atoms = atoms.copy()
         a, b, c = find_even_factors(scaling_factor)
-        scaled_atoms = scaled_atoms.repeat((a,b,c))
+        scaled_atoms = scaled_atoms.repeat((a, b, c))
         scaled_atoms.calc = model.calc
         if catch_oom_error(scaled_atoms):
             high = mid - 1

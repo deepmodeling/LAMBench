@@ -1,5 +1,9 @@
 from lambench.models.ase_models import ASEModel
-from lambench.tasks.calculator.inference_efficiency.efficiency_utils import binary_search_max_natoms, get_efv, find_even_factors
+from lambench.tasks.calculator.inference_efficiency.efficiency_utils import (
+    binary_search_max_natoms,
+    get_efv,
+    find_even_factors,
+)
 from ase.io import read, write
 from ase.atoms import Atoms
 import logging
@@ -12,17 +16,13 @@ logging.basicConfig(
 )
 
 OOM_TEST_ATOM = Atoms(
-        symbols="H",
-        pbc=True,
-        cell=[
-            [2.64963874, 0.        , 0.        ],
-            [0.        , 2.64963874, 0.        ],
-            [0.        , 0.        , 0.98049292]
-        ],
-        positions=[
-            [0.        , 0.        , 0.49024646]
-        ],
-    )
+    symbols="H",
+    pbc=True,
+    cell=[[2.64963874, 0.0, 0.0], [0.0, 2.64963874, 0.0], [0.0, 0.0, 0.98049292]],
+    positions=[[0.0, 0.0, 0.49024646]],
+)
+
+
 # OOM_TEST_ATOM = read(
 #     "/mnt/data_nas/guomingyu/DPA_BENCHMARKS/LAMBENCH_binary_experiments/CONFs/HPt_NC2022_0_4.cif"
 # )
@@ -34,7 +34,7 @@ def run_inference(
     """
     results = {}
     trajs = list(test_data.rglob("*.traj"))
-    # find maximum allowed natoms 
+    # find maximum allowed natoms
     max_natoms = binary_search_max_natoms(model, OOM_TEST_ATOM)
     logging.info(f"Yielded converged n_atoms {max_natoms}")
     for traj in trajs:
@@ -48,20 +48,21 @@ def run_inference(
                 "average_time": average_time,
                 "std_time": std_time,
                 "success_rate": success_rate,
-                "max_atoms": max_natoms
+                "max_atoms": max_natoms,
             }
             logging.info(
                 f"Inference completed for system {system_name} with average time {average_time} s and success rate {success_rate:.2f}%"
             )
         except Exception as e:
             import traceback
+
             print(traceback.format_exc())
             logging.error(f"Error in inference for system {system_name}: {e}")
             results[system_name] = {
                 "average_time": None,
                 "std_time": None,
                 "success_rate": 0.0,
-                "max_atoms": max_natoms
+                "max_atoms": max_natoms,
             }
     return results
 
@@ -80,12 +81,12 @@ def run_one_inference(
     total_inferences = len(test_atoms)
     efficiency = []
     for i, atoms in enumerate(test_atoms):
-        # on-the-fly expand atoms 
+        # on-the-fly expand atoms
         scaling_factor = np.int32(np.floor(max_natoms / len(atoms)))
         while 1 in find_even_factors(scaling_factor) and scaling_factor > 1:
             scaling_factor -= 1
         a, b, c = find_even_factors(scaling_factor)
-        atoms = atoms.repeat((a,b,c))
+        atoms = atoms.repeat((a, b, c))
         n_atoms = len(atoms)
         atoms.calc = model.calc
         start = time.time()
@@ -94,10 +95,21 @@ def run_one_inference(
             successful_inferences += 1
         except Exception as e:
             if "out of memory" in str(e) or "OOM" in str(e):
-                write(f"{test_traj.parent}/oom_traj_{i}.extxyz", atoms, format='extxyz', append=True)
+                write(
+                    f"{test_traj.parent}/oom_traj_{i}.extxyz",
+                    atoms,
+                    format="extxyz",
+                    append=True,
+                )
             else:
-                write(f"{test_traj.parent}/unknwon_error_{i}.extxyz", atoms, format='extxyz', append=True)
+                write(
+                    f"{test_traj.parent}/unknwon_error_{i}.extxyz",
+                    atoms,
+                    format="extxyz",
+                    append=True,
+                )
             import traceback
+
             logging.error(traceback.format_exc())
             logging.error(f"Error in inference for {str(atoms.symbols)}: {e}")
             continue
@@ -128,4 +140,3 @@ def run_one_inference(
         "std_time": std_efficiency,
         "success_rate": success_rate,
     }
-
