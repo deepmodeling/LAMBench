@@ -11,18 +11,18 @@ logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-# OOM_TEST_ATOM = Atoms(
-#         symbols="H",
-#         pbc=True,
-#         cell=[
-#             [2.64963874, 0.        , 0.        ],
-#             [0.        , 2.64963874, 0.        ],
-#             [0.        , 0.        , 0.98049292]
-#         ],
-#         positions=[
-#             [0.        , 0.        , 0.49024646]
-#         ],
-#     )
+OOM_TEST_ATOM = Atoms(
+        symbols="H",
+        pbc=True,
+        cell=[
+            [2.64963874, 0.        , 0.        ],
+            [0.        , 2.64963874, 0.        ],
+            [0.        , 0.        , 0.98049292]
+        ],
+        positions=[
+            [0.        , 0.        , 0.49024646]
+        ],
+    )
 # OOM_TEST_ATOM = read(
 #     "/mnt/data_nas/guomingyu/DPA_BENCHMARKS/LAMBENCH_binary_experiments/CONFs/HPt_NC2022_0_4.cif"
 # )
@@ -128,3 +128,4 @@ def run_one_inference(
         "std_time": std_efficiency,
         "success_rate": success_rate,
     }
+
