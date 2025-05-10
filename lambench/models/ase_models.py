@@ -199,7 +199,14 @@ class ASEModel(BaseLargeAtomModel):
 
                 assert task.test_data is not None
                 warmup_ratio = task.calculator_params.get("warmup_ratio", 0.2)
-                return {"metrics": run_inference(self, task.test_data, warmup_ratio)}
+                natoms_upper_limit = task.calculator_params.get(
+                    "natoms_upper_limit", 850
+                )
+                return {
+                    "metrics": run_inference(
+                        self, task.test_data, warmup_ratio, natoms_upper_limit
+                    )
+                }
             elif task.task_name == "torsionnet":
                 from lambench.tasks.calculator.torsionnet.torsionnet import (
                     run_torsionnet,
