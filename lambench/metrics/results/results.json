@@ -276,8 +276,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 162.753934,
-        "standard_deviation": 0.930471,
+        "average_time": 164.304929,
+        "standard_deviation": 0.818908,
         "success_rate": 100.0
       }
     },
@@ -578,9 +578,9 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 663.344007,
-        "standard_deviation": 134.896808,
-        "success_rate": 89.15
+        "average_time": 906.25933,
+        "standard_deviation": 165.325373,
+        "success_rate": 100.0
       }
     },
     "model": {
@@ -846,8 +846,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 338.278736,
-        "standard_deviation": 2.946885,
+        "average_time": 341.908524,
+        "standard_deviation": 2.750496,
         "success_rate": 100.0
       }
     },
@@ -1116,8 +1116,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 343.68152,
-        "standard_deviation": 35.185258,
+        "average_time": 413.151825,
+        "standard_deviation": 55.242482,
         "success_rate": 100.0
       }
     },
@@ -1384,8 +1384,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 343.739854,
-        "standard_deviation": 34.354173,
+        "average_time": 419.247906,
+        "standard_deviation": 55.850517,
         "success_rate": 100.0
       }
     },
@@ -1652,8 +1652,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 74.459948,
-        "standard_deviation": 1.47446,
+        "average_time": 75.677264,
+        "standard_deviation": 4.899443,
         "success_rate": 100.0
       }
     },
@@ -1912,17 +1912,17 @@
       }
     },
     "applicability_results": {
-      "inference_efficiency": {
-        "average_time": 249.834772,
-        "standard_deviation": 32.706129,
-        "success_rate": 100.0
-      },
       "nve_md": {
         "slope": 9e-06,
         "steps": 10000.0,
         "momenta_diff": 3e-06,
         "simulation_time": 199.693032,
         "success_rate": 1.0
+      },
+      "inference_efficiency": {
+        "average_time": 261.480762,
+        "standard_deviation": 33.866447,
+        "success_rate": 100.0
       }
     },
     "model": {
@@ -2188,8 +2188,8 @@
         "success_rate": 0.89
       },
       "inference_efficiency": {
-        "average_time": 131.561757,
-        "standard_deviation": 26.71478,
+        "average_time": 143.438026,
+        "standard_deviation": 27.429187,
         "success_rate": 100.0
       }
     },
@@ -2456,8 +2456,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 358.592392,
-        "standard_deviation": 78.492219,
+        "average_time": 367.229195,
+        "standard_deviation": 79.488369,
         "success_rate": 100.0
       }
     },
@@ -2724,9 +2724,9 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 1137.204721,
-        "standard_deviation": 126.441658,
-        "success_rate": 95.3
+        "average_time": 1061.530949,
+        "standard_deviation": 369.848096,
+        "success_rate": 100.0
       }
     },
     "model": {
@@ -2992,8 +2992,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 257.637527,
-        "standard_deviation": 49.236405,
+        "average_time": 263.654098,
+        "standard_deviation": 49.995294,
         "success_rate": 100.0
       }
     },
@@ -3260,8 +3260,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 147.446563,
-        "standard_deviation": 135.555693,
+        "average_time": 162.618414,
+        "standard_deviation": 14.291435,
         "success_rate": 100.0
       }
     },
@@ -3493,8 +3493,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 482.600646,
-        "standard_deviation": 75.131328,
+        "average_time": 506.517529,
+        "standard_deviation": 76.516947,
         "success_rate": 100.0
       }
     },
