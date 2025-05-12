@@ -49,5 +49,5 @@ def test_binary_search_max_natoms(threshold, max_natoms):
     mock_model.calc = MagicMock()
     mock_model.calc.get_potential_energy.side_effect = mock_get_potential_energy
 
-    result = binary_search_max_natoms(mock_model, OOM_TEST_ATOM)
+    result, _ = binary_search_max_natoms(mock_model, OOM_TEST_ATOM)
     assert result == max_natoms, f"Expected {max_natoms}, got {result}"
