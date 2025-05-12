@@ -71,10 +71,20 @@ def run_one_inference(
         max_natoms = binary_search_max_natoms(model, atoms, natoms_upper_limit)
         # on-the-fly expand atoms
         scaling_factor = np.int32(np.floor(max_natoms / len(atoms)))
-        while 1 in find_even_factors(scaling_factor) and scaling_factor > 1:
-            scaling_factor -= 1
-        a, b, c = find_even_factors(scaling_factor)
+        a, b, c = find_even_factors(scaling_factor)  # a,b,c is in ascending order
+
+        cell_length = atoms.get_cell_lengths_and_angles()[:3]
+        scaling_index = np.argsort(
+            cell_length
+        ).tolist()  # sort cell length by ascending order
+        # expand atoms, repeat shorter cell axis with larger scaling factor
+        a, b, c = (
+            [c, b, a][scaling_index[0]],
+            [c, b, a][scaling_index[1]],
+            [c, b, a][scaling_index[2]],
+        )
         atoms = atoms.repeat((a, b, c))
+        model.calc.reset()  # reset calculator to prevent cached results
         atoms.calc = model.calc
         n_atoms = len(atoms)
         start = time.time()
