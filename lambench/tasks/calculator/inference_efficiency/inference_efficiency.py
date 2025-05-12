@@ -68,14 +68,12 @@ def run_one_inference(
     efficiency = []
     for i, atoms in enumerate(test_atoms):
         # find maximum allowed natoms
-        max_natoms, cached_natoms = binary_search_max_natoms(
-            model, atoms, natoms_upper_limit
-        )
+        max_natoms = binary_search_max_natoms(model, atoms, natoms_upper_limit)
         # on-the-fly expand atoms
         scaling_factor = np.int32(np.floor(max_natoms / len(atoms)))
         a, b, c = find_even_factors(scaling_factor)  # a,b,c is in ascending order
-        if np.prod([a, b, c]) * len(atoms) == cached_natoms and a == b == c:
-            atoms.rattle(stdev=0.05)  # add noise to coords prevent ASE from caching
+
+        atoms.rattle(stdev=0.05)  # add noise to coords prevent ASE from caching
         cell_length = atoms.get_cell_lengths_and_angles()[:3]
         scaling_index = np.argsort(
             cell_length
