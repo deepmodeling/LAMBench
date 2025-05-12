@@ -200,8 +200,8 @@ class ASEModel(BaseLargeAtomModel):
                 assert task.test_data is not None
                 warmup_ratio = task.calculator_params.get("warmup_ratio", 0.1)
                 natoms_upper_limit = task.calculator_params.get(
-                    "natoms_upper_limit", 1000
-                )
+                    "natoms_upper_limit", {}
+                ).get(self.model_name, 1000)
                 return {
                     "metrics": run_inference(
                         self, task.test_data, warmup_ratio, natoms_upper_limit

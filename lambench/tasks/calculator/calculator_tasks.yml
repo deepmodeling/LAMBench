@@ -12,7 +12,8 @@ inference_efficiency:
   test_data: /bohr/lambench-efficiency-rg7a/v3/efficiency
   calculator_params:
     warmup_ratio: 0.1
-    natoms_upper_limit: 1000
+    natoms_upper_limit:
+      dpa3_250211_v3_0_0_7M: 850
 torsionnet:
   test_data: /bohr/lambench-torsionnet-e4sc/v2/torsionnet500_wB97m
   calculator_params: null
