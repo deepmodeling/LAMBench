@@ -73,7 +73,6 @@ def run_one_inference(
         scaling_factor = np.int32(np.floor(max_natoms / len(atoms)))
         a, b, c = find_even_factors(scaling_factor)  # a,b,c is in ascending order
 
-        atoms.rattle(stdev=0.05)  # add noise to coords prevent ASE from caching
         cell_length = atoms.get_cell_lengths_and_angles()[:3]
         scaling_index = np.argsort(
             cell_length
@@ -85,6 +84,7 @@ def run_one_inference(
             [c, b, a][scaling_index[2]],
         )
         atoms = atoms.repeat((a, b, c))
+        model.calc.reset()  # reset calculator to prevent cached results
         atoms.calc = model.calc
         n_atoms = len(atoms)
         start = time.time()
