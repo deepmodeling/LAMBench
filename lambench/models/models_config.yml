@@ -41,8 +41,7 @@
     num_parameters: 2592390
     packages:
       deepmd-kit: P0131
-  show_finetune_task: False
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
   skip_tasks: [PropertyFinetuneTask]
 
 - model_name: mace_mp_0_medium
@@ -108,7 +107,7 @@
     num_parameters: 842440
     packages:
       sevenn: 0.11.0
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
 
 - model_name: 7net-l3i5
   model_type: ASE
