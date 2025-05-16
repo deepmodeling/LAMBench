@@ -7,6 +7,13 @@
     "Applicability-Efficiency \u2191": 0.163
   },
   {
+    "Model": "DPA-3.1-3M",
+    "Generalizability-FF Error \u2193": 0.231,
+    "Generalizability-DS Error \u2193": 0.21,
+    "Applicability-Instability \u2193": 0.572,
+    "Applicability-Efficiency \u2191": 0.261
+  },
+  {
     "Model": "Orb-v3",
     "Generalizability-FF Error \u2193": 0.24,
     "Generalizability-DS Error \u2193": 0.24,
@@ -19,13 +26,6 @@
     "Generalizability-DS Error \u2193": 0.208,
     "Applicability-Instability \u2193": 0.039,
     "Applicability-Efficiency \u2191": 0.617
-  },
-  {
-    "Model": "DPA-3.0-3M",
-    "Generalizability-FF Error \u2193": 0.284,
-    "Generalizability-DS Error \u2193": 0.257,
-    "Applicability-Instability \u2193": 0.48,
-    "Applicability-Efficiency \u2191": 0.293
   },
   {
     "Model": "Orb-v2",
@@ -68,13 +68,6 @@
     "Generalizability-DS Error \u2193": 0.24,
     "Applicability-Instability \u2193": 0.036,
     "Applicability-Efficiency \u2191": 0.272
-  },
-  {
-    "Model": "SevenNet-0",
-    "Generalizability-FF Error \u2193": 0.343,
-    "Generalizability-DS Error \u2193": 0.246,
-    "Applicability-Instability \u2193": 0.556,
-    "Applicability-Efficiency \u2191": 0.691
   },
   {
     "Model": "MACE-MP-0",
