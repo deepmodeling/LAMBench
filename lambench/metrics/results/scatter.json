@@ -16,12 +16,12 @@
     "generalizability error": 0.23
   },
   {
-    "name": "DPA-3.0-3M",
+    "name": "DPA-3.1-3M",
     "family": "DP",
-    "nparams": 2592390,
-    "efficiency": 341.24,
-    "std": 2.73,
-    "generalizability error": 0.28
+    "nparams": 3268689,
+    "efficiency": 383.48,
+    "std": 61.69,
+    "generalizability error": 0.23
   },
   {
     "name": "MACE-MP-0",
@@ -54,14 +54,6 @@
     "efficiency": 256.72,
     "std": 33.33,
     "generalizability error": 0.24
-  },
-  {
-    "name": "SevenNet-0",
-    "family": "SevenNet",
-    "nparams": 842440,
-    "efficiency": 144.72,
-    "std": 27.15,
-    "generalizability error": 0.34
   },
   {
     "name": "SevenNet-l3i5",
