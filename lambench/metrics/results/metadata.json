@@ -1,7 +1,7 @@
 {
   "generalizability_force_field_results": {
     "DISPLAY_NAME": "Generalizability Tests (Force Field Prediction)",
-    "DESCRIPTION": "Energy, force, and virial prediction accuracy of the model on the test sets accross multiple domains.",
+    "DESCRIPTION": "Energy, force, and virial prediction accuracy of the LAM on the test sets across multiple domains. Given that energy labels calculated via DFT can vary by an arbitrary constant due to variations in pseudopotential selection and software implementations, LAMs are consistently used to predict the energy difference between the label and a dummy LAM that estimates potential energy solely based on the chemical formula. In contrast, force and virial predictions are directly obtained from the models.",
     "HPt_NC_2022": {
       "DISPLAY_NAME": "Vandermause2022Active",
       "DESCRIPTION": "A direct two-phase simulation of heterogeneous hydrogen turnover on the Pt(111) catalyst surface at chemical accuracy. Calculations were performed using VASP with PBE/PAW and an energy cutoff of 450 eV. [https://www.nature.com/articles/s41467-022-32294-0]",
@@ -934,8 +934,8 @@
     }
   },
   "generalizability_domain_specific_results":{
-    "DISPLAY_NAME":"Generalizability Tests (Domain Specific Properties)",
-    "DESCRIPTION": "Evaluation metrics for domain specific downstream tasks.",
+    "DISPLAY_NAME":"Generalizability Tests (Property Calculation)",
+    "DESCRIPTION": "Evaluation metrics for domain specific property calculation tasks when utilizing the LAM as the force field.",
     "phonon_mdr": {
       "DISPLAY_NAME": "Phonon Properties",
       "DESCRIPTION": "Evaluation metrics based on phonon calculations.",
@@ -1114,10 +1114,10 @@
     },
     "inference_efficiency": {
       "DISPLAY_NAME": "Inference Efficiency",
-      "DESCRIPTION": "Evaluation metrics for the computational efficiency of inference tasks.",
+      "DESCRIPTION": "Evaluation metrics for the computational efficiency of inference tasks. For each LAM, the maximum number of atoms that can be handled by the GPU device is dynamically determined by a binary search algorithm to ensure the measured efficiency is within or close to the convergence regime.",
       "average_time": {
         "DISPLAY_NAME": "Average Inference Time (µs/atom)",
-        "DESCRIPTION": "The average inference time per atom of e/f/v inference on 2000 different structures (first 20% excluded as warm-up), in microsecond per atom."
+        "DESCRIPTION": "The average inference time per atom of e/f/v inference on 1000 different structures (first 20% excluded as warm-up), in microsecond per atom."
       },
       "standard_deviation":{
         "DISPLAY_NAME": "Inference Time STD (µs/atom)",
