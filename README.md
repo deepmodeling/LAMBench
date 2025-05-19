@@ -77,7 +77,7 @@ The file contains a list of models with the following structure:
       packages:
         package_name: package_version
       model_description:
-      "date_added": datetime(yyyy,mm,dd)
+      date_added: datetime(yyyy,mm,dd)
   ```
 
 Please refer to `lambench/models/basemodel.py` for the field definitions.
