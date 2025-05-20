@@ -50,6 +50,7 @@ def run_inference(
         initial, transition, final = data[0], data[barrier_idx], data[-1]
         pred_energy = []
         for atoms in [initial, transition, final]:
+            atoms.calc = model.calc
             pred_energy.append(atoms.get_potential_energy())
         e_a, de = (
             pred_energy[1] - pred_energy[0],
