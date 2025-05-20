@@ -1,6 +1,5 @@
 import json
 import os
-from pathlib import Path
 import logging
 from lambench.tasks.finetune.property_finetune import (
     PropertyFinetuneTask,
@@ -76,7 +75,10 @@ def test_prepare_property_directory(tmp_path):
     with open(workdir / "input.json") as f:
         cfg = json.load(f)
 
-    assert cfg["model"]["descriptor"] == pretrain_config["model"]["shared_dict"]["best_descriptor"]
+    assert (
+        cfg["model"]["descriptor"]
+        == pretrain_config["model"]["shared_dict"]["best_descriptor"]
+    )
     assert "shared_dict" not in cfg["model"]
     assert cfg["training"]["training_data"]["systems"] == str(train_dir)
     assert cfg["training"]["validation_data"]["systems"] == str(test_dir)

@@ -1,7 +1,6 @@
 from pathlib import Path
 from unittest.mock import MagicMock
 import numpy as np
-import types
 import itertools
 
 from lambench.tasks.calculator.inference_efficiency.inference_efficiency import (
