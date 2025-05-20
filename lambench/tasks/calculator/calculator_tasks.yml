@@ -17,3 +17,6 @@ inference_efficiency:
 torsionnet:
   test_data: /bohr/lambench-torsionnet-e4sc/v2/torsionnet500_wB97m
   calculator_params: null
+neb:
+  test_data: /bohr/lambench-neb-b1ln/v1/OC20NEB-OOD
+  calculator_params: null
