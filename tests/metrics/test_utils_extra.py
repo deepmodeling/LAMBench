@@ -38,7 +38,9 @@ def test_filter_generalizability_force_field_results_normalize():
         "energy_std": 0.1,
         "force_std": 0.2,
     }
-    res = filter_generalizability_force_field_results(task_result, config, normalize=True)
+    res = filter_generalizability_force_field_results(
+        task_result, config, normalize=True
+    )
     assert np.isclose(res["energy_rmse"], 0.0)
     assert np.isclose(res["force_rmse"], 0.0)
 
@@ -49,7 +51,7 @@ def test_aggregated_inference_efficiency_results_complete():
         "sys2": {"average_time": 0.2, "std_time": 0.04, "success_rate": 0.9},
     }
     res = aggregated_inference_efficiency_results(data)
-    expected_std = np.sqrt((0.01 ** 2 + 0.04 ** 2) / 2)
+    expected_std = np.sqrt((0.01**2 + 0.04**2) / 2)
     assert np.isclose(res["average_time"], 0.15)
     assert np.isclose(res["standard_deviation"], expected_std)
     assert np.isclose(res["success_rate"], 0.95)
