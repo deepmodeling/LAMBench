@@ -154,6 +154,9 @@ class MetricsCalculator:
             domain_df = raw_results[columns]
             domain_level_metrics[domain] = domain_df.mean(axis=1)
         domain_results = pd.DataFrame(domain_level_metrics)
+        domain_results.dropna(
+            axis=1, inplace=True
+        )  # drop models with missing domain results
 
         # # Now aggregate all domains to get the final generalizability metrics for each model
         return domain_results.mean(axis=1).to_dict()
