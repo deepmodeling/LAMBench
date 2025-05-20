@@ -47,7 +47,8 @@ To reproduce the results locally or test a custom model, please refer to the `AS
             model_metadata={
                 "pretty_name":"<DUMMY_NAME>",
                 "num_parameters":1,
-                "packages": {"pydummy": "1.0.0"} # for pydantic validations
+                "packages": {"pydummy": "1.0.0"}, # for pydantic validations
+                "date_added": datetime(2025,5,19)
             }
         )
     # Note: the corresponding ASE calculator needs to be defined in ASEModel.calc.
@@ -76,6 +77,7 @@ The file contains a list of models with the following structure:
       packages:
         package_name: package_version
       model_description:
+      date_added: datetime(yyyy,mm,dd)
   ```
 
 Please refer to `lambench/models/basemodel.py` for the field definitions.
@@ -90,3 +92,17 @@ To add a task (specifically a `calculator` task), please modify the `lambench/ta
 ## License
 
 LAMBench is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+
+## Cite
+```
+@misc{peng2025lambenchbenchmarklargeatomic,
+      title={LAMBench: A Benchmark for Large Atomic Models},
+      author={Anyang Peng and Chun Cai and Mingyu Guo and Duo Zhang and Chengqian Zhang and Antoine Loew and Linfeng Zhang and Han Wang},
+      year={2025},
+      eprint={2504.19578},
+      archivePrefix={arXiv},
+      primaryClass={physics.comp-ph},
+      url={https://arxiv.org/abs/2504.19578},
+}
+```

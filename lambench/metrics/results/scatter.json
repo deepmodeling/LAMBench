@@ -3,96 +3,88 @@
     "name": "DPA-2.4-7M",
     "family": "DP",
     "nparams": 6637036,
-    "efficiency": 162.75,
-    "std": 0.93,
+    "efficiency": 162.04,
+    "std": 0.55,
     "generalizability error": 0.27
   },
   {
     "name": "DPA-3.0-7M",
     "family": "DP",
     "nparams": 7021990,
-    "efficiency": 663.34,
-    "std": 134.9,
+    "efficiency": 613.54,
+    "std": 6.91,
     "generalizability error": 0.23
   },
   {
-    "name": "DPA-3.0-3M",
+    "name": "DPA-3.1-3M",
     "family": "DP",
-    "nparams": 2592390,
-    "efficiency": 338.28,
-    "std": 2.95,
-    "generalizability error": 0.28
+    "nparams": 3268689,
+    "efficiency": 383.48,
+    "std": 61.69,
+    "generalizability error": 0.23
   },
   {
     "name": "MACE-MP-0",
     "family": "MACE",
     "nparams": 4688656,
-    "efficiency": 343.68,
-    "std": 35.19,
+    "efficiency": 371.9,
+    "std": 34.31,
     "generalizability error": 0.38
   },
   {
     "name": "MACE-MPA-0",
     "family": "MACE",
     "nparams": 9063204,
-    "efficiency": 343.74,
-    "std": 34.35,
+    "efficiency": 418.26,
+    "std": 59.67,
     "generalizability error": 0.32
   },
   {
     "name": "Orb-v2",
     "family": "ORB",
     "nparams": 25161727,
-    "efficiency": 74.46,
-    "std": 1.47,
+    "efficiency": 74.56,
+    "std": 5.03,
     "generalizability error": 0.28
   },
   {
     "name": "Orb-v3",
     "family": "ORB",
     "nparams": 25510582,
-    "efficiency": 249.83,
-    "std": 32.71,
+    "efficiency": 256.72,
+    "std": 33.33,
     "generalizability error": 0.24
-  },
-  {
-    "name": "SevenNet-0",
-    "family": "SevenNet",
-    "nparams": 842440,
-    "efficiency": 131.56,
-    "std": 26.71,
-    "generalizability error": 0.34
   },
   {
     "name": "SevenNet-l3i5",
     "family": "SevenNet",
     "nparams": 1171144,
-    "efficiency": 358.59,
-    "std": 78.49,
+    "efficiency": 367.9,
+    "std": 80.51,
     "generalizability error": 0.33
   },
   {
     "name": "SevenNet-MF-ompa",
     "family": "SevenNet",
     "nparams": 26734966,
-    "efficiency": 1137.2,
-    "std": 126.44,
+    "efficiency": 1188.01,
+    "std": 166.27,
     "generalizability error": 0.29
   },
   {
     "name": "MatterSim-v1-5M",
     "family": "MatterSim",
     "nparams": 4549142,
-    "efficiency": 257.64,
-    "std": 49.24,
+    "efficiency": 254.23,
+    "std": 47.65,
     "generalizability error": 0.31
   },
   {
     "name": "GRACE-2L-OAM",
     "family": "GRACE",
     "nparams": 12597516,
-    "efficiency": 147.45,
-    "std": 135.56,
+    "efficiency": 156.48,
+    "std": 8.79,
     "generalizability error": 0.3
   }
 ]

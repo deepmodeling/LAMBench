@@ -29,6 +29,21 @@
   show_finetune_task: True
   show_calculator_task: True
 
+- model_name: dpa3_250415_v3_1_0_3M
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
+  model_metadata:
+    pretty_name: DPA-3.1-3M
+    date_added: 2025-05-13
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: P0414
+  show_finetune_task: True
+  show_calculator_task: True
+
 - model_name: dpa3_250307_v3_0_0_3M
   model_type: DP
   model_family: DP
@@ -41,8 +56,7 @@
     num_parameters: 2592390
     packages:
       deepmd-kit: P0131
-  show_finetune_task: False
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
   skip_tasks: [PropertyFinetuneTask]
 
 - model_name: mace_mp_0_medium
@@ -87,7 +101,7 @@
 - model_name: orb_v3_conservative_inf_omat
   model_type: ASE
   model_family: ORB
-  virtualenv: &bohrium_image_v2_10 registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.10
+  virtualenv:  &bohrium_image_v2_10 registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.10
   model_metadata:
     pretty_name: Orb-v3
     date_added: 2025-04-22
@@ -108,7 +122,7 @@
     num_parameters: 842440
     packages:
       sevenn: 0.11.0
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
 
 - model_name: 7net-l3i5
   model_type: ASE

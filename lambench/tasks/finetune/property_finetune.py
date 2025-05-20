@@ -87,6 +87,13 @@ class PropertyFinetuneTask(BaseTask):
         descriptor = PropertyFinetuneTask._find_value_by_key_pattern(
             pretrain_config["model"]["shared_dict"], "descriptor"
         )
+
+        # update activation function of the fitting net to match the descriptor
+        if "activation_function" in descriptor:
+            finetune_config["model"]["fitting_net"]["activation_function"] = descriptor[
+                "activation_function"
+            ]
+
         finetune_config["model"]["descriptor"] = descriptor
         finetune_config["model"]["type_map"] = pretrain_config["model"]["shared_dict"][
             "type_map_all"

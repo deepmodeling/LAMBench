@@ -239,7 +239,7 @@ class MetricsCalculator:
             "Generalizability-FF Error ↓": [
                 generalizability_ood[model] for model in shared_models
             ],
-            "Generalizability-DS Error ↓": [
+            "Generalizability-PC Error ↓": [
                 generalizability_downstream[model] for model in shared_models
             ],
             "Applicability-Instability ↓": [
@@ -263,7 +263,7 @@ class MetricsCalculator:
         summary_df = summary_df.sort_values(
             by=[
                 "Generalizability-FF Error ↓",
-                "Generalizability-DS Error ↓",
+                "Generalizability-PC Error ↓",
                 "Applicability-Instability ↓",
                 "Applicability-Efficiency ↑",
             ],
