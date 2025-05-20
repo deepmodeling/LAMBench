@@ -18,6 +18,4 @@ torsionnet:
   calculator_params: null
 neb:
   test_data: /bohr/lambench-neb-b1ln/v1/OC20NEB-OOD
-  calculator_params:
-    fmax: 0.01
-    steps: 500
+  calculator_params: null
