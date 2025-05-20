@@ -57,7 +57,7 @@
     packages:
       deepmd-kit: P0131
   show_direct_task: False # Hide deprecated model
-  skip_tasks: [PropertyFinetuneTask]
+  skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
 
 - model_name: mace_mp_0_medium
   model_type: ASE
@@ -123,6 +123,7 @@
     packages:
       sevenn: 0.11.0
   show_direct_task: False # Hide deprecated model
+  skip_tasks: [CalculatorTask, DirectPredictTask]
 
 - model_name: 7net-l3i5
   model_type: ASE
@@ -218,4 +219,4 @@
     packages:
       pet-mad: 1.0.0
   show_direct_task: False # Hide deprecated model
-  skip_tasks: [DirectPredictTask] # skip to avoid rerun failed tasks
+  skip_tasks: [CalculatorTask, DirectPredictTask]
