@@ -217,5 +217,5 @@
     num_parameters: 4208394
     packages:
       pet-mad: 1.0.0
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
   skip_tasks: [DirectPredictTask] # skip to avoid rerun failed tasks
