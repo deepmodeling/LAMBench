@@ -43,7 +43,7 @@ def run_inference(
 
     for idx, row in tqdm(result_df.iterrows()):
         traj_name = row["traj"]
-        data = read(test_data, f"{traj_name}.traj", ":")
+        data = read(f"{test_data}/{traj_name}.traj", ":")
         energies = [frame.get_potential_energy() for frame in data]
         barrier_idx = np.argmax(energies)
 
