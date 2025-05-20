@@ -80,8 +80,8 @@ def run_inference(
     )
 
     results = type_percentages.to_dict()
-    type_percentages.dropna(inplace=True)
-    results["success_rate"] = len(type_percentages) / NUM_RECORDS * 100
+    result_df.dropna(inplace=True)
+    results["success_rate"] = len(result_df) / NUM_RECORDS * 100
     results["MAE_Ea"] = mean_absolute_error(result_df["Ea"], result_df["pred_Ea"])
     results["MAE_dE"] = mean_absolute_error(result_df["dE"], result_df["pred_dE"])
     return results
