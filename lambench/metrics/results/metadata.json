@@ -979,6 +979,31 @@
         "DISPLAY_NAME": "Molecules with Barrier Error > 1 kcal/mol",
         "DESCRIPTION": "The number of molecules (total = 500) for which the model prediction of potential barrier height has an error of more than 1 kcal/mol."
       }
+    },
+    "neb": {
+      "DISPLAY_NAME": "NEB",
+      "DESCRIPTION": "Evaluation of NEB related metrics on the OC20NEB-OOD dataset. The dataset contains 460 NEB trajectories over 3 types of reactions: desorption, dissociation, and transfer. For details, please refer to https://arxiv.org/abs/2405.02078. the The energy barrier height is calculated with single point energy prediction on DFT relaxed structures using the LAM model without performing NEB optimization.",
+      "MAE_Ea": {
+        "DISPLAY_NAME": "MAE_Ea (eV)",
+        "DESCRIPTION": "The mean absolute error of the energy barrier prediction across all OOD trajectories."
+      },
+      "MAE_dE": {
+        "DISPLAY_NAME": "MAE_dE (kcal/mol)",
+        "DESCRIPTION": "The mean absolute error of the reaction energy prediction across all OOD trajectories."
+      },
+      "ø_Desorption":{
+        "DISPLAY_NAME": "% Desorption with Barrier Error > 0.1 eV",
+        "DESCRIPTION": "The percentage of desorption reactions (total = 127) for which the model prediction of potential barrier height has an error of more than 0.1 eV."
+      },
+      "ø_Dissociation":{
+        "DISPLAY_NAME": "% Dissociation with Barrier Error > 0.1 eV",
+        "DESCRIPTION": "The percentage of dissociation reactions (total = 158) for which the model prediction of potential barrier height has an error of more than 0.1 eV."
+      },
+      "ø_Transfer":{
+        "DISPLAY_NAME": "% Transfer with Barrier Error > 0.1 eV",
+        "DESCRIPTION": "The percentage of transfer reactions (total = 175) for which the model prediction of potential barrier height has an error of more than 0.1 eV."
+      }
+
     }
   },
   "adaptability_results": {

@@ -1,3 +1,17 @@
+"""
+This task is inspired by the OC20NEB dataset described in the paper:
+
+@misc{wander2024cattsunamiacceleratingtransitionstate,
+      title={CatTSunami: Accelerating Transition State Energy Calculations with Pre-trained Graph Neural Networks},
+      author={Brook Wander and Muhammed Shuaibi and John R. Kitchin and Zachary W. Ulissi and C. Lawrence Zitnick},
+      year={2024},
+      eprint={2405.02078},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.mtrl-sci},
+      url={https://arxiv.org/abs/2405.02078},
+}
+"""
+
 from lambench.models.ase_models import ASEModel
 from pathlib import Path
 import pandas as pd
@@ -54,10 +68,19 @@ def run_inference(
         * 100
     )
     type_percentages = type_percentages.round(2)
+    # update key names
+    type_percentages.rename(
+        index={
+            "desorption": "ø_Desorption",
+            "dissociation": "ø_Dissociation",
+            "transfer": "ø_Transfer",
+        },
+        inplace=True,
+    )
+
     results = type_percentages.to_dict()
     type_percentages.dropna(inplace=True)
     results["success_rate"] = len(type_percentages) / NUM_RECORDS * 100
-    results["average_error"] = mean_absolute_error(
-        result_df["Ea"], result_df["pred_Ea"]
-    )
+    results["MAE_Ea"] = mean_absolute_error(result_df["Ea"], result_df["pred_Ea"])
+    results["MAE_dE"] = mean_absolute_error(result_df["dE"], result_df["pred_dE"])
     return results
