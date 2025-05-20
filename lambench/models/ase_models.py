@@ -222,8 +222,6 @@ class ASEModel(BaseLargeAtomModel):
                     "metrics": run_inference(
                         self,
                         task.test_data,
-                        task.calculator_params.get("fmax", 0.01),
-                        task.calculator_params.get("steps", 500),
                     )
                 }
             else:
