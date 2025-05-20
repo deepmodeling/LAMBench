@@ -982,7 +982,7 @@
     },
     "neb": {
       "DISPLAY_NAME": "NEB",
-      "DESCRIPTION": "Evaluation of NEB related metrics on the OC20NEB-OOD dataset. The dataset contains 460 NEB trajectories over 3 types of reactions: desorption, dissociation, and transfer. For details, please refer to https://arxiv.org/abs/2405.02078. the The energy barrier height is calculated with single point energy prediction on DFT relaxed structures using the LAM model without performing NEB optimization.",
+      "DESCRIPTION": "Evaluation of NEB related metrics on the OC20NEB-OOD dataset. The dataset contains 460 NEB trajectories over 3 types of reactions: desorption, dissociation, and transfer. For details, please refer to https://arxiv.org/abs/2405.02078. The energy barrier height is calculated with single point energy prediction on DFT relaxed structures using the LAM model without performing NEB optimization.",
       "MAE_Ea": {
         "DISPLAY_NAME": "MAE_Ea (eV)",
         "DESCRIPTION": "The mean absolute error of the energy barrier prediction across all OOD trajectories."

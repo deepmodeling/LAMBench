@@ -25,7 +25,7 @@ def run_inference(
     model: ASEModel,
     test_data: Path,
 ) -> dict[str, float]:
-    """ "
+    """
     This tests perform energy barrier prediction for 460 OOD NEB trajs in the OC20NEB dataset.
 
     The label.csv file contains the ground truth energy barrier Ea and dE for each trajectory.
@@ -39,7 +39,7 @@ def run_inference(
     result_df["pred_Ea"] = None
     result_df["pred_dE"] = None
     NUM_RECORDS = len(result_df)
-    ERROR_THRESHOLD = 0.1  # counting Ea predtion error > 0.1 eV as failure
+    ERROR_THRESHOLD = 0.1  # counting Ea prediction error > 0.1 eV as failure
 
     for idx, row in tqdm(result_df.iterrows()):
         traj_name = row["traj"]
