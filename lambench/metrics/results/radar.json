@@ -11,8 +11,7 @@
       "SevenNet-l3i5",
       "SevenNet-MF-ompa",
       "MatterSim-v1-5M",
-      "GRACE-2L-OAM",
-      "PET-MAD"
+      "GRACE-2L-OAM"
     ],
     "bottom": 0,
     "textStyle": {
@@ -162,16 +161,6 @@
             0.6799999999999999,
             0.71,
             0.62
-          ]
-        },
-        {
-          "name": "PET-MAD",
-          "value": [
-            0.77,
-            null,
-            0.6599999999999999,
-            0.6,
-            0.51
           ]
         }
       ]

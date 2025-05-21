@@ -10,8 +10,7 @@
     "SevenNet-l3i5": 0.22,
     "SevenNet-MF-ompa": 0.22,
     "MatterSim-v1-5M": 0.22,
-    "GRACE-2L-OAM": 0.23,
-    "PET-MAD": 0.23
+    "GRACE-2L-OAM": 0.23
   },
   "Inorganic Materials": {
     "DPA-2.4-7M": 0.26,
@@ -24,8 +23,7 @@
     "SevenNet-l3i5": 0.3,
     "SevenNet-MF-ompa": 0.24,
     "MatterSim-v1-5M": 0.27,
-    "GRACE-2L-OAM": 0.25,
-    "PET-MAD": null
+    "GRACE-2L-OAM": 0.25
   },
   "Biomolecules & Supramolecules": {
     "DPA-2.4-7M": 0.25,
@@ -38,8 +36,7 @@
     "SevenNet-l3i5": 0.33,
     "SevenNet-MF-ompa": 0.36,
     "MatterSim-v1-5M": 0.34,
-    "GRACE-2L-OAM": 0.32,
-    "PET-MAD": 0.34
+    "GRACE-2L-OAM": 0.32
   },
   "Reactions": {
     "DPA-2.4-7M": 0.24,
@@ -52,8 +49,7 @@
     "SevenNet-l3i5": 0.29,
     "SevenNet-MF-ompa": 0.24,
     "MatterSim-v1-5M": 0.26,
-    "GRACE-2L-OAM": 0.29,
-    "PET-MAD": 0.4
+    "GRACE-2L-OAM": 0.29
   },
   "Catalysis": {
     "DPA-2.4-7M": 0.39,
@@ -66,7 +62,6 @@
     "SevenNet-l3i5": 0.52,
     "SevenNet-MF-ompa": 0.4,
     "MatterSim-v1-5M": 0.43,
-    "GRACE-2L-OAM": 0.38,
-    "PET-MAD": 0.49
+    "GRACE-2L-OAM": 0.38
   }
 }
