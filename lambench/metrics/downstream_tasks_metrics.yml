@@ -13,5 +13,5 @@ neb:
   dummy: {"MAE_Ea": 2.3595, "MAE_dE": 0.9498, "ø_Desorption": 95.28, "ø_Dissociation": 99.37, "ø_Transfer": 95.43}
 wiggle150:
   domain: Small Molecules
-  metrics: [MAE]
+  metrics: [MAE] # RMSE is not used for calculating metrics
   dummy: {"MAE": 105.0576} # "RMSE": 107.9222
