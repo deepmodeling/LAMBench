@@ -39,10 +39,15 @@ def run_inference(
     label = []
 
     for sub_traj in [ado_traj, bpn_traj, efa_traj]:
-        referen_energy = sub_traj[0].get_potential_energy()
+        ref_energy_label = sub_traj[0].get_potential_energy()
+        sub_traj[0].calc = model.calc
+        try:
+            ref_energy_pred = sub_traj[0].get_potential_energy()
+        except Exception:
+            continue
         for i, atoms in enumerate(sub_traj[1:]):
             label_energy = atoms.get_potential_energy()
-            label.append(label_energy - referen_energy)
+            label.append(label_energy - ref_energy_label)
             atoms.calc = model.calc
             try:
                 pred_energy = atoms.get_potential_energy()
@@ -50,7 +55,7 @@ def run_inference(
                 logging.error(f"Error in frame {i} of trajectory: {e}")
                 pred_energy = np.nan
 
-            preds.append(pred_energy - referen_energy)
+            preds.append(pred_energy - ref_energy_pred)
 
     try:
         preds = np.array(preds)
