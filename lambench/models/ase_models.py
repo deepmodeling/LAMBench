@@ -224,6 +224,16 @@ class ASEModel(BaseLargeAtomModel):
                         task.test_data,
                     )
                 }
+            elif task.task_name == "wiggle150":
+                from lambench.tasks.calculator.wiggle150.wiggle150 import run_inference
+
+                assert task.test_data is not None
+                return {
+                    "metrics": run_inference(
+                        self,
+                        task.test_data,
+                    )
+                }
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")
 

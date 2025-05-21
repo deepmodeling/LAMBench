@@ -11,3 +11,7 @@ neb:
   domain: Catalysis
   metrics: [MAE_Ea, MAE_dE, ø_Desorption, ø_Dissociation, ø_Transfer]
   dummy: {"MAE_Ea": 2.3595, "MAE_dE": 0.9498, "ø_Desorption": 95.28, "ø_Dissociation": 99.37, "ø_Transfer": 95.43}
+wiggle150:
+  domain: Small Molecules
+  metrics: [MAE]
+  dummy: {"MAE": 105.0576} # "RMSE": 107.9222

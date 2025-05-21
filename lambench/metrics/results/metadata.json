@@ -1004,6 +1004,18 @@
         "DESCRIPTION": "The percentage of transfer reactions (total = 175) for which the model prediction of potential barrier height has an error of more than 0.1 eV."
       }
 
+    },
+    "wiggle150": {
+      "DISPLAY_NAME": "Wiggle150",
+      "DESCRIPTION": "Evaluation of the wiggle150 dataset. This dataset contains geometries and DLPNO−CCSD(T)/CBS energies for three different molecules with 50 strained conformations each.",
+      "MAE": {
+        "DISPLAY_NAME": "MAE (kcal/mol)",
+        "DESCRIPTION": "The mean absolute error of the energy prediction across all configurations relative to the minimized ground-state conformer."
+      },
+      "RMSE": {
+        "DISPLAY_NAME": "RMSE (kcal/mol)",
+        "DESCRIPTION": "The root mean squared error of the energy prediction across all configurations relative to the minimized ground-state conformer."
+      }
     }
   },
   "adaptability_results": {
