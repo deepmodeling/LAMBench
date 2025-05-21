@@ -38,9 +38,9 @@ def run_inference(
     preds = []
     label = []
 
-    for traj in [ado_traj, bpn_traj, efa_traj]:
-        referen_energy = traj[0].get_potential_energy()
-        for i, atoms in enumerate(traj[1:]):
+    for sub_traj in [ado_traj, bpn_traj, efa_traj]:
+        referen_energy = sub_traj[0].get_potential_energy()
+        for i, atoms in enumerate(sub_traj[1:]):
             label_energy = atoms.get_potential_energy()
             label.append(label_energy - referen_energy)
             atoms.calc = model.calc
