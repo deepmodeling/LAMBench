@@ -23,6 +23,7 @@ from sklearn.metrics import root_mean_squared_error, mean_absolute_error
 
 import numpy as np
 from lambench.models.ase_models import ASEModel
+import logging
 
 
 def run_inference(
@@ -46,7 +47,7 @@ def run_inference(
             try:
                 pred_energy = atoms.get_potential_energy()
             except Exception as e:
-                print(f"Error in frame {i} of trajectory: {e}")
+                logging.error(f"Error in frame {i} of trajectory: {e}")
                 pred_energy = np.nan
 
             preds.append(pred_energy - referen_energy)
