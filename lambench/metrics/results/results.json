@@ -239,6 +239,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 69.29,
         "\u00f8_Dissociation": 77.85
+      },
+      "wiggle150": {
+        "MAE": 14.842893632173457,
+        "RMSE": 15.69833803329971
       }
     },
     "adaptability_results": {
@@ -549,6 +553,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 77.17,
         "\u00f8_Dissociation": 81.01
+      },
+      "wiggle150": {
+        "MAE": 9.568869840685467,
+        "RMSE": 10.458228796576014
       }
     },
     "adaptability_results": {
@@ -859,6 +867,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 81.1,
         "\u00f8_Dissociation": 63.92
+      },
+      "wiggle150": {
+        "MAE": 5.669055331686444,
+        "RMSE": 6.522930366286485
       }
     },
     "adaptability_results": {
@@ -1169,6 +1181,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 90.55,
         "\u00f8_Dissociation": 84.81
+      },
+      "wiggle150": {
+        "MAE": 26.59738908146742,
+        "RMSE": 28.512689624079187
       }
     },
     "applicability_results": {
@@ -1445,6 +1461,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 94.49,
         "\u00f8_Dissociation": 84.81
+      },
+      "wiggle150": {
+        "MAE": 14.914707880760185,
+        "RMSE": 16.676607919437906
       }
     },
     "applicability_results": {
@@ -1721,6 +1741,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 78.74,
         "\u00f8_Dissociation": 74.05
+      },
+      "wiggle150": {
+        "MAE": 6.462859148322914,
+        "RMSE": 8.269744243390827
       }
     },
     "applicability_results": {
@@ -1997,6 +2021,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 81.89,
         "\u00f8_Dissociation": 65.82
+      },
+      "wiggle150": {
+        "MAE": 8.402569029444615,
+        "RMSE": 9.707347145470738
       }
     },
     "applicability_results": {
@@ -2273,6 +2301,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 87.4,
         "\u00f8_Dissociation": 75.95
+      },
+      "wiggle150": {
+        "MAE": 13.880575692220935,
+        "RMSE": 15.097704110858976
       }
     },
     "applicability_results": {
@@ -2549,6 +2581,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 92.91,
         "\u00f8_Dissociation": 68.35
+      },
+      "wiggle150": {
+        "MAE": 10.969541858313676,
+        "RMSE": 12.799873156761327
       }
     },
     "applicability_results": {
@@ -2825,6 +2861,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 83.46,
         "\u00f8_Dissociation": 84.81
+      },
+      "wiggle150": {
+        "MAE": 10.729961281068542,
+        "RMSE": 12.449708618305856
       }
     },
     "applicability_results": {
@@ -3101,6 +3141,10 @@
         "success_rate": 100.0,
         "\u00f8_Desorption": 90.55,
         "\u00f8_Dissociation": 72.15
+      },
+      "wiggle150": {
+        "MAE": 12.139533233209276,
+        "RMSE": 13.994178355877196
       }
     },
     "applicability_results": {
