@@ -1,3 +1,21 @@
+"""
+The Wiggle150 dataset is obtained from the following paper:
+
+@article{doi:10.1021/acs.jctc.5c00015,
+author = {Brew, Rebecca R. and Nelson, Ian A. and Binayeva, Meruyert and Nayak, Amlan S. and Simmons, Wyatt J. and Gair, Joseph J. and Wagen, Corin C.},
+title = {Wiggle150: Benchmarking Density Functionals and Neural Network Potentials on Highly Strained Conformers},
+journal = {Journal of Chemical Theory and Computation},
+volume = {21},
+number = {8},
+pages = {3922-3929},
+year = {2025},
+doi = {10.1021/acs.jctc.5c00015},
+    note ={PMID: 40211427},
+URL = {https://doi.org/10.1021/acs.jctc.5c00015},
+eprint = {https://doi.org/10.1021/acs.jctc.5c00015}
+}
+"""
+
 from pathlib import Path
 from ase.io import read
 
