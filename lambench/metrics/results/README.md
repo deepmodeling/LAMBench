@@ -94,11 +94,11 @@ The resulting score is denoted as $\bar M^{m}_{PC}$.
 
 ### Efficiency
 
-To assess the efficiency of the model, we randomly selected 2000 frames from the domain of Inorganic Materials and Catalysis using the aforementioned out-of-distribution datasets. Each frame was expanded to include 800 to 1000 atoms through the replication of the unit cell, ensuring that measurements of inference efficiency occurred within the regime of convergence. The initial 20% of the test samples were considered a warm-up phase and thus were excluded from the efficiency timing. We have reported the average efficiency across the remaining 1600 frames.
+To assess the efficiency of the model, we randomly selected 1000 frames from the domain of Inorganic Materials and Catalysis using the aforementioned out-of-distribution datasets. Each frame was expanded to contain between 800 and 1000 atoms — dynamically determined using a binary search algorithm to fully utilize GPU capacity — by replicating the unit cell. This ensured that measurements of inference efficiency were conducted within the regime of convergence. The initial 10% of the test samples were considered a warm-up phase and thus were excluded from the efficiency timing. We have reported the average efficiency across the remaining 900 frames.
 
-We define an efficiency score,  $M_E^m$, by normalizing the average inference time (with unit $\mathrm{\mu s/atom}$), $\bar \eta^m$, of a given LAM measured over 1600 configurations with respect to an artificial reference value, thereby rescaling it to a range between zero and positive infinity. A larger value indicates higher efficiency.
+We define an efficiency score,  $M_E^m$, by normalizing the average inference time (with unit $\mathrm{\mu s/atom}$), $\bar \eta^m$, of a given LAM measured over 900 configurations with respect to an artificial reference value, thereby rescaling it to a range between zero and positive infinity. A larger value indicates higher efficiency.
 
-$$M_E^m = \frac{\eta^0 }{\bar \eta^m },\quad \eta^0= 100\  \mathrm{\mu s/atom}, \quad \bar \eta^m = \frac{1}{1600}\sum_{i}^{1600} \eta_{i}^{m}$$
+$$M_E^m = \frac{\eta^0 }{\bar \eta^m },\quad \eta^0= 100\  \mathrm{\mu s/atom}, \quad \bar \eta^m = \frac{1}{900}\sum_{i}^{900} \eta_{i}^{m}$$
 
 where $\eta_{i}^{m}$ is the inference time of configuration $i$ for model $m$.
 
