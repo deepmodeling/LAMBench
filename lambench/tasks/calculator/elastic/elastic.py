@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 The test data is obtained from the following paper:
 
-de Jong, M., Chen, W., Angsten, T. et al. Charting the complete elastic properties of inorganic crystalline compounds. 
+de Jong, M., Chen, W., Angsten, T. et al. Charting the complete elastic properties of inorganic crystalline compounds.
 Sci Data 2, 150009 (2015). https://doi.org/10.1038/sdata.2015.9
 
 """
@@ -59,12 +59,11 @@ EV_A3_TO_GPA = 160.21766208  # eV/Å³ to GPa
 
 
 def run_inference(
-        model: ASEModel,
-        test_data: Path,
-        fmax: float,
-        max_steps: int,
+    model: ASEModel,
+    test_data: Path,
+    fmax: float,
+    max_steps: int,
 ) -> dict[str, float]:
-    
     with open(test_data, "r") as f:
         data = json.load(f)
 
@@ -77,7 +76,9 @@ def run_inference(
 
     for idx, atom_info in enumerate(data):
         try:
-            g_vrh_pred, k_vrh_pred = get_elastic_for_one(model, atom_info, fmax, max_steps)
+            g_vrh_pred, k_vrh_pred = get_elastic_for_one(
+                model, atom_info, fmax, max_steps
+            )
             g_vrh_pred.append(g_vrh_pred)
             k_vrh_pred.append(k_vrh_pred)
             g_vrh_label.append(atom_info["G_VRH"])
@@ -85,7 +86,7 @@ def run_inference(
             SUCCESS_STRUCTURES += 1
         except Exception as e:
             logging.error(f"Error processing structure {idx}: {e}")
-            
+
     results = {
         "success_rate": SUCCESS_STRUCTURES / TOTAL_STRUCTURES,
         "G_VRH_MAE": np.mean(np.abs(np.array(g_vrh_label) - np.array(g_vrh_pred))),
@@ -93,16 +94,15 @@ def run_inference(
     }
     return results
 
-def get_elastic_for_one(model: ASEModel,
-        atom_info: dict,
-        fmax: float,
-        max_steps: int
+
+def get_elastic_for_one(
+    model: ASEModel, atom_info: dict, fmax: float, max_steps: int
 ) -> dict[str, float]:
     """
     Calculate the elastic properties for one structure.
     """
-    atoms = read(StringIO(atom_info["poscar"]), format='vasp')
-    
+    atoms = read(StringIO(atom_info["poscar"]), format="vasp")
+
     relaxed_atoms = model.run_ase_relaxation(
         atoms=atoms,
         calc=model.calc,
@@ -113,10 +113,10 @@ def get_elastic_for_one(model: ASEModel,
     )
     structure = AseAtomsAdaptor.get_structure(relaxed_atoms)
     deformed_structure_set = DeformedStructureSet(
-            structure,
-            np.linspace(-0.01, 0.01, 4),
-            np.linspace(-0.06, 0.06, 4),
-        )
+        structure,
+        np.linspace(-0.01, 0.01, 4),
+        np.linspace(-0.06, 0.06, 4),
+    )
     stresses = []
     for deformed_structure in deformed_structure_set:
         atoms = deformed_structure.to_ase_atoms()
@@ -136,33 +136,34 @@ def get_elastic_for_one(model: ASEModel,
     return elastic_tensor.g_vrh * EV_A3_TO_GPA, elastic_tensor.k_vrh * EV_A3_TO_GPA
 
 
-
 def get_elastic_tensor_from_strains(
-        self,
-        strains: ArrayLike,
-        stresses: ArrayLike,
-        eq_stress: ArrayLike = None,
-        tol: float = 1e-7,
-    ) -> ElasticTensor:
-        """
-        Compute the elastic tensor from given strain and stress data using least-squares
-        fitting.
+    self,
+    strains: ArrayLike,
+    stresses: ArrayLike,
+    eq_stress: ArrayLike = None,
+    tol: float = 1e-7,
+) -> ElasticTensor:
+    """
+    Compute the elastic tensor from given strain and stress data using least-squares
+    fitting.
 
-        This function calculates the elastic constants from strain-stress relations,
-        using a least-squares fitting procedure for each independent component of stress
-        and strain tensor pairs. An optional equivalent stress array can be supplied.
-        Residuals from the fitting process are accumulated and returned alongside the
-        elastic tensor. The elastic tensor is zeroed according to the given tolerance.
-        """
+    This function calculates the elastic constants from strain-stress relations,
+    using a least-squares fitting procedure for each independent component of stress
+    and strain tensor pairs. An optional equivalent stress array can be supplied.
+    Residuals from the fitting process are accumulated and returned alongside the
+    elastic tensor. The elastic tensor is zeroed according to the given tolerance.
+    """
 
-        strain_states = [tuple(ss) for ss in np.eye(6)]
-        ss_dict = get_strain_state_dict(strains, stresses, eq_stress=eq_stress, add_eq=self.use_equilibrium)
-        c_ij = np.zeros((6, 6))
-        for ii in range(6):
-            strain = ss_dict[strain_states[ii]]["strains"]
-            stress = ss_dict[strain_states[ii]]["stresses"]
-            for jj in range(6):
-                fit = np.polyfit(strain[:, ii], stress[:, jj], 1, full=True)
-                c_ij[ii, jj] = fit[0][0]
-        elastic_tensor = ElasticTensor.from_voigt(c_ij)
-        return elastic_tensor.zeroed(tol)
+    strain_states = [tuple(ss) for ss in np.eye(6)]
+    ss_dict = get_strain_state_dict(
+        strains, stresses, eq_stress=eq_stress, add_eq=self.use_equilibrium
+    )
+    c_ij = np.zeros((6, 6))
+    for ii in range(6):
+        strain = ss_dict[strain_states[ii]]["strains"]
+        stress = ss_dict[strain_states[ii]]["stresses"]
+        for jj in range(6):
+            fit = np.polyfit(strain[:, ii], stress[:, jj], 1, full=True)
+            c_ij[ii, jj] = fit[0][0]
+    elastic_tensor = ElasticTensor.from_voigt(c_ij)
+    return elastic_tensor.zeroed(tol)
