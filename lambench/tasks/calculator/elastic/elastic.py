@@ -1,3 +1,4 @@
+# ruff: noqa: E402
 """
 This module has been modified from MatCalc
 https://github.com/materialsvirtuallab/matcalc/blob/main/src/matcalc/_elasticity.py
