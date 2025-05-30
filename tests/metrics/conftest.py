@@ -269,26 +269,6 @@ def create_query_side_effect(records):
     return query_side_effect
 
 
-@pytest.fixture
-def mock_record_query(request):
-    """
-    Generic fixture to mock record queries
-
-    Args:
-        request: Pytest request object with params (record_class, records)
-
-    Returns:
-        Mock object for the query method
-    """
-    record_class = request.param[0]
-    records = request.param[1]
-    path = f"lambench.metrics.post_process.{record_class.__name__}.query"
-
-    with patch(path) as mock_query:
-        mock_query.side_effect = create_query_side_effect(records)
-        yield mock_query
-
-
 # For backward compatibility, provide specific fixtures
 @pytest.fixture
 def mock_direct_predict_query():
