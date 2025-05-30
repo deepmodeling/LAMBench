@@ -26,5 +26,5 @@ wiggle150:
 elastic:
   test_data: /bohr/lambench-elastic-9qdt/v1/elastic.json
   calculator_params:
-    fmax: 1e-3
+    fmax: 0.001
     max_steps: 500
