@@ -52,6 +52,7 @@ from pymatgen.analysis.elasticity import DeformedStructureSet, ElasticTensor, St
 from pymatgen.analysis.elasticity.elastic import get_strain_state_dict
 from pymatgen.io.ase import AseAtomsAdaptor
 from lambench.models.ase_models import ASEModel
+from sklearn.metrics import mean_absolute_error
 from pathlib import Path
 import logging
 
@@ -89,8 +90,12 @@ def run_inference(
 
     results = {
         "success_rate": SUCCESS_STRUCTURES / TOTAL_STRUCTURES,
-        "G_VRH_MAE": np.mean(np.abs(np.array(g_vrh_label) - np.array(g_vrh_pred))),
-        "K_VRH_MAE": np.mean(np.abs(np.array(k_vrh_label) - np.array(k_vrh_pred))),
+        "MAE_G_VRH": mean_absolute_error(
+            np.array(g_vrh_label), np.array(g_vrh_pred)
+        ),
+        "MAE_K_VRH": mean_absolute_error(
+            np.array(k_vrh_label), np.array(k_vrh_pred)
+        ),
     }
     return results
 

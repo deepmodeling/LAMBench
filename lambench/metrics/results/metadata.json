@@ -1020,6 +1020,22 @@
         "DISPLAY_NAME": "RMSE (kcal/mol)",
         "DESCRIPTION": "The root mean squared error of the energy prediction across all configurations relative to the minimized ground-state conformer."
       }
+    },
+    "elastic": {
+      "DISPLAY_NAME": "Elastic Properties",
+      "DESCRIPTION": "Evaluation of the elastic constants over 1181 structures from the MP database proposed in `Sci Data 2, 150009 (2015). https://doi.org/10.1038/sdata.2015.9.` ",
+      "MAE_G_VRH": {
+        "DISPLAY_NAME": "MAE Shear Modulus (GPa)",
+        "DESCRIPTION": "The mean absolute error of the shear modulus across all configurations."
+      },
+      "MAE_K_VRH": {
+        "DISPLAY_NAME": "MAE Bulk Modulus (GPa)",
+        "DESCRIPTION": "The mean absolute error of the bulk modulus across all configurations."
+      },
+      "success_rate":{
+        "DISPLAY_NAME": "Success Rate",
+        "DESCRIPTION": "The success rate of elastic property calculations."
+      }
     }
   },
   "adaptability_results": {

@@ -34,6 +34,8 @@ class ASEModel(BaseLargeAtomModel):
                 - SevenNet Calculator (for "SevenNet"),
                 - OCPCalculator (for "EquiformerV2"),
                 - MatterSimCalculator (for "MatterSim"),
+                - GRACE Calculator using grace_fm (for "GRACE"),
+                - PETMAD Calculator (for "PET-MAD"),
                 - DP calculator (for "DP").
             Note: one should implement the corresponding calculator classes when adding new models to the benchmark.
 
@@ -232,6 +234,17 @@ class ASEModel(BaseLargeAtomModel):
                     "metrics": run_inference(
                         self,
                         task.test_data,
+                    )
+                }
+            elif task.task_name == "elastic":
+                from lambench.tasks.calculator.elastic.elastic import run_inference
+
+                assert task.test_data is not None
+                fmax = task.calculator_params.get("fmax", 1e-3)
+                max_steps = task.calculator_params.get("max_steps", 500)
+                return {
+                    "metrics": run_inference(
+                        self, task.test_data, fmax, max_steps
                     )
                 }
             else:

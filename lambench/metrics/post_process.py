@@ -111,7 +111,7 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
 
     applicability_results = {}
     for record in calculator_task_records:
-        if record.task_name in ["phonon_mdr", "torsionnet", "neb", "wiggle150"]:
+        if record.task_name in ["phonon_mdr", "torsionnet", "neb", "wiggle150", "elastic"]:
             applicability_results[record.task_name] = record.metrics
     return applicability_results
 
