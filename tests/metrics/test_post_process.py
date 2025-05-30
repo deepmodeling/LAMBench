@@ -4,18 +4,19 @@ from lambench.metrics.post_process import (
     exp_average,
 )
 from lambench.models.dp_models import DPModel
+from lambench.metrics.utils import CALCULATOR_TASKS
 import logging
 import numpy as np
 
 
 def test_process_results_for_one_model(
-    mock_direct_predict_query, valid_model_data, caplog
+    mock_direct_predict_query, mock_calculator_query, valid_model_data, caplog
 ):
     model = DPModel(**valid_model_data)
     model.model_name = "test_dp"
     model.show_direct_task = True
     model.show_finetune_task = False
-    model.show_calculator_task = False
+    model.show_calculator_task = True
     result = process_results_for_one_model(model)
 
     assert DIRECT_TASK_WEIGHTS.keys() - result[
@@ -35,6 +36,13 @@ def test_process_results_for_one_model(
     assert (
         result["generalizability_force_field_results"]["WBM_downsampled"]["force_rmse"]
         is None
+    )
+    # Find differences between the calculator tasks and results
+    calculator_task_differences = (
+        CALCULATOR_TASKS.keys() - {"inference_efficiency", "nve_md"}
+    ).symmetric_difference(result["generalizability_domain_specific_results"].keys())
+    assert not calculator_task_differences, (
+        f"Mismatch in calculator tasks: {calculator_task_differences}"
     )
 
 
