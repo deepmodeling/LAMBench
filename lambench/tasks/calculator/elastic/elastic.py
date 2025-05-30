@@ -70,28 +70,26 @@ def run_inference(
 
     TOTAL_STRUCTURES = len(data)
     SUCCESS_STRUCTURES = 0
-    g_vrh_label = []
-    k_vrh_label = []
-    g_vrh_pred = []
-    k_vrh_pred = []
+    g_vrh_labels = []
+    k_vrh_labels = []
+    g_vrh_preds = []
+    k_vrh_preds = []
 
     for idx, atom_info in enumerate(data):
         try:
-            g_vrh_pred, k_vrh_pred = get_elastic_for_one(
-                model, atom_info, fmax, max_steps
-            )
-            g_vrh_pred.append(g_vrh_pred)
-            k_vrh_pred.append(k_vrh_pred)
-            g_vrh_label.append(atom_info["G_VRH"])
-            k_vrh_label.append(atom_info["K_VRH"])
+            g_vrh, k_vrh = get_elastic_for_one(model, atom_info, fmax, max_steps)
+            g_vrh_preds.append(g_vrh)
+            k_vrh_preds.append(k_vrh)
+            g_vrh_labels.append(atom_info["G_VRH"])
+            k_vrh_labels.append(atom_info["K_VRH"])
             SUCCESS_STRUCTURES += 1
         except Exception as e:
             logging.error(f"Error processing structure {idx}: {e}")
 
     results = {
         "success_rate": SUCCESS_STRUCTURES / TOTAL_STRUCTURES,
-        "MAE_G_VRH": mean_absolute_error(np.array(g_vrh_label), np.array(g_vrh_pred)),
-        "MAE_K_VRH": mean_absolute_error(np.array(k_vrh_label), np.array(k_vrh_pred)),
+        "MAE_G_VRH": mean_absolute_error(np.array(g_vrh_labels), np.array(g_vrh_preds)),
+        "MAE_K_VRH": mean_absolute_error(np.array(k_vrh_labels), np.array(k_vrh_preds)),
     }
     return results
 
@@ -138,7 +136,6 @@ def get_elastic_for_one(
 
 
 def get_elastic_tensor_from_strains(
-    self,
     strains: ArrayLike,
     stresses: ArrayLike,
     eq_stress: ArrayLike = None,
@@ -157,7 +154,10 @@ def get_elastic_tensor_from_strains(
 
     strain_states = [tuple(ss) for ss in np.eye(6)]
     ss_dict = get_strain_state_dict(
-        strains, stresses, eq_stress=eq_stress, add_eq=self.use_equilibrium
+        strains,
+        stresses,
+        eq_stress=eq_stress,
+        add_eq=True if eq_stress is not None else False,
     )
     c_ij = np.zeros((6, 6))
     for ii in range(6):
