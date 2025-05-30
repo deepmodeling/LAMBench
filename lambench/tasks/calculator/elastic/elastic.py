@@ -90,12 +90,8 @@ def run_inference(
 
     results = {
         "success_rate": SUCCESS_STRUCTURES / TOTAL_STRUCTURES,
-        "MAE_G_VRH": mean_absolute_error(
-            np.array(g_vrh_label), np.array(g_vrh_pred)
-        ),
-        "MAE_K_VRH": mean_absolute_error(
-            np.array(k_vrh_label), np.array(k_vrh_pred)
-        ),
+        "MAE_G_VRH": mean_absolute_error(np.array(g_vrh_label), np.array(g_vrh_pred)),
+        "MAE_K_VRH": mean_absolute_error(np.array(k_vrh_label), np.array(k_vrh_pred)),
     }
     return results
 

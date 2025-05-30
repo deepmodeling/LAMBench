@@ -242,11 +242,7 @@ class ASEModel(BaseLargeAtomModel):
                 assert task.test_data is not None
                 fmax = task.calculator_params.get("fmax", 1e-3)
                 max_steps = task.calculator_params.get("max_steps", 500)
-                return {
-                    "metrics": run_inference(
-                        self, task.test_data, fmax, max_steps
-                    )
-                }
+                return {"metrics": run_inference(self, task.test_data, fmax, max_steps)}
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")
 
