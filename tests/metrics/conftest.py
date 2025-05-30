@@ -1,8 +1,10 @@
 import pytest
 from lambench.databases.direct_predict_table import DirectPredictRecord
+from lambench.databases.calculator_table import CalculatorRecord
+from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
 from unittest.mock import patch
 
-RECORDS = [
+RECORDS_DIRECT = [
     DirectPredictRecord(
         id=1,
         model_name="test_dp",
@@ -229,26 +231,76 @@ RECORDS = [
     ),
 ]
 
+RECORDS_CALCULATOR = [
+    CalculatorRecord(
+        id=idx,
+        model_name="test_dp",
+        task_name=task,
+        create_time=None,
+        metrics=DOWNSTREAM_TASK_METRICS[task]["dummy"],
+    )
+    for idx, task in enumerate(DOWNSTREAM_TASK_METRICS)
+]
 
-def query_side_effect(*args, **kwargs):
-    # For example, assume these kwargs are passed:
-    # model_name and task_name like: DirectPredictRecord.query(model_name=..., task_name=...)
-    model_name = kwargs.get("model_name")
-    task_name = kwargs.get("task_name")
-    if task_name is None:
-        return [rec for rec in RECORDS if rec.model_name == model_name]
-    return [
-        rec
-        for rec in RECORDS
-        if rec.model_name == model_name and rec.task_name == task_name
-    ]
+
+def create_query_side_effect(records):
+    """
+    Create a query side effect function based on the given records
+
+    Args:
+        records: List of record objects that have model_name and task_name attributes
+
+    Returns:
+        Function that filters records based on model_name and task_name
+    """
+
+    def query_side_effect(*args, **kwargs):
+        model_name = kwargs.get("model_name")
+        task_name = kwargs.get("task_name")
+
+        if task_name is None:
+            return [rec for rec in records if rec.model_name == model_name]
+        return [
+            rec
+            for rec in records
+            if rec.model_name == model_name and rec.task_name == task_name
+        ]
+
+    return query_side_effect
 
 
 @pytest.fixture
+def mock_record_query(request):
+    """
+    Generic fixture to mock record queries
+
+    Args:
+        request: Pytest request object with params (record_class, records)
+
+    Returns:
+        Mock object for the query method
+    """
+    record_class = request.param[0]
+    records = request.param[1]
+    path = f"lambench.metrics.post_process.{record_class.__name__}.query"
+
+    with patch(path) as mock_query:
+        mock_query.side_effect = create_query_side_effect(records)
+        yield mock_query
+
+
+# For backward compatibility, provide specific fixtures
+@pytest.fixture
 def mock_direct_predict_query():
-    """
-    Fixture to parameterize DirectPredictRecord.query calls.
-    """
+    """Fixture to parameterize DirectPredictRecord.query calls."""
     with patch("lambench.metrics.post_process.DirectPredictRecord.query") as mock_query:
-        mock_query.side_effect = query_side_effect
+        mock_query.side_effect = create_query_side_effect(RECORDS_DIRECT)
+        yield mock_query
+
+
+@pytest.fixture
+def mock_calculator_query():
+    """Fixture to parameterize CalculatorRecord.query calls."""
+    with patch("lambench.metrics.post_process.CalculatorRecord.query") as mock_query:
+        mock_query.side_effect = create_query_side_effect(RECORDS_CALCULATOR)
         yield mock_query
