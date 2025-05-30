@@ -96,9 +96,9 @@ def run_inference(
 
 def get_elastic_for_one(
     model: ASEModel, atom_info: dict, fmax: float, max_steps: int
-) -> dict[str, float]:
+) -> tuple[float, float]:
     """
-    Calculate the elastic properties for one structure.
+    Calculate the elastic properties for one structure. Returns the shear/bulk modulus in GPa.
     """
     atoms = read(StringIO(atom_info["poscar"]), format="vasp")
 
