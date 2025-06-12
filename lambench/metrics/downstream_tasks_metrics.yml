@@ -15,3 +15,8 @@ wiggle150:
   domain: Small Molecules
   metrics: [MAE] # RMSE is not used for calculating metrics
   dummy: {"MAE": 105.0576} # "RMSE": 107.9222
+elastic:
+  domain: Inorganic Materials
+  metrics: [MAE_G_VRH, MAE_K_VRH]
+  penalty: success_rate
+  dummy: {"MAE_G_VRH": 67.5431, "MAE_K_VRH": 136.2597}

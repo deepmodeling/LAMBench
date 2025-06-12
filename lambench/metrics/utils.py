@@ -95,9 +95,10 @@ def filter_generalizability_force_field_results(
 #####################################
 
 ## NVE MD utility functions
-NVEMD_NSTEPS = yaml.safe_load(
+CALCULATOR_TASKS = yaml.safe_load(
     open(Path(lambench.__file__).parent / "tasks/calculator/calculator_tasks.yml", "r")
-)["nve_md"]["calculator_params"]["num_steps"]
+)
+NVEMD_NSTEPS = CALCULATOR_TASKS["nve_md"]["calculator_params"]["num_steps"]
 
 
 def aggregated_nve_md_results(results: dict[str, dict[str, float]]) -> dict[str, float]:
