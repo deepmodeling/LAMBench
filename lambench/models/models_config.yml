@@ -180,6 +180,36 @@
       fairchem-core: 1.10.0
   show_direct_task: False # Hide test results due to license restrictions.
 
+- model_name: uma_m_1p1
+  model_type: ASE
+  model_family: UMA
+  model_path: /bohr/uma-e7kl/v1/checkpoints/uma-m-1p1.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
+  model_metadata:
+    pretty_name: UMA-M-1.1
+    date_added: 2025-07-22
+    num_parameters: 50000000
+    model_description: UMA-M-1.1
+    packages:
+      fairchem-core: 2.3.0
+  # show_direct_task: False # Hide test results due to license restrictions.
+  show_calculator_task: True
+
+- model_name: uma_s_1p1
+  model_type: ASE
+  model_family: UMA
+  model_path: /bohr/uma-e7kl/v1/checkpoints/uma-s-1p1.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
+  model_metadata:
+    pretty_name: UMA-S-1.1
+    date_added: 2025-07-22
+    num_parameters: 6000000
+    model_description: UMA-S-1.1
+    packages:
+      fairchem-core: 2.3.0
+  # show_direct_task: False # Hide test results due to license restrictions.
+  show_calculator_task: True
+
 - model_name: MatterSim_v1.0.0_5M
   model_type: ASE
   model_family: MatterSim

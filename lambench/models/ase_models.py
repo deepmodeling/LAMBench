@@ -85,6 +85,7 @@ class ASEModel(BaseLargeAtomModel):
             "DP": self._init_dp_calculator,
             "GRACE": self._init_grace_calculator,
             "PET-MAD": self._init_petmad_calculator,
+            "UMA": self._init_uma_calculator,
         }
 
         if self.model_family not in calculator_dispatch:
@@ -125,6 +126,12 @@ class ASEModel(BaseLargeAtomModel):
             checkpoint_path=self.model_path,
             cpu=False,
         )
+
+    def _init_uma_calculator(self) -> Calculator:
+        from fairchem.core.units.mlip_unit import load_predict_unit
+        from fairchem.core import FAIRChemCalculator
+        predictor = load_predict_unit(self.model_path, device="cuda")
+        return FAIRChemCalculator(predictor, task_name="omat")
 
     def _init_mattersim_calculator(self) -> Calculator:
         from mattersim.forcefield import MatterSimCalculator
