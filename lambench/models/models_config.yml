@@ -183,7 +183,7 @@
 - model_name: uma_m_1p1
   model_type: ASE
   model_family: UMA
-  model_path: /bohr/bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
+  model_path: /bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
   virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
   model_metadata:
     pretty_name: UMA-M-1.1
@@ -198,7 +198,7 @@
 - model_name: uma_s_1p1
   model_type: ASE
   model_family: UMA
-  model_path: /bohr/bohr/uma-ii97/v1/checkpoints/uma-s-1p1.pt
+  model_path: /bohr/uma-ii97/v1/checkpoints/uma-s-1p1.pt
   virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
   model_metadata:
     pretty_name: UMA-S-1.1
