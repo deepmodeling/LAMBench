@@ -130,6 +130,7 @@ class ASEModel(BaseLargeAtomModel):
     def _init_uma_calculator(self) -> Calculator:
         from fairchem.core.units.mlip_unit import load_predict_unit
         from fairchem.core import FAIRChemCalculator
+
         predictor = load_predict_unit(self.model_path, device="cuda")
         return FAIRChemCalculator(predictor, task_name="omat")
 
