@@ -192,8 +192,8 @@
     model_description: UMA-M-1.1
     packages:
       fairchem-core: 2.3.0
-  # show_direct_task: False # Hide test results due to license restrictions.
-  show_calculator_task: True
+  show_direct_task: False # Hide test results due to license restrictions.
+
 
 - model_name: uma_s_1p1
   model_type: ASE
@@ -207,8 +207,7 @@
     model_description: UMA-S-1.1
     packages:
       fairchem-core: 2.3.0
-  # show_direct_task: False # Hide test results due to license restrictions.
-  show_calculator_task: True
+  show_direct_task: False # Hide test results due to license restrictions.
 
 - model_name: MatterSim_v1.0.0_5M
   model_type: ASE
