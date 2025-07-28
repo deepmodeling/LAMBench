@@ -1,5 +1,5 @@
 ANI:
-  test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/ANI"
+  test_data: "/bohr/lambench-ood-pbe-m4bg/v1/ANI"
 HEA25_S:
   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/HEA25S"
 HEA25_bulk:
