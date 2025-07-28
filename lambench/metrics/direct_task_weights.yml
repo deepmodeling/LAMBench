@@ -3,8 +3,8 @@ ANI:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.19852160741109035
-  force_std: 2.134650444786246
+  energy_std: 0.19151186273205098
+  force_std: 2.0784568378246826
   virial_std: null
 HEA25_S:
   domain: Inorganic Materials
