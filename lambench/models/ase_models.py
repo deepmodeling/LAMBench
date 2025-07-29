@@ -1,3 +1,4 @@
+from __future__ import annotations
 import logging
 from functools import cached_property
 from pathlib import Path
@@ -5,6 +6,10 @@ from typing import Callable, Optional
 
 import dpdata
 import numpy as np
+from dpdata.data_type import (
+    Axis,
+    DataType,
+)
 from ase import Atoms
 from ase.calculators.calculator import Calculator
 from ase.constraints import FixSymmetry
@@ -174,7 +179,7 @@ class ASEModel(BaseLargeAtomModel):
             import torch
 
             torch.set_default_dtype(torch.float32)
-            return self.run_ase_dptest(self.calc, task.test_data)
+            return self.run_ase_dptest(self, task.test_data)
         elif isinstance(task, CalculatorTask):
             if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
@@ -260,7 +265,19 @@ class ASEModel(BaseLargeAtomModel):
             )
 
     @staticmethod
-    def run_ase_dptest(calc: Calculator, test_data: Path) -> dict:
+    def run_ase_dptest(model: ASEModel, test_data: Path) -> dict:
+        # Add fparam for charge and spin multiplicity if needed
+        datatype = DataType(
+            "fparam",
+            np.ndarray,
+            shape=(Axis.NFRAMES, 2),
+            required=False,
+        )
+        dpdata.System.register_data_type(datatype)
+        dpdata.LabeledSystem.register_data_type(datatype)
+
+        calc = model.calc
+
         energy_err = []
         energy_pre = []
         energy_lab = []
@@ -285,6 +302,17 @@ class ASEModel(BaseLargeAtomModel):
             for ls in tqdm(sys, desc="Set", leave=False):
                 for frame in tqdm(ls, desc="Frames", leave=False):
                     atoms: Atoms = frame.to_ase_structure()[0]
+                    # Add fparam for charge and spin multiplicity if needed
+                    if "fparam" in frame.data:
+                        if model.model_family == "UMA":
+                            atoms.info.update(
+                                {
+                                    "spin": int(frame.data["fparam"][0][1]),
+                                    "charge": int(frame.data["fparam"][0][0]),
+                                }
+                            )
+                        elif model.model_family == "DP":
+                            atoms.info.update({"fparam": frame.data["fparam"]})
                     atoms.calc = calc
 
                     # Energy
