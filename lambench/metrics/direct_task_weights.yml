@@ -75,8 +75,8 @@ AIMD-Chig:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.012375194479857722
-  force_std: 0.8613627348206556
+  energy_std: 0.00937981704049093
+  force_std: 0.8699872017197637
   virial_std: null
 CGM_MLP_NC2023:
   domain: Catalysis
