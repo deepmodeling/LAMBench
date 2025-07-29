@@ -17,7 +17,7 @@ REANN_CO2_Ni100:
 NequIP_NC_2022:
   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/NequIP_NC_2022"
 AIMD-Chig:
-  test_data: "/bohr/lambench-ood-pbe-m4bg/v2/AIMD_chig"
+  test_data: "/bohr/lambench-ood-pbe-m4bg/v3/AIMD_chig"
 CGM_MLP_NC2023:
   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/CGM_MLP"
 Cu_MgO_catalysts:
