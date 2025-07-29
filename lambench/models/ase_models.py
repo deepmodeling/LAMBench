@@ -305,7 +305,12 @@ class ASEModel(BaseLargeAtomModel):
                     # Add fparam for charge and spin multiplicity if needed
                     if "fparam" in frame.data:
                         if model.model_family == "UMA":
-                            atoms.info.update({"spin": int(frame.data["fparam"][0][1]), "charge": int(frame.data["fparam"][0][0])})
+                            atoms.info.update(
+                                {
+                                    "spin": int(frame.data["fparam"][0][1]),
+                                    "charge": int(frame.data["fparam"][0][0]),
+                                }
+                            )
                         elif model.model_family == "DP":
                             atoms.info.update({"fparam": frame.data["fparam"]})
                     atoms.calc = calc
