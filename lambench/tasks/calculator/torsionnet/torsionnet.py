@@ -2,13 +2,13 @@
 The CCSD(T)/CBS reference for Torsionnet500 dataset is obtained from the following paper:
 
 @misc{Weber2025MPNICE,
-      title={Efficient Long-Range Machine Learning Force Fields for Liquid and Materials Properties}, 
+      title={Efficient Long-Range Machine Learning Force Fields for Liquid and Materials Properties},
       author={John L. Weber and Rishabh D. Guha and Garvit Agarwal and Yujing Wei and Aidan A. Fike and Xiaowei Xie and James Stevenson and Karl Leswing and Mathew D. Halls and Robert Abel and Leif D. Jacobson},
       year={2025},
       eprint={2505.06462},
       archivePrefix={arXiv},
       primaryClass={physics.chem-ph},
-      url={https://arxiv.org/abs/2505.06462}, 
+      url={https://arxiv.org/abs/2505.06462},
 }
 """
 
