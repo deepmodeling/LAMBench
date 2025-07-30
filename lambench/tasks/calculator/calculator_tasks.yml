@@ -15,7 +15,7 @@ inference_efficiency:
     natoms_upper_limit:
       dpa3_250211_v3_0_0_7M: 850
 torsionnet:
-  test_data: /bohr/lambench-torsionnet-e4sc/v2/torsionnet500_wB97m
+  test_data: /bohr/lambench-torsionnet-e4sc/v3/torsionnet500_ccsdt
   calculator_params: null
 neb:
   test_data: /bohr/lambench-neb-b1ln/v1/OC20NEB-OOD

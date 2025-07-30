@@ -1,3 +1,17 @@
+"""
+The CCSD(T)/CBS reference for Torsionnet500 dataset is obtained from the following paper:
+
+@misc{Weber2025MPNICE,
+      title={Efficient Long-Range Machine Learning Force Fields for Liquid and Materials Properties},
+      author={John L. Weber and Rishabh D. Guha and Garvit Agarwal and Yujing Wei and Aidan A. Fike and Xiaowei Xie and James Stevenson and Karl Leswing and Mathew D. Halls and Robert Abel and Leif D. Jacobson},
+      year={2025},
+      eprint={2505.06462},
+      archivePrefix={arXiv},
+      primaryClass={physics.chem-ph},
+      url={https://arxiv.org/abs/2505.06462},
+}
+"""
+
 from pathlib import Path
 
 from ase import Atoms
@@ -50,7 +64,7 @@ def run_torsionnet(
     # normalize the energies
     result_df = result_df.sub(result_df.min(axis=1), axis=0)
     ## label is already normalized
-    # label_df = label_df.sub(label_df.min(axis=1), axis=0)
+    label_df = label_df.sub(label_df.min(axis=1), axis=0)
     assert label_df.min(axis=1).max(axis=0) == 0
     metric["MAE"] = metrics.mean_absolute_error(label_df, result_df)
     metric["RMSE"] = metrics.root_mean_squared_error(label_df, result_df)
