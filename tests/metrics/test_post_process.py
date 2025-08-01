@@ -33,10 +33,7 @@ def test_process_results_for_one_model(
         )
     assert result["generalizability_force_field_results"]["Weighted"] is None
     assert result["generalizability_force_field_results"]["ANI"]["energy_rmse"] == 467.7
-    assert (
-        result["generalizability_force_field_results"]["WBM_downsampled"]["force_rmse"]
-        is None
-    )
+
     # Find differences between the calculator tasks and results
     calculator_task_differences = (
         CALCULATOR_TASKS.keys() - {"inference_efficiency", "nve_md"}

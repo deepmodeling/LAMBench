@@ -14,22 +14,14 @@ HEA25_S:
   energy_std: 0.4030134901622356
   force_std: 1.5479359067976695
   virial_std: 1.4293255096528095
-HEA25_bulk:
+MoS2:
   domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
-  energy_std: 0.4086027291354181
-  force_std: 2.075184012071992
-  virial_std: 2.065014356039771
-HEMC_HEMB:
-  domain: Inorganic Materials
-  energy_weight: 1.0
-  force_weight: 1.0
-  virial_weight: 1.0
-  energy_std: 0.4750117425061965
-  force_std: 1.8089415904253994
-  virial_std: 0.4589409203427954
+  energy_std: 0.08333066480136275
+  force_std: 0.9536237886182164
+  virial_std: 0.42877076652059987
 MD22:
   domain: Biomolecules & Supramolecules
   energy_weight: 1.0
@@ -118,24 +110,41 @@ Si_ZEO22:
   energy_std: 0.03534121167926313
   force_std: 1.2410267785352673
   virial_std: null
-WBM_downsampled:
-  domain: Inorganic Materials
-  energy_weight: 1.0
-  force_weight: null
-  virial_weight: null
-  energy_std: 0.3743104865117501
-  force_std: null
-  virial_std: null
-Subalex_9k:
-  domain: Inorganic Materials
-  energy_weight: 1.0
-  force_weight: 1.0
-  virial_weight: 1.0
-  energy_std: 0.7749643377228371
-  force_std: 1.1503770816187873
-  virial_std: 0.8678699239404154
+
 
 ## DEPRECATED
+# WBM_downsampled:
+#   domain: Inorganic Materials
+#   energy_weight: 1.0
+#   force_weight: null
+#   virial_weight: null
+#   energy_std: 0.3743104865117501
+#   force_std: null
+#   virial_std: null
+# Subalex_9k:
+#   domain: Inorganic Materials
+#   energy_weight: 1.0
+#   force_weight: 1.0
+#   virial_weight: 1.0
+#   energy_std: 0.7749643377228371
+#   force_std: 1.1503770816187873
+#   virial_std: 0.8678699239404154
+# HEA25_bulk:
+#   domain: Inorganic Materials
+#   energy_weight: 1.0
+#   force_weight: 1.0
+#   virial_weight: 1.0
+#   energy_std: 0.4086027291354181
+#   force_std: 2.075184012071992
+#   virial_std: 2.065014356039771
+# HEMC_HEMB:
+#   domain: Inorganic Materials
+#   energy_weight: 1.0
+#   force_weight: 1.0
+#   virial_weight: 1.0
+#   energy_std: 0.4750117425061965
+#   force_std: 1.8089415904253994
+#   virial_std: 0.4589409203427954
 # Torsionnet500:
 #   domain: Small Molecules
 #   energy_weight: 1.0
