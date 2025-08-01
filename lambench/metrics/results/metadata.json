@@ -200,7 +200,7 @@
     },
     "ANI": {
       "DISPLAY_NAME": "ANI-1x",
-      "DESCRIPTION": "The training dataset of ANI-1x model containing 5.5 M structures, which is 25% the size of the dataset used in training the original ANI-1 potential (22 M). Calculations were performed using Gaussian with ωB97x/6-31G*. [https://doi.org/10.1063/1.5023802]",
+      "DESCRIPTION": "A downsampled dataset from the training dataset of the ANI-1x model containing 997 frames. The dataset was relabeled using Gaussian with PBE/6-31G(d). [https://doi.org/10.1063/1.5023802]",
       "domain": "Small Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
@@ -298,7 +298,7 @@
     },
     "Collision": {
       "DISPLAY_NAME": "Gasteiger2020Fast",
-      "DESCRIPTION": "Validation set from COLL. Consists of configurations taken from molecular collisions of different small organic molecules. Energies and forces were recomputed with DFT using the revPBE functional and def2-TZVP basis, including D3 dispersion corrections. [https://arxiv.org/abs/2011.14115]",
+      "DESCRIPTION": "A downsampled dataset from the Validation set of COLL. The original dataset consists of configurations taken from molecular collisions of different small organic molecules. Energies and forces were recomputed with DFT using the revPBE functional and def2-TZVP basis, including D3 dispersion corrections. [https://arxiv.org/abs/2011.14115]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
       "domain": "Reactions",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
@@ -394,59 +394,10 @@
         "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
       }
     },
-    "Subalex_9k": {
-      "DISPLAY_NAME": "SubAlex_9k",
-      "DESCRIPTION": "A subsampled, Matbench-Discovery compliant version of the original Alexandria dataset. Calculations were performed using VASP with PBE/PAW and 520 eV cutoff. [https://arxiv.org/abs/2410.12771]",
+    "MoS2": {
+      "DISPLAY_NAME": "Gao2025Spontaneous",
+      "DESCRIPTION": "2D MoS2 structures. Calculations were performed using VASP with PBE/PAW and 600 eV cutoff. [https://www.nature.com/articles/s41467-025-56055-x#Sec3]",
       "domain": "Inorganic Materials",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
-    "Torsionnet500": {
-      "DISPLAY_NAME": "Torsionnet500",
-      "DESCRIPTION": "TorsionNet500, a benchmark dataset comprising 500 chemically diverse fragments with DFT torsion profiles (12k MM- and DFT-optimized geometries and energies). Calculations were performed using Gaussian with ωB97xD/6-31G**. [https://pubs.acs.org/doi/abs/10.1021/acs.jcim.1c01346]",
-      "domain": "Small Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",
@@ -592,7 +543,7 @@
     },
     "AIMD-Chig": {
       "DISPLAY_NAME": "AIMD-Chig",
-      "DESCRIPTION": "MD dataset including 2 million conformations of 166-atom protein Chignolin sampled at the density functional theory (DFT) level. Ab initio simulations were driven by M062X/6-31G* with a Berendsen thermostat at 340 K.[https://www.nature.com/articles/s41597-023-02465-9]",
+      "DESCRIPTION": "A downsampled dataset containing MD conformations of 166-atom protein Chignolin. The original Ab initio simulations were driven by M062X/6-31G* with a Berendsen thermostat at 340 K. [https://www.nature.com/articles/s41597-023-02465-9]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
       "domain": "Biomolecules & Supramolecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
@@ -640,155 +591,8 @@
       }
     },
     "HEA25_S": {
-      "DISPLAY_NAME": "Lopanitsyna2023Modeling_A",
+      "DISPLAY_NAME": "Lopanitsyna2023Modeling",
       "DESCRIPTION": "A dataset of 25-atom high entropy alloy surfaces, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
-      "domain": "Inorganic Materials",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
-    "HEMC_HEMB": {
-      "DISPLAY_NAME": "Dai2024Deep",
-      "DESCRIPTION": "DFT dataset of high-entropy transition metal diboride (HEMB₂) and carbide (HEMC) ceramics. Calculations were performed using VASP with PBE/PAW, 900 eV cutoff, and k-spacing of 0.15 Å⁻¹. [https://www.oaepublish.com/articles/jmi.2024.14]",
-      "domain": "Inorganic Materials",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
-    "HEA25_bulk": {
-      "DISPLAY_NAME": "Lopanitsyna2023Modeling_B",
-      "DESCRIPTION": "A dataset of 25-atom high entropy alloy bulk structures, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
-      "domain": "Inorganic Materials",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
-    "WBM_downsampled": {
-      "DISPLAY_NAME": "WBM_25k",
-      "DESCRIPTION": "A downsampled version of the original WBM dataset. [https://www.nature.com/articles/s41524-020-00481-6]",
       "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
@@ -837,7 +641,7 @@
     },
     "H_nature_2022": {
       "DISPLAY_NAME": "Guan2022Benchmark",
-      "DESCRIPTION": "Dataset of hydrogen combustion reactions. Calculations were performed using Q-Chem with ωB97X-V/cc-pVTZ. The dataset includes intrinsic reaction coordinate (IRC) calculations, ab initio MD simulations, and normal mode displacement calculations covering 19 reaction channels for hydrogen combustion. [https://www.nature.com/articles/s41597-022-01330-5]",
+      "DESCRIPTION": "A downsampled dataset of hydrogen combustion reactions. The original datasets were constructed using Q-Chem with ωB97X-V/cc-pVTZ. The dataset includes intrinsic reaction coordinate (IRC) calculations, ab initio MD simulations, and normal mode displacement calculations covering 19 reaction channels for hydrogen combustion. [https://www.nature.com/articles/s41597-022-01330-5]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
       "domain": "Reactions",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
@@ -962,7 +766,7 @@
     },
     "torsionnet": {
       "DISPLAY_NAME": "Torsional Barrier",
-      "DESCRIPTION": "Evaluation of torsional barrier related metrics on the TorsionNet-500 dataset at the ωB97M-D3(BJ)/def2-TZVPPD level.",
+      "DESCRIPTION": "Evaluation of torsional barrier related metrics on the TorsionNet-500 dataset at the CCSD(T)/CBS level.",
       "MAE": {
         "DISPLAY_NAME": "MAE (kcal/mol)",
         "DESCRIPTION": "The mean absolute error of the energy prediction across all configurations."
