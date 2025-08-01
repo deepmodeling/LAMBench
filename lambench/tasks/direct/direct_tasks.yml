@@ -9,9 +9,9 @@ HEMC_HEMB:
 MD22:
   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/MD22"
 Collision:
-  test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/collision"
+  test_data: "/bohr/lambench-ood-pbe-m4bg/v5/Collision"
 H_nature_2022:
-  test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/H_nature_2022"
+  test_data: "/bohr/lambench-ood-pbe-m4bg/v5/H_nature"
 REANN_CO2_Ni100:
   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/REANN_CO2_Ni100"
 NequIP_NC_2022:

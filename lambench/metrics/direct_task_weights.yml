@@ -43,16 +43,16 @@ Collision:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.4690509429726113
-  force_std: 1.9436163951047407
+  energy_std: 0.390200350320283
+  force_std: 2.021733350505997
   virial_std: null
 H_nature_2022:
   domain: Reactions
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.3915623031231297
-  force_std: 2.0571296230388896
+  energy_std: 0.34163860101107846
+  force_std: 2.056435289694542
   virial_std: null
 REANN_CO2_Ni100:
   domain: Catalysis
