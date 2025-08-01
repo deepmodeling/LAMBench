@@ -59,7 +59,9 @@ def submit_tasks_dflow(
                 run_task_op,  # type: ignore
                 image=model.virtualenv,
                 envs={k: v for k, v in os.environ.items() if k.startswith("MYSQL")},
-                python_packages=[Path(package.__path__[0]) for package in [lambench, dpdata]],
+                python_packages=[
+                    Path(package.__path__[0]) for package in [lambench, dpdata]
+                ],
             ),
             parameters={
                 "task": task,
