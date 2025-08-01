@@ -13,7 +13,7 @@ dependencies = [
 	"pyyaml",
 	"SQLAlchemy[pymysql]",
 	"tqdm",
-	"dpdata >= 0.2.22",
+	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@devel#egg=dpdata",
 	"pandas",
 ]
 
