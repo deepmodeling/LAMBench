@@ -1,5 +1,5 @@
 ANI:
-  domain: Small Molecules
+  domain: Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
@@ -23,7 +23,7 @@ MoS2:
   force_std: 0.9536237886182164
   virial_std: 0.42877076652059987
 MD22:
-  domain: Biomolecules & Supramolecules
+  domain: Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
@@ -47,7 +47,7 @@ NequIP_NC_2022:
   force_std: 0.9434954645234603
   virial_std: null
 AIMD-Chig:
-  domain: Biomolecules & Supramolecules
+  domain: Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
@@ -146,7 +146,7 @@ Si_ZEO22:
 #   force_std: 1.8089415904253994
 #   virial_std: 0.4589409203427954
 # Torsionnet500:
-#   domain: Small Molecules
+#   domain: Molecules
 #   energy_weight: 1.0
 #   force_weight: 1.0
 #   virial_weight: null

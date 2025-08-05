@@ -1,16 +1,16 @@
 {
-  "Small Molecules": {
-    "DPA-2.4-7M": 0.11,
-    "DPA-3.0-7M": 0.09,
-    "DPA-3.1-3M": 0.09,
-    "MACE-MP-0": 0.21,
-    "MACE-MPA-0": 0.19,
-    "Orb-v2": 0.14,
-    "Orb-v3": 0.12,
-    "SevenNet-l3i5": 0.16,
-    "SevenNet-MF-ompa": 0.15,
-    "MatterSim-v1-5M": 0.16,
-    "GRACE-2L-OAM": 0.17
+  "Molecules": {
+    "DPA-2.4-7M": 0.17,
+    "DPA-3.0-7M": 0.14,
+    "DPA-3.1-3M": 0.15,
+    "MACE-MP-0": 0.35,
+    "MACE-MPA-0": 0.33,
+    "Orb-v2": 0.22,
+    "Orb-v3": 0.18,
+    "SevenNet-l3i5": 0.24,
+    "SevenNet-MF-ompa": 0.24,
+    "MatterSim-v1-5M": 0.25,
+    "GRACE-2L-OAM": 0.24
   },
   "Inorganic Materials": {
     "DPA-2.4-7M": 0.27,
@@ -24,19 +24,6 @@
     "SevenNet-MF-ompa": 0.22,
     "MatterSim-v1-5M": 0.23,
     "GRACE-2L-OAM": 0.23
-  },
-  "Biomolecules & Supramolecules": {
-    "DPA-2.4-7M": 0.21,
-    "DPA-3.0-7M": 0.18,
-    "DPA-3.1-3M": 0.2,
-    "MACE-MP-0": 0.47,
-    "MACE-MPA-0": 0.44,
-    "Orb-v2": 0.29,
-    "Orb-v3": 0.22,
-    "SevenNet-l3i5": 0.29,
-    "SevenNet-MF-ompa": 0.32,
-    "MatterSim-v1-5M": 0.31,
-    "GRACE-2L-OAM": 0.28
   },
   "Catalysis": {
     "DPA-2.4-7M": 0.39,
