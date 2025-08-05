@@ -38,19 +38,6 @@
     "MatterSim-v1-5M": 0.31,
     "GRACE-2L-OAM": 0.28
   },
-  "Reactions": {
-    "DPA-2.4-7M": 0.23,
-    "DPA-3.0-7M": 0.18,
-    "DPA-3.1-3M": 0.18,
-    "MACE-MP-0": 0.27,
-    "MACE-MPA-0": 0.24,
-    "Orb-v2": 0.18,
-    "Orb-v3": 0.15,
-    "SevenNet-l3i5": 0.22,
-    "SevenNet-MF-ompa": 0.2,
-    "MatterSim-v1-5M": 0.25,
-    "GRACE-2L-OAM": 0.25
-  },
   "Catalysis": {
     "DPA-2.4-7M": 0.39,
     "DPA-3.0-7M": 0.33,
