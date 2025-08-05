@@ -54,7 +54,7 @@
     "MD22": {
       "DISPLAY_NAME": "MD22",
       "DESCRIPTION": "Dataset containing MD trajectories of the 42-atom tetrapeptide Ac-Ala3-NHMe from the MD22 benchmark set. Calculations were performed using FHI-aims and i-Pi software at the DFT-PBE+MBD level of theory. Trajectories were sampled at temperatures between 400-500 K at 1 fs resolution. [https://www.science.org/doi/10.1126/sciadv.adf0873]",
-      "domain": "Biomolecules & Supramolecules",
+      "domain": "Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",
@@ -201,7 +201,7 @@
     "ANI": {
       "DISPLAY_NAME": "ANI-1x",
       "DESCRIPTION": "A downsampled dataset from the training dataset of the ANI-1x model containing 997 frames. The dataset was relabeled using Gaussian with PBE/6-31G(d). [https://doi.org/10.1063/1.5023802]",
-      "domain": "Small Molecules",
+      "domain": "Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",
@@ -495,7 +495,7 @@
     "AIMD-Chig": {
       "DISPLAY_NAME": "AIMD-Chig",
       "DESCRIPTION": "A downsampled dataset containing MD conformations of 166-atom protein Chignolin. The original Ab initio simulations were driven by M062X/6-31G* with a Berendsen thermostat at 340 K. [https://www.nature.com/articles/s41597-023-02465-9]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
-      "domain": "Biomolecules & Supramolecules",
+      "domain": "Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",

@@ -32,12 +32,11 @@ Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m_{FF}$ vs $M_E^m$.
 
 ### Force Field Prediction
 
-We categorize all force-field prediction tasks into 4 domains:
+We categorize all force-field prediction tasks into 3 domains:
 
-- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `SubAlex_9k`, `Sours2023Applications`, `Lopanitsyna2023Modeling_A`, `Lopanitsyna2023Modeling_B`, `Dai2024Deep`, `WBM_25k`
-- **Small Molecules**: `ANI-1x`
+- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `Sours2023Applications`, `Lopanitsyna2023Modeling_A`, `Lopanitsyna2023Modeling_B`, `Gao2025Spontaneous`
+- **Molecules**: `ANI-1x`, `MD22`, `AIMD-Chig`
 - **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Zhang2024Active`, `Villanueva2024Water`
-- **Biomolecules/Supramolecules**: `MD22`, `AIMD-Chig`
 
 To assess model performance across these domains, we use zero-shot inference with energy-bias term adjustments based on test dataset statistics. Performance metrics are aggregated as follows:
 
@@ -46,8 +45,8 @@ To assess model performance across these domains, we use zero-shot inference wit
     $$\hat{M}^m_{k,p,i} = \min\left(\frac{M^m_{k,p,i}}{M^{\mathrm{dummy}}_{k,p,i}},\quad 1\right)$$
 
     where $M^m_{k,p,i}$ is the original error metric, $m$ indicates the model, $k$ denotes the domain index, $p$ signifies the prediction index, and $i$ represents the test set index. For a model with worse accuracy than a dummy model, the error metric is set to 1.
-    For instance, in force field tasks, the domains include Small Molecules, Inorganic Materials, Biomolecules, Reactions, and Catalysis, such that $k \in \{\text{Small Molecules, Inorganic Materials, Biomolecules, Reactions, Catalysis}\}$. The prediction types are categorized as energy ($E$), force ($F$), or virial ($V$), with $p \in \{E, F, V\}$.
-    For the specific domain of Reactions, the test sets are indexed as $i \in \{\text{Guan2022Benchmark, Gasteiger2020Fast}\}$. This baseline model predicts energy based solely on the chemical formula, disregarding any structural details, thereby providing a reference point for evaluating the improvement offered by more sophisticated models.
+    For instance, in force field tasks, the domains include Molecules, Inorganic Materials, and Catalysis, such that $k \in \{\text{Molecules, Inorganic Materials, Catalysis}\}$. The prediction types are categorized as energy ($E$), force ($F$), or virial ($V$), with $p \in \{E, F, V\}$.
+    For the specific domain of Molecules, the test sets are indexed as $i \in \{\text{ANI-1x, MD22, AIMD-Chig}\}$. This baseline model predicts energy based solely on the chemical formula, disregarding any structural details, thereby providing a reference point for evaluating the improvement offered by more sophisticated models.
 
 2. For each domain, we compute the log-average of normalized metrics across all datasets  within this domain by
 
@@ -85,7 +84,7 @@ In contrast, an ideal model that perfectly matches Density Functional Theory (DF
 For the domain-specific property tasks, we adopt the MAE as the error metric.
 In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon
 frequency, entropy, free energy, and heat capacity at constant volume, with each prediction type assigned a weight of 0.25.
-In the Small Molecules domain, the TorsionNet500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
+In the Molecules domain, the TorsionNet500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
 Each prediction type in this domain is assigned a weight of $\frac{1}{3}$.
 The resulting score is denoted as $\bar M^{m}_{PC}$.
 

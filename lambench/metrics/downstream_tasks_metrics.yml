@@ -4,7 +4,7 @@ phonon_mdr:
   penalty: success_rate
   dummy: {"mae_entropy":764.8, "mae_max_freq":1188.3, "mae_free_energy":125.1, "mae_heat_capacity":547.4}
 torsionnet:
-  domain: Small Molecules
+  domain: Molecules
   metrics: [MAE, MAEB, NABH_h]
   dummy: {"MAE": 2.501, "MAEB": 5.877, "NABH_h": 494}
 neb:
@@ -12,7 +12,7 @@ neb:
   metrics: [MAE_Ea, MAE_dE, ø_Desorption, ø_Dissociation, ø_Transfer]
   dummy: {"MAE_Ea": 2.3595, "MAE_dE": 0.9498, "ø_Desorption": 95.28, "ø_Dissociation": 99.37, "ø_Transfer": 95.43}
 wiggle150:
-  domain: Small Molecules
+  domain: Molecules
   metrics: [MAE] # RMSE is not used for calculating metrics
   dummy: {"MAE": 105.0576} # "RMSE": 107.9222
 elastic:
