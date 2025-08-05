@@ -22,9 +22,7 @@ def test_process_results_for_one_model(
     assert DIRECT_TASK_WEIGHTS.keys() - result[
         "generalizability_force_field_results"
     ].keys() == {
-        "Collision",
         "CGM_MLP_NC2023",
-        "H_nature_2022",
     }
     with caplog.at_level(logging.WARNING):
         assert (

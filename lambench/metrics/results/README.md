@@ -32,12 +32,11 @@ Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m_{FF}$ vs $M_E^m$.
 
 ### Force Field Prediction
 
-We categorize all force-field prediction tasks into 5 domains:
+We categorize all force-field prediction tasks into 4 domains:
 
 - **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `SubAlex_9k`, `Sours2023Applications`, `Lopanitsyna2023Modeling_A`, `Lopanitsyna2023Modeling_B`, `Dai2024Deep`, `WBM_25k`
 - **Small Molecules**: `ANI-1x`
 - **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Zhang2024Active`, `Villanueva2024Water`
-- **Reactions**: `Gasteiger2020Fast`, `Guan2022Benchmark`
 - **Biomolecules/Supramolecules**: `MD22`, `AIMD-Chig`
 
 To assess model performance across these domains, we use zero-shot inference with energy-bias term adjustments based on test dataset statistics. Performance metrics are aggregated as follows:

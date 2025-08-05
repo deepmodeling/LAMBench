@@ -296,55 +296,6 @@
         "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
       }
     },
-    "Collision": {
-      "DISPLAY_NAME": "Gasteiger2020Fast",
-      "DESCRIPTION": "A downsampled dataset from the Validation set of COLL. The original dataset consists of configurations taken from molecular collisions of different small organic molecules. Energies and forces were recomputed with DFT using the revPBE functional and def2-TZVP basis, including D3 dispersion corrections. [https://arxiv.org/abs/2011.14115]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
-      "domain": "Reactions",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
     "CGM_MLP_NC2023": {
       "DISPLAY_NAME": "Zhang2024Active",
       "DESCRIPTION": "Dynamic simulations of carbon deposition on metal surfaces like Cu(111), Cr(110), Ti(001), and oxygen-contaminated Cu(111). Calculations were performed using CP2K with PBE-D3/DZVP-SR-GTH and 300Ry/60Ry cutoff. [https://www.nature.com/articles/s41467-023-44525-z]",
@@ -594,55 +545,6 @@
       "DISPLAY_NAME": "Lopanitsyna2023Modeling",
       "DESCRIPTION": "A dataset of 25-atom high entropy alloy surfaces, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
       "domain": "Inorganic Materials",
-      "energy_rmse": {
-        "DISPLAY_NAME": "E RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction.",
-        "hide": true
-      },
-      "energy_mae": {
-        "DISPLAY_NAME": "E MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction.",
-        "hide": true
-      },
-      "energy_rmse_natoms": {
-        "DISPLAY_NAME": "E RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the energy prediction per atom."
-      },
-      "energy_mae_natoms": {
-        "DISPLAY_NAME": "E MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the energy prediction per atom."
-      },
-      "force_rmse": {
-        "DISPLAY_NAME": "F RMSE (meV/\u00c5)",
-        "DESCRIPTION": "The root mean squared error of the force prediction."
-      },
-      "force_mae": {
-        "DISPLAY_NAME": "F MAE (meV/\u00c5)",
-        "DESCRIPTION": "The mean absolute error of the force prediction."
-      },
-      "virial_rmse": {
-        "DISPLAY_NAME": "V RMSE (meV)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction.",
-        "hide": true
-      },
-      "virial_mae": {
-        "DISPLAY_NAME": "V MAE (meV)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction.",
-        "hide": true
-      },
-      "virial_rmse_natoms": {
-        "DISPLAY_NAME": "V RMSE (meV/atom)",
-        "DESCRIPTION": "The root mean squared error of the virial prediction per atom."
-      },
-      "virial_mae_natoms": {
-        "DISPLAY_NAME": "V MAE (meV/atom)",
-        "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
-      }
-    },
-    "H_nature_2022": {
-      "DISPLAY_NAME": "Guan2022Benchmark",
-      "DESCRIPTION": "A downsampled dataset of hydrogen combustion reactions. The original datasets were constructed using Q-Chem with ωB97X-V/cc-pVTZ. The dataset includes intrinsic reaction coordinate (IRC) calculations, ab initio MD simulations, and normal mode displacement calculations covering 19 reaction channels for hydrogen combustion. [https://www.nature.com/articles/s41597-022-01330-5]. The dataset was relabeled using Gaussian with PBE/6-31G(d).",
-      "domain": "Reactions",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",
