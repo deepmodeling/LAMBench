@@ -22,7 +22,7 @@ def test_process_results_for_one_model(
     assert DIRECT_TASK_WEIGHTS.keys() - result[
         "generalizability_force_field_results"
     ].keys() == {
-        "CGM_MLP_NC2023",
+        "Cu_MgO_catalysts"
     }
     with caplog.at_level(logging.WARNING):
         assert (

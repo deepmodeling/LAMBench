@@ -11,40 +11,48 @@ HEA25_S:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
-  energy_std: 0.4030134901622356
-  force_std: 1.5479359067976695
-  virial_std: 1.4293255096528095
+  energy_std: 0.43116544603059137
+  force_std: 1.6451851726356517
+  virial_std: 1.5346916671705537
+HEA25_bulk:
+  domain: Inorganic Materials
+  energy_weight: 1.0
+  force_weight: 1.0
+  virial_weight: 1.0
+  energy_std:  0.510765388371663
+  force_std: 2.2626383273307247
+  virial_std: 2.3506419913635357
 MoS2:
   domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: 1.0
-  energy_std: 0.08333066480136275
-  force_std: 0.9536237886182164
-  virial_std: 0.42877076652059987
+  energy_std: 0.08167024857360158
+  force_std: 0.9568415738836734
+  virial_std: 0.4161647190798736 
 MD22:
   domain: Molecules
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.007773825548398275
-  force_std: 1.1374624718556865
+  energy_std: 0.007941836149915322
+  force_std: 1.1391327961625524
   virial_std: null
 REANN_CO2_Ni100:
   domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.011019047357696455
-  force_std: 0.6822029356434589
+  energy_std: 0.01166496756645258
+  force_std: 0.691476732207179
   virial_std: null
 NequIP_NC_2022:
   domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.007872460518687731
-  force_std: 0.9434954645234603
+  energy_std: 0.007043606595996931
+  force_std: 0.9434989207476847
   virial_std: null
 AIMD-Chig:
   domain: Molecules
@@ -54,29 +62,21 @@ AIMD-Chig:
   energy_std: 0.00937981704049093
   force_std: 0.8699872017197637
   virial_std: null
-CGM_MLP_NC2023:
-  domain: Catalysis
-  energy_weight: 1.0
-  force_weight: 1.0
-  virial_weight: null
-  energy_std: 0.9875093490539156
-  force_std: 2.022155629243275
-  virial_std: null
 Cu_MgO_catalysts:
   domain: Catalysis
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.013837285997415875
-  force_std: 0.18923742282763548
+  energy_std: 0.014202887558640341
+  force_std: 0.18708301630679647
   virial_std: null
 Ca_batteries_CM2021:
   domain: Inorganic Materials
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.016540792734058157
-  force_std: 0.17821831827935788
+  energy_std: 0.015689329430759177
+  force_std: 0.17632637938539042
   virial_std: null
 HPt_NC_2022:
   domain: Catalysis
@@ -91,12 +91,20 @@ Si_ZEO22:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 0.03534121167926313
-  force_std: 1.2410267785352673
+  energy_std: 0.035252909678594395
+  force_std: 1.232529293429265
   virial_std: null
 
 
 ## DEPRECATED
+# CGM_MLP_NC2023:
+#   domain: Catalysis
+#   energy_weight: 1.0
+#   force_weight: 1.0
+#   virial_weight: null
+#   energy_std: 0.9875093490539156
+#   force_std: 2.022155629243275
+#   virial_std: null
 # Collision:
 #   domain: Reactions
 #   energy_weight: 1.0
@@ -129,14 +137,6 @@ Si_ZEO22:
 #   energy_std: 0.7749643377228371
 #   force_std: 1.1503770816187873
 #   virial_std: 0.8678699239404154
-# HEA25_bulk:
-#   domain: Inorganic Materials
-#   energy_weight: 1.0
-#   force_weight: 1.0
-#   virial_weight: 1.0
-#   energy_std: 0.4086027291354181
-#   force_std: 2.075184012071992
-#   virial_std: 2.065014356039771
 # HEMC_HEMB:
 #   domain: Inorganic Materials
 #   energy_weight: 1.0
