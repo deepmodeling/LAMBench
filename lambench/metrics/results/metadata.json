@@ -296,10 +296,10 @@
         "DESCRIPTION": "The mean absolute error of the virial prediction per atom."
       }
     },
-    "CGM_MLP_NC2023": {
-      "DISPLAY_NAME": "Zhang2024Active",
-      "DESCRIPTION": "Dynamic simulations of carbon deposition on metal surfaces like Cu(111), Cr(110), Ti(001), and oxygen-contaminated Cu(111). Calculations were performed using CP2K with PBE-D3/DZVP-SR-GTH and 300Ry/60Ry cutoff. [https://www.nature.com/articles/s41467-023-44525-z]",
-      "domain": "Catalysis",
+     "HEA25_bulk": {
+      "DISPLAY_NAME": "Lopanitsyna2023Modeling",
+      "DESCRIPTION": "A dataset of high entropy alloy bulk structures, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. The original dataset were calculated using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]. The dataset was relabeled with VASP at the PBE level.",
+      "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
         "DESCRIPTION": "The root mean squared error of the energy prediction.",
@@ -542,8 +542,8 @@
       }
     },
     "HEA25_S": {
-      "DISPLAY_NAME": "Lopanitsyna2023Modeling",
-      "DESCRIPTION": "A dataset of 25-atom high entropy alloy surfaces, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. Calculations were performed using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]",
+      "DISPLAY_NAME": "Mazitov2024Surface",
+      "DESCRIPTION": "A dataset of high entropy alloy surfaces, focusing on 25 d-block transition metals, excluding Tc, Cd, Re, Os and Hg. The original dataset were calculated using VASP with PBEsol/PAW, 550 eV cutoff, and Γ-centered k-points. [https://arxiv.org/abs/2212.13254]. The dataset was relabeled with VASP at the PBE level.",
       "domain": "Inorganic Materials",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",

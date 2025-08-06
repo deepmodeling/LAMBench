@@ -34,9 +34,9 @@ Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m_{FF}$ vs $M_E^m$.
 
 We categorize all force-field prediction tasks into 3 domains:
 
-- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `Sours2023Applications`, `Lopanitsyna2023Modeling_A`, `Lopanitsyna2023Modeling_B`, `Gao2025Spontaneous`
+- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `Sours2023Applications`, `Lopanitsyna2023Modeling`, `Mazitov2024Surface`, `Gao2025Spontaneous`
 - **Molecules**: `ANI-1x`, `MD22`, `AIMD-Chig`
-- **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Zhang2024Active`, `Villanueva2024Water`
+- **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Villanueva2024Water`
 
 To assess model performance across these domains, we use zero-shot inference with energy-bias term adjustments based on test dataset statistics. Performance metrics are aggregated as follows:
 

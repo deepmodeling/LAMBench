@@ -14,10 +14,11 @@ def test_aggregate_ood_results_for_one_model(
     model.show_calculator_task = False
     aggregator = ResultsFetcher()
     result = aggregator.aggregate_ood_results_for_one_model(model=model)
-    np.testing.assert_almost_equal(result["Molecules"], 0.23582485, decimal=5)
-    np.testing.assert_almost_equal(result["Inorganic Materials"], 0.2931686, decimal=5)
+    np.testing.assert_almost_equal(result["Molecules"], 0.234724350, decimal=5)
+    np.testing.assert_almost_equal(result["Inorganic Materials"], 0.2972349, decimal=5)
     assert result["Catalysis"] is None
     with caplog.at_level(logging.WARNING):
         assert (
-            "Expect one record for test_dp and CGM_MLP_NC2023, but got 0" in caplog.text
+            "Expect one record for test_dp and Cu_MgO_catalysts, but got 0"
+            in caplog.text
         )

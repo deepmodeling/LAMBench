@@ -21,9 +21,7 @@ def test_process_results_for_one_model(
 
     assert DIRECT_TASK_WEIGHTS.keys() - result[
         "generalizability_force_field_results"
-    ].keys() == {
-        "CGM_MLP_NC2023",
-    }
+    ].keys() == {"Cu_MgO_catalysts"}
     with caplog.at_level(logging.WARNING):
         assert (
             "Weighted results for test_dp are marked as None due to missing tasks: "
