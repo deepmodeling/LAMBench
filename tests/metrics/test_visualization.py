@@ -19,5 +19,6 @@ def test_aggregate_ood_results_for_one_model(
     assert result["Catalysis"] is None
     with caplog.at_level(logging.WARNING):
         assert (
-            "Expect one record for test_dp and Cu_MgO_catalysts, but got 0" in caplog.text
+            "Expect one record for test_dp and Cu_MgO_catalysts, but got 0"
+            in caplog.text
         )

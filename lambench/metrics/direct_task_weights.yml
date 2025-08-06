@@ -29,7 +29,7 @@ MoS2:
   virial_weight: 1.0
   energy_std: 0.08167024857360158
   force_std: 0.9568415738836734
-  virial_std: 0.4161647190798736 
+  virial_std: 0.4161647190798736
 MD22:
   domain: Molecules
   energy_weight: 1.0
