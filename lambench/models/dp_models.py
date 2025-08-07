@@ -75,7 +75,7 @@ class DPModel(ASEModel):
         os.environ["NUM_WORKERS"] = "0"
         ngpus = torch.cuda.device_count()
         os.system(
-            f"torchrun --no_python --nproc_per_node={ngpus} dp --pt train input.json --skip-neighbor-stat"
+            f"torchrun --no_python --nproc_per_node={ngpus} dp --pt train input.json --finetune {model} --skip-neighbor-stat"
         )
         return Path("model.ckpt.pt")  # hard coded in deepmd-kit
 

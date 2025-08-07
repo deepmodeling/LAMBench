@@ -26,8 +26,8 @@
     num_parameters: 7021990
     packages:
       deepmd-kit: P0131
-  show_finetune_task: True
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
+  skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
 
 - model_name: dpa3_250415_v3_1_0_3M
   model_type: DP
