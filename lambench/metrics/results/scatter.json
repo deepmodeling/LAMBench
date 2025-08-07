@@ -5,7 +5,7 @@
     "nparams": 6637036,
     "efficiency": 162.04,
     "std": 0.55,
-    "generalizability error": 0.27
+    "generalizability error": 0.24
   },
   {
     "name": "DPA-3.0-7M",
@@ -13,7 +13,7 @@
     "nparams": 7021990,
     "efficiency": 613.54,
     "std": 6.91,
-    "generalizability error": 0.23
+    "generalizability error": 0.2
   },
   {
     "name": "DPA-3.1-3M",
@@ -21,7 +21,7 @@
     "nparams": 3268689,
     "efficiency": 383.48,
     "std": 61.69,
-    "generalizability error": 0.21
+    "generalizability error": 0.17
   },
   {
     "name": "MACE-MP-0",
@@ -29,7 +29,7 @@
     "nparams": 4688656,
     "efficiency": 371.9,
     "std": 34.31,
-    "generalizability error": 0.37
+    "generalizability error": 0.35
   },
   {
     "name": "MACE-MPA-0",
@@ -37,7 +37,7 @@
     "nparams": 9063204,
     "efficiency": 418.26,
     "std": 59.67,
-    "generalizability error": 0.34
+    "generalizability error": 0.31
   },
   {
     "name": "Orb-v2",
@@ -45,7 +45,7 @@
     "nparams": 25161727,
     "efficiency": 74.56,
     "std": 5.03,
-    "generalizability error": 0.31
+    "generalizability error": 0.26
   },
   {
     "name": "Orb-v3",
@@ -53,7 +53,7 @@
     "nparams": 25510582,
     "efficiency": 256.72,
     "std": 33.33,
-    "generalizability error": 0.22
+    "generalizability error": 0.2
   },
   {
     "name": "SevenNet-l3i5",
@@ -61,7 +61,7 @@
     "nparams": 1171144,
     "efficiency": 367.9,
     "std": 80.51,
-    "generalizability error": 0.34
+    "generalizability error": 0.32
   },
   {
     "name": "SevenNet-MF-ompa",
@@ -69,7 +69,7 @@
     "nparams": 26734966,
     "efficiency": 1188.01,
     "std": 166.27,
-    "generalizability error": 0.29
+    "generalizability error": 0.25
   },
   {
     "name": "MatterSim-v1-5M",
@@ -77,7 +77,7 @@
     "nparams": 4549142,
     "efficiency": 254.23,
     "std": 47.65,
-    "generalizability error": 0.3
+    "generalizability error": 0.28
   },
   {
     "name": "GRACE-2L-OAM",
@@ -85,6 +85,6 @@
     "nparams": 12597516,
     "efficiency": 156.48,
     "std": 8.79,
-    "generalizability error": 0.28
+    "generalizability error": 0.25
   }
 ]
