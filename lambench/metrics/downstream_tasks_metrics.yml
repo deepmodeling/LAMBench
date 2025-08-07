@@ -6,7 +6,7 @@ phonon_mdr:
 torsionnet:
   domain: Molecules
   metrics: [MAE, MAEB, NABH_h]
-  dummy: {"MAE": 2.501, "MAEB": 5.877, "NABH_h": 494}
+  dummy: {"MAE": 2.4939, "MAEB": 5.8176, "NABH_h": 493}
 neb:
   domain: Catalysis
   metrics: [MAE_Ea, MAE_dE, ø_Desorption, ø_Dissociation, ø_Transfer]
