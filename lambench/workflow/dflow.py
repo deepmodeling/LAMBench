@@ -61,9 +61,9 @@ def submit_tasks_dflow(
                 image=model.virtualenv,
                 envs={k: v for k, v in os.environ.items() if k.startswith("MYSQL")},
                 python_packages=[
-                    Path(package.__path__[0])
-                    for package in [lambench, dpdata]
+                    Path(package.__path__[0]) for package in [lambench, dpdata]
                 ],
+                pre_script="pip install dftd3",
             ),
             parameters={
                 "task": task,
