@@ -53,7 +53,7 @@
     },
     "MD22": {
       "DISPLAY_NAME": "MD22",
-      "DESCRIPTION": "Dataset containing MD trajectories of the 42-atom tetrapeptide Ac-Ala3-NHMe from the MD22 benchmark set. Calculations were performed using FHI-aims and i-Pi software at the DFT-PBE+MBD level of theory. Trajectories were sampled at temperatures between 400-500 K at 1 fs resolution. [https://www.science.org/doi/10.1126/sciadv.adf0873]",
+      "DESCRIPTION": "Dataset containing MD trajectories of the 42-atom tetrapeptide Ac-Ala3-NHMe from the MD22 benchmark set. Calculations were performed using FHI-aims and i-Pi software at the DFT-PBE+MBD level of theory. The dataset was relabeled using Gaussian with PBE/6-31G(d). Trajectories were sampled at temperatures between 400-500 K at 1 fs resolution. [https://www.science.org/doi/10.1126/sciadv.adf0873]",
       "domain": "Molecules",
       "energy_rmse": {
         "DISPLAY_NAME": "E RMSE (meV)",
