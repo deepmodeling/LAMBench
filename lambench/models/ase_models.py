@@ -181,7 +181,7 @@ class ASEModel(BaseLargeAtomModel):
             import torch
 
             torch.set_default_dtype(torch.float32)
-            return self.run_ase_dptest(self, task.test_data)
+            return self.run_ase_dptest(self, task.test_data, task.damping)
         elif isinstance(task, CalculatorTask):
             if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
