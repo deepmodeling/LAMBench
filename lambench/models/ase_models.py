@@ -181,7 +181,7 @@ class ASEModel(BaseLargeAtomModel):
             import torch
 
             torch.set_default_dtype(torch.float32)
-            return self.run_ase_dptest(self, task.test_data, task.damping)
+            return self.run_ase_dptest(self, task.test_data, task.dispersion_correction)
         elif isinstance(task, CalculatorTask):
             if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
@@ -270,7 +270,7 @@ class ASEModel(BaseLargeAtomModel):
     def run_ase_dptest(
         model: ASEModel,
         test_data: Path,
-        damping: Literal["d3bj", "d3zero"] | None = None,
+        dispersion_correction: Literal["d3bj", "d3zero"] | None = None,
         # check all supported levels at dftd3.qcschema._available_levels
     ) -> dict:
         # Add fparam for charge and spin multiplicity if needed
@@ -284,8 +284,8 @@ class ASEModel(BaseLargeAtomModel):
         dpdata.LabeledSystem.register_data_type(datatype)
 
         calc = model.calc
-        if damping:
-            calc = SumCalculator([calc, DFTD3(method="PBE", damping=damping)])
+        if dispersion_correction:
+            calc = SumCalculator([calc, DFTD3(method="PBE", dispersion_correction=dispersion_correction)])
 
         energy_err = []
         energy_pre = []

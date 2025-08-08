@@ -12,8 +12,8 @@ class DirectPredictTask(BaseTask):
 
     record_type: ClassVar = DirectPredictRecord
     task_config: ClassVar = Path(__file__).parent / "direct_tasks.yml"
-    damping: Literal["d3bj", "d3zero"] | None = None
+    dispersion_correction: Literal["d3bj", "d3zero"] | None = None
 
     def __init__(self, task_name: str, **kwargs):
         super().__init__(task_name=task_name, test_data=kwargs["test_data"])
-        self.damping = kwargs.get("damping")
+        self.dispersion_correction = kwargs.get("dispersion_correction")
