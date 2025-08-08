@@ -15,7 +15,6 @@ from dflow.python import OP, Artifact, PythonOPTemplate
 
 import dpdata
 import dftd3
-import cffi
 import pycparser
 
 import lambench
@@ -65,7 +64,7 @@ def submit_tasks_dflow(
                 envs={k: v for k, v in os.environ.items() if k.startswith("MYSQL")},
                 python_packages=[
                     Path(package.__path__[0])
-                    for package in [lambench, dpdata, dftd3, cffi, pycparser]
+                    for package in [lambench, dpdata, dftd3, pycparser]
                 ],
             ),
             parameters={
