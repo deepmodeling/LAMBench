@@ -16,8 +16,10 @@ AIMD-Chig:
   test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/AIMD_chig"
 Cu_MgO_catalysts:
   test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/Cu_MgO_CO2"
+  dispersion_correction: d3zero
 Si_ZEO22:
   test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/Si_ZEO22"
+  dispersion_correction: d3bj
 HPt_NC_2022:
   test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/HPt_NC2022"
 Ca_batteries_CM2021:
