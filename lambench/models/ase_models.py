@@ -285,7 +285,9 @@ class ASEModel(BaseLargeAtomModel):
 
         calc = model.calc
         if dispersion_correction:
-            calc = SumCalculator([calc, DFTD3(method="PBE", dispersion_correction=dispersion_correction)])
+            calc = SumCalculator(
+                [calc, DFTD3(method="PBE", dispersion_correction=dispersion_correction)]
+            )
 
         energy_err = []
         energy_pre = []
