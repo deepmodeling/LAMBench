@@ -270,7 +270,7 @@ class ASEModel(BaseLargeAtomModel):
     def run_ase_dptest(
         model: ASEModel,
         test_data: Path,
-        damping: Literal["d3bj", "d3zero"] | None = "d3bj",
+        damping: Literal["d3bj", "d3zero"] | None = None,
         # check all supported levels at dftd3.qcschema._available_levels
     ) -> dict:
         # Add fparam for charge and spin multiplicity if needed
