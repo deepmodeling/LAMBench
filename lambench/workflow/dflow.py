@@ -63,7 +63,7 @@ def submit_tasks_dflow(
                 python_packages=[
                     Path(package.__path__[0]) for package in [lambench, dpdata]
                 ],
-                pre_script="pip install dftd3",
+                pre_script="import os\nos.system('pip install dftd3')\n",
             ),
             parameters={
                 "task": task,
