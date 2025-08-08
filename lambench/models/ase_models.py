@@ -284,9 +284,9 @@ class ASEModel(BaseLargeAtomModel):
         dpdata.LabeledSystem.register_data_type(datatype)
 
         calc = model.calc
-        if dispersion_correction:
+        if dispersion_correction is not None:
             calc = SumCalculator(
-                [calc, DFTD3(method="PBE", dispersion_correction=dispersion_correction)]
+                [calc, DFTD3(method="PBE", damping=dispersion_correction)]
             )
 
         energy_err = []

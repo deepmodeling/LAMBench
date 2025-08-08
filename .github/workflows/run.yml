@@ -34,6 +34,7 @@ jobs:
 
     - name: Manual Approval
       uses: trstringer/manual-approval@v1
+      if: github.event_name == 'push'
       with:
         secret: ${{ github.token }}
         approvers: ${{ vars.APPROVERS }}
