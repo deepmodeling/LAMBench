@@ -1,29 +1,29 @@
 ANI:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/ANI"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/ANI"
 HEA25_S:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/HEA25S"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HEA25S"
 HEA25_bulk:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/HEA25"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HEA25"
 MoS2:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/MoS2"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/MoS2"
 MD22:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/MD22"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/MD22"
 REANN_CO2_Ni100:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/REANN_CO2_Ni100"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/REANN_CO2_Ni100"
 NequIP_NC_2022:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/NequIP_NC_2022"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/NequIP_NC_2022"
 AIMD-Chig:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/AIMD_chig"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/AIMD_chig"
 Cu_MgO_catalysts:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/Cu_MgO_CO2"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/Cu_MgO_CO2"
   dispersion_correction: d3zero
 Si_ZEO22:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/Si_ZEO22"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/Si_ZEO22"
   dispersion_correction: d3bj
 HPt_NC_2022:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/HPt_NC2022"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HPt_NC2022"
 Ca_batteries_CM2021:
-  test_data: "/bohr/lambench-ood-zwtr/v3/LAMBench-TestData-v3/Ca_batteries"
+  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/Ca_batteries"
 ## DEPRECATED
 # Collision:
 #   test_data: "/bohr/lambench-ood-zwtr/v2/LAMBench-TestData-v2/Collision"
