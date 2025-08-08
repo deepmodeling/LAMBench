@@ -2,7 +2,7 @@ from __future__ import annotations
 import logging
 from functools import cached_property
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Literal, Optional
 
 import dpdata
 import numpy as np
@@ -12,10 +12,12 @@ from dpdata.data_type import (
 )
 from ase import Atoms
 from ase.calculators.calculator import Calculator
+from ase.calculators.mixing import SumCalculator
 from ase.constraints import FixSymmetry
 from ase.filters import FrechetCellFilter
 from ase.io import write
 from ase.optimize import FIRE
+from dftd3.ase import DFTD3
 from tqdm import tqdm
 
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -265,7 +267,12 @@ class ASEModel(BaseLargeAtomModel):
             )
 
     @staticmethod
-    def run_ase_dptest(model: ASEModel, test_data: Path) -> dict:
+    def run_ase_dptest(
+        model: ASEModel,
+        test_data: Path,
+        damping: Literal["d3bj", "d3zero"] | None = "d3bj",
+        # check all supported levels at dftd3.qcschema._available_levels
+    ) -> dict:
         # Add fparam for charge and spin multiplicity if needed
         datatype = DataType(
             "fparam",
@@ -277,6 +284,8 @@ class ASEModel(BaseLargeAtomModel):
         dpdata.LabeledSystem.register_data_type(datatype)
 
         calc = model.calc
+        if damping:
+            calc = SumCalculator([calc, DFTD3(method="PBE", damping=damping)])
 
         energy_err = []
         energy_pre = []
