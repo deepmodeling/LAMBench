@@ -15,6 +15,7 @@ dependencies = [
 	"tqdm",
 	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@devel#egg=dpdata",
 	"pandas",
+	"dftd3"
 ]
 
 authors = [

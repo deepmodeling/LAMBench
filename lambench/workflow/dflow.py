@@ -12,7 +12,11 @@ from dflow import Task, Workflow
 from dflow.plugins.bohrium import BohriumDatasetsArtifact, create_job_group
 from dflow.plugins.dispatcher import DispatcherExecutor
 from dflow.python import OP, Artifact, PythonOPTemplate
+
 import dpdata
+import dftd3
+import cffi
+import pycparser
 
 import lambench
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -60,7 +64,8 @@ def submit_tasks_dflow(
                 image=model.virtualenv,
                 envs={k: v for k, v in os.environ.items() if k.startswith("MYSQL")},
                 python_packages=[
-                    Path(package.__path__[0]) for package in [lambench, dpdata]
+                    Path(package.__path__[0])
+                    for package in [lambench, dpdata, dftd3, cffi, pycparser]
                 ],
             ),
             parameters={

@@ -2,7 +2,7 @@ from __future__ import annotations
 import logging
 from functools import cached_property
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Literal, Optional
 
 import dpdata
 import numpy as np
@@ -12,10 +12,12 @@ from dpdata.data_type import (
 )
 from ase import Atoms
 from ase.calculators.calculator import Calculator
+from ase.calculators.mixing import SumCalculator
 from ase.constraints import FixSymmetry
 from ase.filters import FrechetCellFilter
 from ase.io import write
 from ase.optimize import FIRE
+from dftd3.ase import DFTD3
 from tqdm import tqdm
 
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -179,7 +181,7 @@ class ASEModel(BaseLargeAtomModel):
             import torch
 
             torch.set_default_dtype(torch.float32)
-            return self.run_ase_dptest(self, task.test_data)
+            return self.run_ase_dptest(self, task.test_data, task.dispersion_correction)
         elif isinstance(task, CalculatorTask):
             if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
@@ -265,7 +267,12 @@ class ASEModel(BaseLargeAtomModel):
             )
 
     @staticmethod
-    def run_ase_dptest(model: ASEModel, test_data: Path) -> dict:
+    def run_ase_dptest(
+        model: ASEModel,
+        test_data: Path,
+        dispersion_correction: Literal["d3bj", "d3zero"] | None = None,
+        # check all supported levels at dftd3.qcschema._available_levels
+    ) -> dict:
         # Add fparam for charge and spin multiplicity if needed
         datatype = DataType(
             "fparam",
@@ -277,6 +284,10 @@ class ASEModel(BaseLargeAtomModel):
         dpdata.LabeledSystem.register_data_type(datatype)
 
         calc = model.calc
+        if dispersion_correction:
+            calc = SumCalculator(
+                [calc, DFTD3(method="PBE", dispersion_correction=dispersion_correction)]
+            )
 
         energy_err = []
         energy_pre = []
