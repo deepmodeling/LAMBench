@@ -1,8 +1,8 @@
 [
   {
     "Model": "DPA-3.1-3M",
-    "Generalizability-FF Error \u2193": 0.172,
-    "Generalizability-PC Error \u2193": 0.321,
+    "Generalizability-FF Error \u2193": 0.175,
+    "Generalizability-PC Error \u2193": 0.322,
     "Applicability-Instability \u2193": 0.572,
     "Applicability-Efficiency \u2191": 0.261
   },
@@ -14,25 +14,25 @@
     "Applicability-Efficiency \u2191": 0.39
   },
   {
-    "Model": "DPA-3.0-7M",
-    "Generalizability-FF Error \u2193": 0.201,
-    "Generalizability-PC Error \u2193": 0.327,
-    "Applicability-Instability \u2193": 0.291,
-    "Applicability-Efficiency \u2191": 0.163
-  },
-  {
     "Model": "DPA-2.4-7M",
-    "Generalizability-FF Error \u2193": 0.237,
-    "Generalizability-PC Error \u2193": 0.341,
+    "Generalizability-FF Error \u2193": 0.241,
+    "Generalizability-PC Error \u2193": 0.342,
     "Applicability-Instability \u2193": 0.039,
     "Applicability-Efficiency \u2191": 0.617
   },
   {
     "Model": "GRACE-2L-OAM",
-    "Generalizability-FF Error \u2193": 0.253,
-    "Generalizability-PC Error \u2193": 0.403,
+    "Generalizability-FF Error \u2193": 0.251,
+    "Generalizability-PC Error \u2193": 0.404,
     "Applicability-Instability \u2193": 0.309,
     "Applicability-Efficiency \u2191": 0.639
+  },
+  {
+    "Model": "Orb-v2",
+    "Generalizability-FF Error \u2193": 0.253,
+    "Generalizability-PC Error \u2193": 0.601,
+    "Applicability-Instability \u2193": 2.649,
+    "Applicability-Efficiency \u2191": 1.341
   },
   {
     "Model": "SevenNet-MF-ompa",
@@ -42,16 +42,9 @@
     "Applicability-Efficiency \u2191": 0.084
   },
   {
-    "Model": "Orb-v2",
-    "Generalizability-FF Error \u2193": 0.262,
-    "Generalizability-PC Error \u2193": 0.6,
-    "Applicability-Instability \u2193": 2.649,
-    "Applicability-Efficiency \u2191": 1.341
-  },
-  {
     "Model": "MatterSim-v1-5M",
     "Generalizability-FF Error \u2193": 0.283,
-    "Generalizability-PC Error \u2193": 0.466,
+    "Generalizability-PC Error \u2193": 0.467,
     "Applicability-Instability \u2193": 0.0,
     "Applicability-Efficiency \u2191": 0.393
   },
@@ -64,14 +57,14 @@
   },
   {
     "Model": "SevenNet-l3i5",
-    "Generalizability-FF Error \u2193": 0.324,
+    "Generalizability-FF Error \u2193": 0.326,
     "Generalizability-PC Error \u2193": 0.397,
     "Applicability-Instability \u2193": 0.036,
     "Applicability-Efficiency \u2191": 0.272
   },
   {
     "Model": "MACE-MP-0",
-    "Generalizability-FF Error \u2193": 0.349,
+    "Generalizability-FF Error \u2193": 0.351,
     "Generalizability-PC Error \u2193": 0.472,
     "Applicability-Instability \u2193": 0.089,
     "Applicability-Efficiency \u2191": 0.269
