@@ -78,7 +78,7 @@ def find_even_factors(num: int) -> tuple[int, int, int]:
 
 
 def binary_search_max_natoms(
-    model: ASEModel, atoms: Atoms, upper_limit: int = 1000, max_iterations: int = 15
+    model: ASEModel, atoms: Atoms, upper_limit: int, max_iterations: int = 15
 ) -> int:
     """
     Binary search for the maximum number of atoms that can be processed by the model.
