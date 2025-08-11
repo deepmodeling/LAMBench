@@ -8,14 +8,6 @@
     "generalizability error": 0.24
   },
   {
-    "name": "DPA-3.0-7M",
-    "family": "DP",
-    "nparams": 7021990,
-    "efficiency": 613.54,
-    "std": 6.91,
-    "generalizability error": 0.2
-  },
-  {
     "name": "DPA-3.1-3M",
     "family": "DP",
     "nparams": 3268689,
@@ -45,7 +37,7 @@
     "nparams": 25161727,
     "efficiency": 74.56,
     "std": 5.03,
-    "generalizability error": 0.26
+    "generalizability error": 0.25
   },
   {
     "name": "Orb-v3",
@@ -61,7 +53,7 @@
     "nparams": 1171144,
     "efficiency": 367.9,
     "std": 80.51,
-    "generalizability error": 0.32
+    "generalizability error": 0.33
   },
   {
     "name": "SevenNet-MF-ompa",
