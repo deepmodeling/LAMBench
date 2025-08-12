@@ -19,16 +19,16 @@
     "name": "MACE-MP-0",
     "family": "MACE",
     "nparams": 4688656,
-    "efficiency": 371.9,
-    "std": 34.31,
+    "efficiency": 337.4,
+    "std": 33.6,
     "generalizability error": 0.35
   },
   {
     "name": "MACE-MPA-0",
     "family": "MACE",
     "nparams": 9063204,
-    "efficiency": 418.26,
-    "std": 59.67,
+    "efficiency": 341.4,
+    "std": 32.88,
     "generalizability error": 0.31
   },
   {

@@ -717,8 +717,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 371.896417,
-        "standard_deviation": 34.309386,
+        "average_time": 337.402198,
+        "standard_deviation": 33.595657,
         "success_rate": 100.0
       }
     },
@@ -942,8 +942,8 @@
         "success_rate": 1.0
       },
       "inference_efficiency": {
-        "average_time": 418.264554,
-        "standard_deviation": 59.665791,
+        "average_time": 341.398952,
+        "standard_deviation": 32.878672,
         "success_rate": 100.0
       }
     },
