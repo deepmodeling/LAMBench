@@ -53,7 +53,7 @@
     "Generalizability-FF Error \u2193": 0.308,
     "Generalizability-PC Error \u2193": 0.425,
     "Applicability-Instability \u2193": 0.0,
-    "Applicability-Efficiency \u2191": 0.239
+    "Applicability-Efficiency \u2191": 0.293
   },
   {
     "Model": "SevenNet-l3i5",
@@ -67,6 +67,6 @@
     "Generalizability-FF Error \u2193": 0.351,
     "Generalizability-PC Error \u2193": 0.472,
     "Applicability-Instability \u2193": 0.089,
-    "Applicability-Efficiency \u2191": 0.269
+    "Applicability-Efficiency \u2191": 0.296
   }
 ]
