@@ -109,7 +109,8 @@
     num_parameters: 25510582
     packages:
       orb-models: 0.5.2
-  show_calculator_task: True
+  show_direct_task: False # Hide deprecated model
+  skip_tasks: [CalculatorTask, DirectPredictTask]
 
 - model_name: orb_v3_conservative_inf_mpa
   model_type: ASE
