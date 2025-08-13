@@ -114,7 +114,7 @@
 - model_name: orb_v3_conservative_inf_mpa
   model_type: ASE
   model_family: ORB
-  virtualenv:  *bohrium_image_v2_10
+  virtualenv:  registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.15 # cache model checkpoint
   model_metadata:
     pretty_name: Orb-v3
     date_added: 2025-08-12
