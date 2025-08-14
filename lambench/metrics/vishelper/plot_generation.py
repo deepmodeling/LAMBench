@@ -75,7 +75,9 @@ class PlotGeneration:
         chart_config = {
             "legend": {"data": models, "bottom": 0, "textStyle": {"color": text_color}},
             "radar": {
-                "indicator": [{"name": category, "max": 1, "min": 0.5} for category in categories],
+                "indicator": [
+                    {"name": category, "max": 1, "min": 0.5} for category in categories
+                ],
                 "axisName": {"color": text_color},
             },
             "series": [
