@@ -33,7 +33,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-deepmd = ["deepmd-kit @ git+https://github.com/iProzd/deepmd-kit.git@P0131_dpa3_optim_angle#egg=deepmd-kit", "torch>=2.1"]
+deepmd = ["deepmd-kit==3.1.0", "torch>=2.1"]
 fairchem = ["fairchem-core", "torch_geometric", "pyg_lib", "torch_scatter", "torch_sparse", "torch_cluster", "torch_spline_conv"] # See README
 mace = ["mace-torch"]
 mattersim = ["mattersim >= 1.1.1"]
