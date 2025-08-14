@@ -8,10 +8,10 @@
   },
   {
     "Model": "Orb-v3",
-    "Generalizability-FF Error \u2193": 0.197,
-    "Generalizability-PC Error \u2193": 0.406,
+    "Generalizability-FF Error \u2193": 0.215,
+    "Generalizability-PC Error \u2193": 0.414,
     "Applicability-Instability \u2193": 0.0,
-    "Applicability-Efficiency \u2191": 0.39
+    "Applicability-Efficiency \u2191": 0.396
   },
   {
     "Model": "DPA-2.4-7M",

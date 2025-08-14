@@ -43,9 +43,9 @@
     "name": "Orb-v3",
     "family": "ORB",
     "nparams": 25510582,
-    "efficiency": 256.72,
-    "std": 33.33,
-    "generalizability error": 0.2
+    "efficiency": 252.24,
+    "std": 32.27,
+    "generalizability error": 0.21
   },
   {
     "name": "SevenNet-l3i5",
