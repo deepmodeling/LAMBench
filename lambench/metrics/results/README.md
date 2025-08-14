@@ -81,12 +81,16 @@ In contrast, an ideal model that perfectly matches Density Functional Theory (DF
 
 ### Domain Specific Property Calculation
 
-For the domain-specific property tasks, we adopt the MAE as the error metric.
-In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon
-frequency, entropy, free energy, and heat capacity at constant volume, with each prediction type assigned a weight of 0.25.
-In the Molecules domain, the TorsionNet500 benchmark predicts the torsion profile energy, torsion barrier height, and the number of molecules for which the model's prediction of the torsional barrier height has an error exceeding 1 kcal/mol.
-Each prediction type in this domain is assigned a weight of $\frac{1}{3}$.
-The resulting score is denoted as $\bar M^{m}_{PC}$.
+For the domain-specific property calculation tasks, we adopt the MAE as the primary error metric.
+
+In the Inorganic Materials domain, the MDR phonon benchmark predicts the maximum phonon frequency, entropy, free energy, and heat capacity at constant volume, while the elasticity benchmark evaluates the shear and bulk moduli. Each prediction type
+is assigned an equal weight of $\frac{1}{6}$.
+
+In the Molecules domain, the TorsionNet500 benchmark evaluates the torsion profile energy, torsional barrier height, and the number of molecules for which the predicted torsional barrier height error exceeds 1 kcal/mol. The Wiggle150 benchmark assesses the relative conformer energy profile. Each prediction type in this domain is assigned a weight of 0.25.
+
+In the Catalysis domain, the OC20NEB-OOD benchmark evaluates the energy barrier, reaction energy change (delta energy), and the percentage of reactions with predicted energy barrier errors exceeding 0.1 eV for three reaction types: transfer, dissociation, and desorption. Each prediction type in this domain is assigned a weight of 0.2.
+
+The resulting error metric after averaging over all domains is denoted as $\bar M^{m}_{PC}$.
 
 ## Applicability
 
