@@ -1,6 +1,6 @@
 # Overview
 
-Large atomic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered foundation models that predict atomic interactions across diverse systems using data-driven approaches. LAMBench is a benchmark designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
+Large atomistic models (LAM), also known as machine learning interatomic potentials (MLIPs), are considered foundation models that predict atomic interactions across diverse systems using data-driven approaches. **LAMBench** is a benchmark designed to evaluate the performance of such models. It provides a comprehensive suite of tests and metrics to help developers and researchers understand the accuracy and generalizability of their machine learning models.
 
 ## Our mission includes
 
@@ -26,7 +26,7 @@ Figure 1: Generalizability on force field prediction tasks, 1 - $\bar{M}^m_{FF}$
 <!-- scatter plot -->
 Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m_{FF}$ vs $M_E^m$.
 
-# LAMBench Metrics Calculations
+# LAMBench Metrics Calculation
 
 ## Generalizability
 
@@ -122,4 +122,4 @@ The final instability metric is computed as the average over all nine structures
 
 $$M^m_{\mathrm{IS}} = \frac{1}{9}\sum_{i=1}^{9} M^m_{\mathrm{IS},i}$$
 
-This result is bounded within the range $[0, +\infty]$, where a lower value signifies greater stability.
+This result is bounded within the range $[0, +\infty)$, where a lower value signifies greater stability.
