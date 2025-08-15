@@ -31,11 +31,10 @@ The optional dependencies are required for the corresponding models.
 
 ## Usage
 
-To reproduce the results locally or test a custom model, please refer to the `ASEModel.evaluate` method.
+To reproduce the results locally or test a custom model, please refer to the `ASEModel.evaluate` method. The test data can be found [here](https://aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-DatasetCards&id=336).
 
-- For direct prediction tasks, you can use the staticmethod `run_ase_dptest(calc: Calculator, test_data: Path) -> dict`. The test data can be found [here](https://www.aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-TestData-v1&id=295).
+- For direct prediction tasks, you can use the staticmethod `run_ase_dptest(calc: Calculator, test_data: Path) -> dict`.
 - For calculator tasks, you can use the corresponding scripts provided in `lambench.tasks.calculator`.
-  - The phonon test data can be found [here](https://www.aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-Phonon-MDR&id=310).
   - An `ASEModel` object is needed for such tasks; you can create a dummy model as follows:
 
     ```python

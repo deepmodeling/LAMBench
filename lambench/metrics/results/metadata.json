@@ -643,7 +643,7 @@
     "DISPLAY_NAME":"Generalizability Tests (Property Calculation)",
     "DESCRIPTION": "Evaluation metrics for domain specific property calculation tasks when utilizing the LAM as the force field.",
     "phonon_mdr": {
-      "DISPLAY_NAME": "Phonon Properties",
+      "DISPLAY_NAME": "Phonon MDR",
       "DESCRIPTION": "Evaluation metrics based on phonon calculations.",
       "mae_entropy": {
         "DISPLAY_NAME": "Entropy MAE (J/K/mol)",
@@ -667,7 +667,7 @@
       }
     },
     "torsionnet": {
-      "DISPLAY_NAME": "Torsional Barrier",
+      "DISPLAY_NAME": "TorsionNet500",
       "DESCRIPTION": "Evaluation of torsional barrier related metrics on the TorsionNet-500 dataset at the CCSD(T)/CBS level.",
       "MAE": {
         "DISPLAY_NAME": "MAE (kcal/mol)",
@@ -687,8 +687,8 @@
       }
     },
     "neb": {
-      "DISPLAY_NAME": "NEB",
-      "DESCRIPTION": "Evaluation of NEB related metrics on the OC20NEB-OOD dataset. The dataset contains 460 NEB trajectories over 3 types of reactions: desorption, dissociation, and transfer. For details, please refer to https://arxiv.org/abs/2405.02078. The energy barrier height is calculated with single point energy prediction on DFT relaxed structures using the LAM model without performing NEB optimization.",
+      "DISPLAY_NAME": "OC20NEB-OOD",
+      "DESCRIPTION": "Evaluation of energy barrier related metrics on the OC20NEB-OOD dataset. The dataset contains 460 NEB trajectories over 3 types of reactions: desorption, dissociation, and transfer. For details, please refer to https://arxiv.org/abs/2405.02078. The energy barrier height is calculated with single point energy prediction on DFT relaxed structures using the LAM model without performing NEB optimization.",
       "MAE_Ea": {
         "DISPLAY_NAME": "MAE_Ea (eV)",
         "DESCRIPTION": "The mean absolute error of the energy barrier prediction across all OOD trajectories."
