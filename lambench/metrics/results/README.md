@@ -14,6 +14,39 @@ Large atomistic models (LAM), also known as machine learning interatomic potenti
 - **Easy to Use**: Simple setup and configuration to get started quickly.
 - **Extensible**: Easily add new benchmarks and metrics.
 - **Detailed Reports**: Generates detailed performance reports and visualizations.
+- **Print-Friendly Reports**: Creates comprehensive HTML reports suitable for printing and sharing.
+
+## Generating Reports
+
+LAMBench provides multiple ways to generate reports from benchmark results:
+
+### Standard Reports
+The standard visualization pipeline generates JSON files with plot configurations:
+- `radar.json` - Radar chart configuration
+- `scatter.json` - Scatter plot data  
+- `barplot.json` - Bar plot data
+- `final_rankings.json` - Model rankings table
+
+### Print-Friendly Reports
+Generate a comprehensive HTML report suitable for printing and sharing:
+
+```bash
+# Using the standalone script (recommended)
+python lambench/metrics/generate_print_report.py
+
+# With custom options
+python lambench/metrics/generate_print_report.py --results-dir /path/to/results --output report.html
+
+# Using the visualization module (requires full environment)
+python lambench/metrics/visualization.py --print-report
+```
+
+The print-friendly report includes:
+- **Executive Summary**: Key findings and top-performing models
+- **Model Rankings**: Comprehensive table with all metrics
+- **Domain Performance**: Breakdown by scientific domain
+- **Metric Definitions**: Detailed explanations of calculation methods
+- **Print Optimization**: CSS styling optimized for printing
 
 # LAMBench Leaderboard
 
