@@ -139,7 +139,7 @@ class ASEModel(BaseLargeAtomModel):
         from fairchem.core import FAIRChemCalculator
 
         predictor = load_predict_unit(self.model_path, device="cuda")
-        return FAIRChemCalculator(predictor, task_name="omol")
+        return FAIRChemCalculator(predictor, task_name="oc20")
 
     def _init_mattersim_calculator(self) -> Calculator:
         from mattersim.forcefield import MatterSimCalculator
@@ -151,7 +151,7 @@ class ASEModel(BaseLargeAtomModel):
 
         return DP(
             model=self.model_path,
-            head="SPICE2",
+            head="OC20M",
         )
 
     def _init_grace_calculator(self) -> Calculator:
