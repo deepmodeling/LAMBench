@@ -32,15 +32,6 @@ jobs:
       run: |
         pip install .[dflow]
 
-    - name: Manual Approval
-      uses: trstringer/manual-approval@v1
-      if: github.event_name == 'push'
-      with:
-        secret: ${{ github.token }}
-        approvers: ${{ vars.APPROVERS }}
-        minimum-approvals: 1
-        fail-on-denial: false
-
     - name: Run LAMBench
       env:
         MYSQL_HOST: ${{ vars.MYSQL_HOST }}
