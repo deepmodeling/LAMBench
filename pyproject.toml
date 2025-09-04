@@ -41,6 +41,7 @@ orb = ["orb-models","pynanoflann@git+https://github.com/dwastberg/pynanoflann#eg
 sevenn = ["sevenn"]
 test = ["pytest", "pytest-cov"]
 dflow = ["pydflow", "lbg"]
+prefect = ["prefect"]
 phonopy = ["phonopy@git+https://github.com/phonopy/phonopy.git", "scikit-learn"]
 
 

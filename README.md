@@ -29,7 +29,34 @@ pip install git+https://github.com/deepmodeling/LAMBench.git#egg=lambench[deepmd
 
 The optional dependencies are required for the corresponding models.
 
+### Orchestration Options
+
+LAMBench supports multiple orchestration backends:
+
+- **Local execution** (default): `pip install lambench`
+- **dflow orchestration**: `pip install lambench[dflow]` - Uses dflow for distributed execution
+- **Prefect orchestration**: `pip install lambench[prefect]` - Uses Prefect for workflow management
+
 ## Usage
+
+### Command Line Interface
+
+LAMBench provides a command-line interface for running benchmarks:
+
+```bash
+# Run locally (no orchestration)
+lambench --local --models DP_2024Q4 --tasks HPt_NC_2022
+
+# Use dflow orchestration (default remote execution)
+lambench --models DP_2024Q4 --tasks HPt_NC_2022
+
+# Use Prefect orchestration
+lambench --prefect --models DP_2024Q4 --tasks HPt_NC_2022
+```
+
+For detailed Prefect usage, see [docs/prefect_orchestration.md](docs/prefect_orchestration.md).
+
+### Programmatic Usage
 
 To reproduce the results locally or test a custom model, please refer to the `ASEModel.evaluate` method. The test data can be found [here](https://aissquare.com/datasets/detail?pageType=datasets&name=LAMBench-DatasetCards&id=336).
 

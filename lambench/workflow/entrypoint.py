@@ -120,6 +120,11 @@ def main():
         action="store_true",
         help="Run tasks locally.",
     )
+    parser.add_argument(
+        "--prefect",
+        action="store_true",
+        help="Use Prefect orchestration instead of dflow.",
+    )
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO)
 
@@ -132,6 +137,13 @@ def main():
     logging.info(f"Found {len(jobs)} jobs.")
     if args.local:
         submit_tasks_local(jobs)
+    elif args.prefect:
+        try:
+            from lambench.workflow.prefect import submit_tasks_prefect
+            submit_tasks_prefect(jobs)
+        except ImportError:
+            logging.error("Prefect is not installed. Install with: pip install lambench[prefect]")
+            return
     else:
         from lambench.workflow.dflow import submit_tasks_dflow
 
