@@ -14,6 +14,21 @@
   show_finetune_task: True
   show_calculator_task: True
 
+- model_name: dpa3_250807_v3_2_0_5M
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/testmodel-gevy/v7/dpa3_3_2_0_5M/dp_dpa3_v3.2.0_0807_360w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.16
+  model_metadata:
+    pretty_name: DPA-3.2-5M
+    date_added: 2025-09-04
+    model_description: DP 2025 Q3, 24 layers with dynamic nnei.
+    num_parameters: 4816561
+    packages:
+      deepmd-kit: D0708
+  show_finetune_task: True
+  show_calculator_task: True
+
 - model_name: uma_m_1p1
   model_type: ASE
   model_family: UMA
@@ -26,4 +41,4 @@
     model_description: UMA-M-1.1
     packages:
       fairchem-core: 2.3.0
-  show_direct_task: False # Hide test results due to license restrictions.
+  # show_direct_task: False # Hide test results due to license restrictions.
