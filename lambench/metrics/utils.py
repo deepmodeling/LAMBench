@@ -110,7 +110,7 @@ def aggregated_nve_md_results(results: dict[str, dict[str, float]]) -> dict[str,
     aggregated_result = {}
     success_count = len(results)
     for test_system, result in results.items():
-        if result["steps"] != NVEMD_NSTEPS:
+        if result["steps"] != NVEMD_NSTEPS or result["slope"] >= 50:
             success_count -= 1
             continue  # Skip the incomplete simulation
         for k, v in result.items():
