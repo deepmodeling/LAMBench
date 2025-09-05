@@ -31,7 +31,7 @@ class BaseTask(BaseModel):
     model_config = ConfigDict(extra="allow")
     workdir: Path = Path(tempfile.gettempdir()) / "lambench"
     record_type: ClassVar = BaseRecord
-    machine_type: str = "1 * NVIDIA V100_32g"
+    machine_type: str = "c12_m92_1 * NVIDIA V100_32g"
 
     def exist(self, model_name: str) -> bool:
         num_records = self.record_type.count(
