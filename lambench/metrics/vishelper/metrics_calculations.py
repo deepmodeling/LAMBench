@@ -190,10 +190,10 @@ class MetricsCalculator:
             return 5
         else:
             slope = cell.get("slope", None)
-            if slope is None:
+            if slope is None or np.log10(slope / lambda_0) >=5:
                 return 5
             else:
-                return np.clip(np.log10(cell["slope"] / lambda_0), a_min=0, a_max=None)
+                return np.clip(np.log10(slope / lambda_0), a_min=0, a_max=None)
 
     def calculate_efficiency_results(self) -> dict[str, float]:
         efficiency_results = self.fetcher.fetch_inference_efficiency_results()
