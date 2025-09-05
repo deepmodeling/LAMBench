@@ -190,7 +190,7 @@ class MetricsCalculator:
             return 5
         else:
             slope = cell.get("slope", None)
-            if slope is None or np.log10(slope / lambda_0) >=5:
+            if slope is None or np.log10(slope / lambda_0) >= 5:
                 return 5
             else:
                 return np.clip(np.log10(slope / lambda_0), a_min=0, a_max=None)
