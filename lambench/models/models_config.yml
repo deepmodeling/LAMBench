@@ -1,11 +1,11 @@
 # Please see README on how to add new models
-- model_name: dpa3_250415_v3_1_0_3M
+- model_name: dpa3_250415_v3_1_0_3M_omat
   model_type: DP
   model_family: DP
   model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
   virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
   model_metadata:
-    pretty_name: DPA-3.1-3M
+    pretty_name: DPA-3.1-3M_omat
     date_added: 2025-05-13
     model_description: DP 2025 Q2, 16 layers with dynamic nnei.
     num_parameters: 3268689
@@ -14,7 +14,7 @@
   show_finetune_task: True
   show_calculator_task: True
 
-- model_name: dpa3_250807_v3_2_0_5M
+- model_name: dpa3_250807_v3_2_0_5M_omat
   model_type: DP
   model_family: DP
   model_path: /bohr/testmodel-gevy/v7/dpa3_3_2_0_5M/dp_dpa3_v3.2.0_0807_360w.pt
@@ -29,16 +29,16 @@
   show_finetune_task: True
   show_calculator_task: True
 
-- model_name: uma_m_1p1
-  model_type: ASE
-  model_family: UMA
-  model_path: /bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
-  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
-  model_metadata:
-    pretty_name: UMA-M-1.1
-    date_added: 2025-07-22
-    num_parameters: 50000000
-    model_description: UMA-M-1.1
-    packages:
-      fairchem-core: 2.3.0
+# - model_name: uma_m_1p1
+#   model_type: ASE
+#   model_family: UMA
+#   model_path: /bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
+#   virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.14
+#   model_metadata:
+#     pretty_name: UMA-M-1.1
+#     date_added: 2025-07-22
+#     num_parameters: 50000000
+#     model_description: UMA-M-1.1
+#     packages:
+#       fairchem-core: 2.3.0
   # show_direct_task: False # Hide test results due to license restrictions.
