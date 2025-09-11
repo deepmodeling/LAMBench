@@ -141,13 +141,13 @@ def test_aggregated_results():
         "Gd2Si4Ni2": {
             "simulation_time": 2374.1,
             "steps": 10000,
-            "slope": 4580.2,
+            "slope": 4.5802,
             "momenta_diff": 200020.2,
         },
     }
     result = aggregated_nve_md_results(results)
     np.testing.assert_almost_equal(result["simulation_time"], 2374.1, decimal=3)
     assert result["steps"] == 10000, "Should skip incomplete test."
-    assert result["slope"] == 4580.2, "Should skip incomplete test."
+    assert result["slope"] == 4.5802, "Should skip incomplete test."
     np.testing.assert_almost_equal(result["momenta_diff"], 200020.2, decimal=3)
     assert result["success_rate"] == 0.5, "Should have 1 success."
