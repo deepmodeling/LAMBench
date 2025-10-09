@@ -151,7 +151,7 @@ class ASEModel(BaseLargeAtomModel):
 
         return DP(
             model=self.model_path,
-            head="Omat24",
+            head="MP_traj_v024_alldata_mixu",
         )
 
     def _init_grace_calculator(self) -> Calculator:

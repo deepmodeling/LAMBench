@@ -26,8 +26,8 @@ Ca_batteries_CM2021:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/Ca_batteries"
 H_nature_ground:
   test_data: "/bohr/temp-lambench-ood-5zz5/v1/H_nature_2022__downsampled_seed2_PBE_groundstate"
-Collision_ground:
-  test_data: "/bohr/temp-lambench-ood-5zz5/v2/collision__downsampled_seed2_PBE_groundstate"
+# Collision_ground:
+#   test_data: "/bohr/temp-lambench-ood-5zz5/v2/collision__downsampled_seed2_PBE_groundstate"
 ## DEPRECATED
 # Collision:
 #   test_data: "/bohr/lambench-ood-zwtr/v2/LAMBench-TestData-v2/Collision"
