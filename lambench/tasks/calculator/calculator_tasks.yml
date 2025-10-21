@@ -31,5 +31,3 @@ elastic:
 vacancy:
   test_data: /bohr/lambench-vacancy-a2xo/v1
   calculator_params: null
-
-
