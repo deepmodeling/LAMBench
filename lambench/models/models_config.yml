@@ -311,7 +311,7 @@
       deepmd-kit: D0708
   show_finetune_task: True
   show_calculator_task: True
-  
+
 - model_name: dpa3_250807_v3_2_0_5M
   model_type: DP
   model_family: DP
