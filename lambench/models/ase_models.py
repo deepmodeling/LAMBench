@@ -258,6 +258,11 @@ class ASEModel(BaseLargeAtomModel):
                 fmax = task.calculator_params.get("fmax", 1e-3)
                 max_steps = task.calculator_params.get("max_steps", 500)
                 return {"metrics": run_inference(self, task.test_data, fmax, max_steps)}
+            elif task.task_name == "vacancy":
+                from lambench.tasks.calculator.vacancy.vacancy import run_inference
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")
 
