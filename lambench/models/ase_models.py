@@ -79,6 +79,7 @@ class ASEModel(BaseLargeAtomModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._calc = None
 
     @property
     def calc(self) -> Calculator:
@@ -99,9 +100,11 @@ class ASEModel(BaseLargeAtomModel):
             logging.warning(
                 f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator."
             )
-            return EMT()
+            self._calc = EMT()
 
-        return calculator_dispatch[self.model_family]()
+        else:
+            self._calc = calculator_dispatch[self.model_family]()
+        return self._calc
 
     @calc.setter
     def calc(self, value: Calculator):

@@ -35,6 +35,7 @@ def gather_model_params(
 
 
 def gather_model(model_param: dict, model_domain: str) -> BaseLargeAtomModel:
+    model_param = model_param.copy()
     model_param["model_domain"] = model_domain
     if model_param["model_type"] == "DP":
         return DPModel(**model_param)
@@ -59,7 +60,7 @@ def gather_task_type(
     with open(task_class.task_config, "r") as f:
         task_configs: dict[str, dict] = yaml.safe_load(f)
     for model_param in model_params:
-        if not model_param["model_type"] == "DP" and issubclass(
+        if model_param["model_type"] != "DP" and issubclass(
             task_class, PropertyFinetuneTask
         ):
             continue  # Regular ASEModel does not support PropertyFinetuneTask
