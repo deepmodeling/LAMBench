@@ -5,7 +5,7 @@ from lambench.tasks.calculator.nve_md.nve_md import (
 from lambench.metrics.utils import aggregated_nve_md_results
 import pytest
 from ase import Atoms
-from ase.calculators.emt import EMT
+from ase.calculators.calculator import Calculator
 from lambench.models.ase_models import ASEModel
 import numpy as np
 
@@ -19,13 +19,7 @@ def setup_testing_data():
 
 
 @pytest.fixture
-def setup_calculator():
-    """Fixture to provide an ASE calculator (EMT)."""
-    return EMT()
-
-
-@pytest.fixture
-def setup_model(setup_calculator):
+def setup_model():
     """Fixture to provide an ASE model."""
     ase_models = ASEModel(
         model_family="TEST",
@@ -39,15 +33,14 @@ def setup_model(setup_calculator):
         },
         virtualenv="",
     )
-    ase_models.calc = setup_calculator
     return ase_models
 
 
-def test_nve_simulation_metrics(setup_testing_data, setup_calculator):
+def test_nve_simulation_metrics(setup_testing_data, setup_model):
     """Test NVE simulation metrics for std, and steps."""
     result = nve_simulation_single(
         setup_testing_data,
-        setup_calculator,
+        setup_model.calc,
         timestep=1.0,
         num_steps=100,
         temperature_K=300,
@@ -58,7 +51,7 @@ def test_nve_simulation_metrics(setup_testing_data, setup_calculator):
     assert isinstance(result["slope"], float), "Slope should be a float."
 
 
-def test_nve_simulation_crash_handling(setup_testing_data, setup_calculator):
+def test_nve_simulation_crash_handling(setup_testing_data):
     """Test crash handling by simulating an intentional crash."""
     atoms = setup_testing_data
 
