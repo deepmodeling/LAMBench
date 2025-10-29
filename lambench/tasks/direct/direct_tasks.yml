@@ -1,13 +1,9 @@
-ANI:
-  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/ANI"
 HEA25_S:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HEA25S"
 HEA25_bulk:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HEA25"
 MoS2:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/MoS2"
-MD22:
-  test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/MD22"
 REANN_CO2_Ni100:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/REANN_CO2_Ni100"
 NequIP_NC_2022:
@@ -24,6 +20,10 @@ HPt_NC_2022:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/HPt_NC2022"
 Ca_batteries_CM2021:
   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/Ca_batteries"
+AQM:
+  test_data:
+    PBE: "/bohr/temp-lambench-ood-5zz5/v3/AQM-sol-PBE__downsampled_1000"
+    wB97: "/bohr/temp-lambench-ood-5zz5/v3/AQM-sol-PBE__downsampled_1000_OMol-wb97mv-def2tzvpd-ORCA600"
 ## DEPRECATED
 # Collision:
 #   test_data: "/bohr/lambench-ood-zwtr/v2/LAMBench-TestData-v2/Collision"
@@ -39,3 +39,7 @@ Ca_batteries_CM2021:
 #   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/HEMC_HEMB"
 # Torsionnet500:
 #   test_data: "/bohr/lambench-ood-zwtr/v1/OOD_test_data_v2/raw_torsionnet500"
+# ANI:
+#   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/ANI"
+# MD22:
+#   test_data: "/bohr/lambench-ood-zwtr/v4/LAMBench-TestData-v3/MD22"
