@@ -79,7 +79,7 @@ class ASEModel(BaseLargeAtomModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-    
+
     @property
     def calc(self) -> Calculator:
         """ASE Calculator with the model loaded."""
@@ -96,11 +96,13 @@ class ASEModel(BaseLargeAtomModel):
         }
 
         if self.model_family not in calculator_dispatch:
-            logging.warning(f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator.")
+            logging.warning(
+                f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator."
+            )
             return EMT()
 
         return calculator_dispatch[self.model_family]()
-    
+
     @calc.setter
     def calc(self, value: Calculator):
         logging.warning("Overriding the default calculator.")
@@ -157,8 +159,8 @@ class ASEModel(BaseLargeAtomModel):
 
     def _init_dp_calculator(self) -> Calculator:
         from deepmd.calculator import DP
-        if self.supports_omol and self.model_domain == "molecules":
 
+        if self.supports_omol and self.model_domain == "molecules":
             return DP(
                 model=self.model_path,
                 head="OMol25",

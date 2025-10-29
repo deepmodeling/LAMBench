@@ -1,4 +1,3 @@
-from lambench.models.dp_models import DPModel
 from lambench.tasks import PropertyFinetuneTask
 import pytest
 from lambench.workflow.entrypoint import gather_task_type

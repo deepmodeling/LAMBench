@@ -33,6 +33,7 @@ def gather_model_params(
 
     return model_params
 
+
 def gather_model(model_param: dict, model_domain: str) -> BaseLargeAtomModel:
     model_param["model_domain"] = model_domain
     if model_param["model_type"] == "DP":
@@ -40,10 +41,9 @@ def gather_model(model_param: dict, model_domain: str) -> BaseLargeAtomModel:
     elif model_param["model_type"] == "ASE":
         return ASEModel(**model_param)
     else:
-        raise ValueError(
-            f"Model type {model_param['model_type']} is not supported."
-        )
-        
+        raise ValueError(f"Model type {model_param['model_type']} is not supported.")
+
+
 job_list: TypeAlias = list[tuple[BaseTask, BaseLargeAtomModel]]
 
 
@@ -73,7 +73,7 @@ def gather_task_type(
                 # model_domain = task.domain if task.domain else "" # in the future we may have tasks with specific domain.
 
                 # currently only need to distinguish direct tasks for molecules and materials due to OMol25 training set.
-                if task_name in []: # to be added in a separate PR.
+                if task_name in []:  # to be added in a separate PR.
                     model_domain = "molecules"
                 else:
                     model_domain = "materials"

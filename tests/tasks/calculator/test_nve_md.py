@@ -5,7 +5,6 @@ from lambench.tasks.calculator.nve_md.nve_md import (
 from lambench.metrics.utils import aggregated_nve_md_results
 import pytest
 from ase import Atoms
-from ase.calculators.calculator import Calculator
 from lambench.models.ase_models import ASEModel
 import numpy as np
 
