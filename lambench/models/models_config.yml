@@ -263,3 +263,61 @@
       pet-mad: 1.0.0
   show_direct_task: False # Hide deprecated model
   skip_tasks: [CalculatorTask, DirectPredictTask]
+
+
+
+- model_name: DPA3-MPTrj
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
+  model_metadata:
+    pretty_name: DPA-3.1-3M
+    date_added: 2025-05-13
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: P0414
+  show_calculator_task: True
+
+- model_name: DPA3-OMat24
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
+  model_metadata:
+    pretty_name: DPA-3.1-3M
+    date_added: 2025-05-13
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: P0414
+  show_calculator_task: True
+
+- model_name: DPA3-SPICE2
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
+  model_metadata:
+    pretty_name: DPA-3.1-3M
+    date_added: 2025-05-13
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: P0414
+  show_calculator_task: True
+
+- model_name: DPA3-OC20M
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v12/dpa3_250415_v3_1_0_3M/dp_dpa3_v3.1.0_0415_400w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.11
+  model_metadata:
+    pretty_name: DPA-3.1-3M
+    date_added: 2025-05-13
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: P0414
+  show_calculator_task: True

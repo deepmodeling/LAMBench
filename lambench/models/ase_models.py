@@ -149,10 +149,26 @@ class ASEModel(BaseLargeAtomModel):
     def _init_dp_calculator(self) -> Calculator:
         from deepmd.calculator import DP
 
-        return DP(
-            model=self.model_path,
-            head="MP_traj_v024_alldata_mixu",
-        )
+        if self.model_name == "DPA3-OC20M":
+            return DP(
+                model=self.model_path,
+                head="OC20M",
+            )
+        elif self.model_name == "DPA3-OMat24":
+            return DP(
+                model=self.model_path,
+                head="Omat24",
+            )
+        elif self.model_name == "DPA3-SPICE2":
+            return DP(
+                model=self.model_path,
+                head="SPICE2",
+            )
+        else:
+            return DP(
+                model=self.model_path,
+                head="MP_traj_v024_alldata_mixu",
+            )
 
     def _init_grace_calculator(self) -> Calculator:
         from tensorpotential.calculator import grace_fm
