@@ -123,7 +123,7 @@ class ASEModel(BaseLargeAtomModel):
 
         model_config = {"model": self.model_name, "device": "cuda"}
         if self.model_name == "7net-mf-ompa":
-            model_config["modal"] = "mpa"
+            model_config["modal"] = "omat24"
         return SevenNetCalculator(**model_config)
 
     def _init_equiformer_calculator(self) -> Calculator:
