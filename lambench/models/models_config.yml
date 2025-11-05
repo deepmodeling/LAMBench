@@ -322,7 +322,7 @@
       deepmd-kit: P0414
   show_calculator_task: True
 
-- model_name: 7net-OMat24
+- model_name: 7net-mf-ompa
   model_type: ASE
   model_family: SevenNet
   virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.9
