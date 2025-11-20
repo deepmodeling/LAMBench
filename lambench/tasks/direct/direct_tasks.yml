@@ -1,6 +1,6 @@
 AQM:
   test_data:
-    PBE: "/bohr/lambench-ood-zwtr/v5/LAMBench-TestData-v4/AQM_PBE"
+    PBE: "/bohr/temp-lambench-ood-5zz5/v3/AQM-sol-PBE__downsampled_1000"
     wB97: "/bohr/lambench-ood-zwtr/v5/LAMBench-TestData-v4/AQM_wB97"
 H_nature_2022:
   test_data: 
