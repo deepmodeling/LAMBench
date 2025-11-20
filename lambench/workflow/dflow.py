@@ -73,7 +73,7 @@ def submit_tasks_dflow(
                 "dataset": get_dataset(
                     [
                         model.model_path,
-                        *(list(task.test_data.values()) if isinstance(task.test_data, dict) else [task.test_data])
+                        *(list(task.test_data.values()) if isinstance(task.test_data, dict) else task.test_data)
                     ]
                 )
             },
