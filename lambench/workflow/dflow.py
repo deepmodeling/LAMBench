@@ -56,6 +56,7 @@ def submit_tasks_dflow(
         name = "".join([c if c.isalnum() else "-" for c in name])
         if task.test_data is not None:
             # handle dict type test_data
+            assert isinstance(task.test_data, str), f"Expected test_data to be str type, get {type(task.test_data)}"
             task_data = list(task.test_data.values()) if isinstance(task.test_data, dict) else [task.test_data]
         else:
             task_data = []
