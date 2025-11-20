@@ -12,6 +12,8 @@
       deepmd-kit: P0414
   show_finetune_task: True
   show_calculator_task: True
+  supports_omol: True
+
 
 - model_name: UMA_m_1p1
   model_type: ASE
@@ -26,3 +28,4 @@
     packages:
       fairchem-core: 2.3.0
   show_calculator_task: True
+  supports_omol: True

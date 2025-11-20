@@ -165,7 +165,7 @@ class ASEModel(BaseLargeAtomModel):
         if self.supports_omol and self.model_domain == "molecules":
             return DP(
                 model=self.model_path,
-                head="OMol25",
+                head="SPICE2",
             )
         else:
             return DP(
