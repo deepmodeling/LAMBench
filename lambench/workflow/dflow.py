@@ -55,7 +55,6 @@ def submit_tasks_dflow(
         # dflow task name should be alphanumeric
         name = "".join([c if c.isalnum() else "-" for c in name])
         if task.test_data is not None:
-            assert isinstance(task.test_data, dict), "Expected test_data to be dict type"
             # handle dict type test_data
             task_data = list(task.test_data.values()) if isinstance(task.test_data, dict) else [task.test_data]
         else:
