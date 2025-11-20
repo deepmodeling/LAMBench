@@ -30,17 +30,17 @@ def run_task_op(
     task.run_task(model)
 
 
-def get_dataset(paths: list[Optional[Path]]) -> Optional[list[BohriumDatasetsArtifact]]:
+def get_dataset(paths: list[Optional[Path | dict[str, Path]]]) -> Optional[list[BohriumDatasetsArtifact]]:
     r = []
     for path in paths:
         if path is not None:
             if not isinstance(path, dict):
                 if str(path).startswith("/bohr/"):
-                    r.append(BohriumDatasetsArtifact(path))
+                    r.append(BohriumDatasetsArtifact(Path(str(path))))
             else:
                 for v in path.values():
                     if v is not None and str(v).startswith("/bohr/"):
-                        r.append(BohriumDatasetsArtifact(v))
+                        r.append(BohriumDatasetsArtifact(Path(str(v))))
     # due the constraint of the dflow Task, return None if no dataset, but not an empty list
     return r if r else None
 
