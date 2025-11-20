@@ -26,7 +26,7 @@ class BaseTask(BaseModel):
     """
 
     task_name: str
-    test_data: Path
+    test_data: Path | dict[str, Path]
     task_config: ClassVar[Path]
     model_config = ConfigDict(extra="allow")
     workdir: Path = Path(tempfile.gettempdir()) / "lambench"

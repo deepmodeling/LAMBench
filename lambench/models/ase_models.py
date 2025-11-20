@@ -1,6 +1,5 @@
 from __future__ import annotations
 import logging
-from functools import cached_property
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
@@ -17,6 +16,7 @@ from ase.constraints import FixSymmetry
 from ase.filters import FrechetCellFilter
 from ase.io import write
 from ase.optimize import FIRE
+from ase.calculators.emt import EMT
 from dftd3.ase import DFTD3
 from tqdm import tqdm
 
@@ -79,8 +79,9 @@ class ASEModel(BaseLargeAtomModel):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._calc = None
 
-    @cached_property
+    @property
     def calc(self, head=None) -> Calculator:
         """ASE Calculator with the model loaded."""
         calculator_dispatch = {
@@ -96,9 +97,18 @@ class ASEModel(BaseLargeAtomModel):
         }
 
         if self.model_family not in calculator_dispatch:
-            raise ValueError(f"Model {self.model_name} is not supported by ASEModel")
-
-        return calculator_dispatch[self.model_family]()
+            logging.warning(
+                f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator."
+            )
+            self._calc = EMT()
+        else:
+            self._calc = calculator_dispatch[self.model_family]()
+        return self._calc
+    
+    @calc.setter
+    def calc(self, value: Calculator):
+        logging.warning("Overriding the default calculator.")
+        self._calc = value
 
     def _init_mace_calculator(self) -> Calculator:
         from mace.calculators import mace_mp
@@ -139,7 +149,10 @@ class ASEModel(BaseLargeAtomModel):
         from fairchem.core import FAIRChemCalculator
 
         predictor = load_predict_unit(self.model_path, device="cuda")
-        return FAIRChemCalculator(predictor, task_name="omat")
+        if self.model_domain == "molecules":
+            return FAIRChemCalculator(predictor, task_name="omol")
+        else:
+            return FAIRChemCalculator(predictor, task_name="omat")
 
     def _init_mattersim_calculator(self) -> Calculator:
         from mattersim.forcefield import MatterSimCalculator
@@ -149,25 +162,15 @@ class ASEModel(BaseLargeAtomModel):
     def _init_dp_calculator(self) -> Calculator:
         from deepmd.calculator import DP
 
-        if self.model_name == "DPA3-OC20M":
+        if self.supports_omol and self.model_domain == "molecules":
             return DP(
                 model=self.model_path,
-                head="OC20M",
-            )
-        elif self.model_name == "DPA3-OMat24":
-            return DP(
-                model=self.model_path,
-                head="Omat24",
-            )
-        elif self.model_name == "DPA3-SPICE2":
-            return DP(
-                model=self.model_path,
-                head="SPICE2",
+                head="OMol25",
             )
         else:
             return DP(
                 model=self.model_path,
-                head="MP_traj_v024_alldata_mixu",
+                head="Omat24",
             )
 
     def _init_grace_calculator(self) -> Calculator:
@@ -197,7 +200,16 @@ class ASEModel(BaseLargeAtomModel):
             import torch
 
             torch.set_default_dtype(torch.float32)
-            return self.run_ase_dptest(self, task.test_data, task.dispersion_correction)
+            # Use corresponding DFT label for models supporting OMol25 on Molecules tasks
+            if isinstance(task.test_data, dict):
+                if self.supports_omol and self.model_domain == "molecules":
+                    data_path = task.test_data["wB97"]
+                else:
+                    data_path = task.test_data["PBE"]
+            else:
+                data_path = task.test_data
+
+            return self.run_ase_dptest(self, data_path, task.dispersion_correction)
         elif isinstance(task, CalculatorTask):
             if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (

@@ -42,6 +42,8 @@ class BaseLargeAtomModel(BaseModel):
         show_finetune_task (bool): Flag indicating if the finetune task should be displayed or executed. Default is False.
         show_calculator_task (bool): Flag indicating if the calculator task should be displayed or executed. Default is False.
         skip_tasks (list[SkipTaskType]): List of task types that should be skipped during evaluation.
+        supports_omol (bool): Flag indicating if the model is trained with OMol25 or not.
+        model_domain (Optional[str]): The model head or task_name to be used for models with multiple domains. Default is None, referring to the head used for `materials` often MPTrj.
     Methods:
         evaluate(task) -> dict[str, float]:
             Abstract method for evaluating the model on a given task. Implementations should return
@@ -58,6 +60,8 @@ class BaseLargeAtomModel(BaseModel):
     show_finetune_task: bool = False
     show_calculator_task: bool = False
     skip_tasks: list[SkipTaskType] = []
+    supports_omol: bool = False
+    model_domain: Optional[str] = None
 
     @abstractmethod
     def evaluate(self, task) -> dict[str, float]:
