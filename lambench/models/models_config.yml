@@ -13,7 +13,7 @@
   show_finetune_task: True
   show_calculator_task: True
 
-- model_name: uma_m_1p1
+- model_name: UMA_m_1p1
   model_type: ASE
   model_family: UMA
   model_path: /bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
