@@ -76,7 +76,7 @@ def submit_tasks_dflow(
                 "task": task,
                 "model": model,
             },
-            artifacts={"dataset": get_dataset([model.model_path + task_data])},
+            artifacts={"dataset": get_dataset([model.model_path, task_data])},
             executor=DispatcherExecutor(
                 machine_dict={
                     "batch_type": "Bohrium",
