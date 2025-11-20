@@ -70,12 +70,7 @@ def submit_tasks_dflow(
                 "model": model,
             },
             artifacts={
-                "dataset": get_dataset(
-                    [
-                        model.model_path,
-                        *(list(task.test_data.values()) if isinstance(task.test_data, dict) else task.test_data)
-                    ]
-                )
+                "dataset": get_dataset([model.model_path] + list(task.test_data.values()) if isinstance(task.test_data, dict) else [task.test_data])
             },
             executor=DispatcherExecutor(
                 machine_dict={
