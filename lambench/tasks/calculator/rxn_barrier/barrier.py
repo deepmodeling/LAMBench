@@ -72,5 +72,5 @@ def run_inference(
     return {
         "MAE": mean_absolute_error(labels, preds),  # kcal/mol
         "RMSE": root_mean_squared_error(labels, preds),  # kcal/mol
-        "success_rate": len(success) / len(stoichiometry),
+        "success_rate": success / len(stoichiometry),
     }
