@@ -291,6 +291,16 @@ class ASEModel(BaseLargeAtomModel):
 
                 assert task.test_data is not None
                 return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "rxn_barrier":
+                from lambench.tasks.calculator.rxn_barrier.barrier import run_inference
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "binding":
+                from lambench.tasks.calculator.binding.binding import run_inference
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")
 
