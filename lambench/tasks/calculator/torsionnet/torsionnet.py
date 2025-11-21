@@ -30,6 +30,8 @@ def run_torsionnet(
     result = {}  # predicted energy
     label = {}  # label energy
 
+    calc =  model.calc
+
     # 500 fragments from Torsionnet500 dataset
     for fragment in tqdm(test_data.iterdir()):
         if not fragment.is_dir():
@@ -40,7 +42,7 @@ def run_torsionnet(
         for frame in dpdata.LabeledSystem(file_name=fragment, fmt="deepmd/raw"):
             assert len(frame) == 1
             atoms: Atoms = frame.to_ase_structure()[0]  # type: ignore
-            atoms.calc = model.calc
+            atoms.calc = calc
             pred_energy = atoms.get_potential_energy() * 23.0609  # eV to kcal/mol
             result[fragment.name].append(pred_energy)
             label_energy = frame.data["energies"][0]

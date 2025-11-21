@@ -40,7 +40,8 @@ def run_inference(
     result_df["pred_dE"] = None
     NUM_RECORDS = len(result_df)
     ERROR_THRESHOLD = 0.1  # counting Ea prediction error > 0.1 eV as failure
-
+    calc =  model.calc
+    
     for idx, row in tqdm(result_df.iterrows()):
         traj_name = row["traj"]
         data = read(f"{test_data}/{traj_name}.traj", ":")
@@ -50,7 +51,7 @@ def run_inference(
         initial, transition, final = data[0], data[barrier_idx], data[-1]
         pred_energy = []
         for atoms in [initial, transition, final]:
-            atoms.calc = model.calc
+            atoms.calc = calc
             pred_energy.append(atoms.get_potential_energy())
         e_a, de = (
             pred_energy[1] - pred_energy[0],
