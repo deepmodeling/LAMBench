@@ -31,13 +31,14 @@ def run_inference(
 
     EV_TO_KCAL = 23.06092234465
 
+    calc =  model.calc
     preds = []
     success_labels = []
 
     for site, drug, combo, label in tqdm(zip(active_site_atoms, drug_atoms, combined_atoms, labels)):
         try:
             for atoms in (site, drug, combo):
-                atoms.calc = model.calc
+                atoms.calc = calc
                 atoms.info.update({"fparam": np.array([atoms.info["charge"], atoms.info["spin"]])})
 
             site_energy = site.get_potential_energy()

@@ -46,6 +46,8 @@ def run_inference(
     labels = []
     success = len(stoichiometry)
 
+    calc =  model.calc
+
     for i, row in tqdm(stoichiometry.iterrows()):
         try:
             reactions = row["Stoichiometry"].split(",")
@@ -57,7 +59,7 @@ def run_inference(
                 structure_index = lookup_table[lookup_table["ID"] == reactant].index.values[0]
                 atoms = traj[structure_index]
                 atoms.info.update({"fparam": np.array([atoms.info["charge"], atoms.info["spin"]])})
-                atoms.calc = model.calc
+                atoms.calc = calc
                 energy = atoms.get_potential_energy()
                 pred += stoi * energy
             preds.append(pred * EV_TO_KCAL)
