@@ -20,3 +20,7 @@ elastic:
   metrics: [MAE_G_VRH, MAE_K_VRH]
   penalty: success_rate
   dummy: {"MAE_G_VRH": 67.5431, "MAE_K_VRH": 136.2597}
+vacancy:
+  domain: Inorganic Materials
+  metrics: [MAE]
+  dummy: {"MAE": 4.381}
