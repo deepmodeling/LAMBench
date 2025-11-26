@@ -113,17 +113,15 @@ class ASEModel(BaseLargeAtomModel):
     def _init_mace_calculator(self) -> Calculator:
         from mace.calculators import mace_mp
         if self.model_domain == "molecules":
-            return mace_mp(
-                model=self.model_path/"MACE-omol-0-extra-large-1024.model",
-                device="cuda",
-                default_dtype="float64",
-            )
+            head = "omol"
         else:
-            return mace_mp(
-                model=self.model_path/"mace-omat-0-medium.model",
-                device="cuda",
-                default_dtype="float64",
-            )
+            head = "omat_pbe"
+        return mace_mp(
+            model=self.model_path,
+            device="cuda",
+            default_dtype="float64",
+            head=head
+        )
 
 
     def _init_orb_calculator(self) -> Calculator:

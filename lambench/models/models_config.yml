@@ -46,13 +46,13 @@
   show_calculator_task: True
   supports_omol: True
 
-- model_name: MACE-omol-omat
+- model_name: MACE-MH-1
   model_type: ASE
   model_family: MACE
-  model_path: /bohr/testmodel-gevy/v10/mace_models
+  model_path: /bohr/testmodel-gevy/v11/mace_models/mace-mh-1.model
   virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/test-lambench:mace
   model_metadata:
-    pretty_name: MACE
+    pretty_name: MACE-MH-1
     date_added: 2025-11-26
     model_description: DP 2025 Q2, 16 layers with dynamic nnei.
     num_parameters: 3268689
