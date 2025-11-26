@@ -115,7 +115,7 @@ class ASEModel(BaseLargeAtomModel):
         if self.model_domain == "molecules":
             head = "omol"
         else:
-            head = "omat_pbe"
+            head = "omol"
         return mace_mp(
             model=self.model_path,
             device="cuda",
