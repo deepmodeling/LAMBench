@@ -14,6 +14,22 @@
   show_calculator_task: True
   supports_omol: True
 
+- model_name: DPA3_15_5M
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/testmodel-gevy/v11/dpa3_3_2_0_5M/dp_dpa3_v3.2.0_0929_120w.pt
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-26832/lambench:v2.17
+  model_metadata:
+    pretty_name: DPA-3.15-5M
+    date_added: 2025-11-20
+    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    num_parameters: 3268689
+    packages:
+      deepmd-kit: D0708
+  show_finetune_task: True
+  show_calculator_task: True
+  supports_omol: True
+
 - model_name: DPA3_2_5M
   model_type: DP
   model_family: DP
