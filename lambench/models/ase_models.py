@@ -175,7 +175,7 @@ class ASEModel(BaseLargeAtomModel):
         else:
             return DP(
                 model=self.model_path,
-                head="OMol25",
+                head="OC20M",
             )
 
     def _init_grace_calculator(self) -> Calculator:
