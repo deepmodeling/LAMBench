@@ -77,3 +77,29 @@
   show_finetune_task: True
   show_calculator_task: True
   supports_omol: True
+
+- model_name: 7net-mf-ompa
+  model_type: ASE
+  model_family: SevenNet
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.9
+  model_metadata:
+    pretty_name: SevenNet-MF-ompa
+    date_added: 2025-04-01
+    model_description: https://github.com/MDIL-SNU/SevenNet/blob/main/sevenn/pretrained_potentials/SevenNet_MF_ompa/checkpoint_sevennet_mf_ompa.pth
+    num_parameters: 26734966
+    packages:
+      sevenn: 0.11.0
+  show_calculator_task: True
+
+- model_name: orb_v3_conservative_inf_omat
+  model_type: ASE
+  model_family: ORB
+  virtualenv: registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.10
+  model_metadata:
+    pretty_name: Orb-v3-omat
+    date_added: 2025-04-22
+    model_description: https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v3/orb-v3-conservative-inf-omat-20250404.ckpt
+    num_parameters: 25510582
+    packages:
+      orb-models: 0.5.2
+  show_calculator_task: True
