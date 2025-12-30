@@ -31,3 +31,9 @@ elastic:
 vacancy:
   test_data: /bohr/lambench-vacancy-a2xo/v1
   calculator_params: null
+binding_energy:
+  test_data: /bohr/lambench-binding-dlc6/v1/PLF547
+  calculator_params: null
+rxn_barrier:
+  test_data: /bohr/lambench-BH876-uplk/v1/BH876
+  calculator_params: null

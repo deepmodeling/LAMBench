@@ -82,7 +82,7 @@ class ASEModel(BaseLargeAtomModel):
         self._calc = None
 
     @property
-    def calc(self) -> Calculator:
+    def calc(self, head=None) -> Calculator:
         """ASE Calculator with the model loaded."""
         calculator_dispatch = {
             "MACE": self._init_mace_calculator,
@@ -101,11 +101,10 @@ class ASEModel(BaseLargeAtomModel):
                 f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator."
             )
             self._calc = EMT()
-
         else:
             self._calc = calculator_dispatch[self.model_family]()
         return self._calc
-
+    
     @calc.setter
     def calc(self, value: Calculator):
         logging.warning("Overriding the default calculator.")
@@ -113,12 +112,17 @@ class ASEModel(BaseLargeAtomModel):
 
     def _init_mace_calculator(self) -> Calculator:
         from mace.calculators import mace_mp
-
+        if self.model_domain == "molecules":
+            head = "omol"
+        else:
+            head = "oc20_usemppbe"
         return mace_mp(
-            model=self.model_name.split("_")[-1],
+            model=self.model_path,
             device="cuda",
             default_dtype="float64",
+            head=head
         )
+
 
     def _init_orb_calculator(self) -> Calculator:
         from orb_models.forcefield import pretrained
@@ -134,7 +138,7 @@ class ASEModel(BaseLargeAtomModel):
 
         model_config = {"model": self.model_name, "device": "cuda"}
         if self.model_name == "7net-mf-ompa":
-            model_config["modal"] = "mpa"
+            model_config["modal"] = "omat24"
         return SevenNetCalculator(**model_config)
 
     def _init_equiformer_calculator(self) -> Calculator:
@@ -171,7 +175,7 @@ class ASEModel(BaseLargeAtomModel):
         else:
             return DP(
                 model=self.model_path,
-                head="MP_traj_v024_alldata_mixu",
+                head="Omat24",
             )
 
     def _init_grace_calculator(self) -> Calculator:
@@ -289,6 +293,16 @@ class ASEModel(BaseLargeAtomModel):
                 return {"metrics": run_inference(self, task.test_data, fmax, max_steps)}
             elif task.task_name == "vacancy":
                 from lambench.tasks.calculator.vacancy.vacancy import run_inference
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "rxn_barrier":
+                from lambench.tasks.calculator.rxn_barrier.barrier import run_inference
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "binding_energy":
+                from lambench.tasks.calculator.binding.binding import run_inference
 
                 assert task.test_data is not None
                 return {"metrics": run_inference(self, task.test_data)}
