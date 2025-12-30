@@ -3,13 +3,13 @@ AQM:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 
+  energy_std:
     wB97: 0.026886363885976483
     PBE: 0.0274237364941365
-  force_std: 
+  force_std:
     wB97: 0.48079757014613167
     PBE: 0.36804974289536174
-  virial_std: 
+  virial_std:
     wB97: null
     PBE: null
 H_nature_2022:
@@ -17,13 +17,13 @@ H_nature_2022:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 
+  energy_std:
     wB97: 0.39558742361833016
     PBE: 0.3680732527625157
-  force_std: 
+  force_std:
     wB97: 1.9680702171137432
     PBE: 2.075534952128696
-  virial_std: 
+  virial_std:
     wB97 : null
     PBE: null
 AIMD_Chig:
@@ -31,13 +31,13 @@ AIMD_Chig:
   energy_weight: 1.0
   force_weight: 1.0
   virial_weight: null
-  energy_std: 
+  energy_std:
     wB97: 0.011235040126809573
     PBE: 0.009639542241251055
-  force_std: 
+  force_std:
     wB97: 0.8434356010200169
     PBE: 0.8628550274940282
-  virial_std: 
+  virial_std:
     wB97: null
     PBE: null
 HEA25_S:

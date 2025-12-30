@@ -41,7 +41,7 @@ class ResultsFetcher:
                     model_name=model.model_name, task_name=task
                 )
                 task_config = DIRECT_TASK_WEIGHTS[task].copy()
-       
+
                 if task in ["AQM", "H_nature_2022", "AIMD_Chig"]:
                     if model.supports_omol:
                         task_config["energy_std"] = task_config["energy_std"]["wB97"]
@@ -51,7 +51,7 @@ class ResultsFetcher:
                         task_config["energy_std"] = task_config["energy_std"]["PBE"]
                         task_config["force_std"] = task_config["force_std"]["PBE"]
                         task_config["virial_std"] = task_config["virial_std"]["PBE"]
-            
+
                 if task_config["virial_weight"] is not None:
                     weight_virial = True
                 if len(task_result) != 1:
