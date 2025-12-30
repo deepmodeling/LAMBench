@@ -104,7 +104,7 @@ class ASEModel(BaseLargeAtomModel):
         else:
             self._calc = calculator_dispatch[self.model_family]()
         return self._calc
-    
+
     @calc.setter
     def calc(self, value: Calculator):
         logging.warning("Overriding the default calculator.")
@@ -112,17 +112,14 @@ class ASEModel(BaseLargeAtomModel):
 
     def _init_mace_calculator(self) -> Calculator:
         from mace.calculators import mace_mp
+
         if self.model_domain == "molecules":
             head = "omol"
         else:
             head = "oc20_usemppbe"
         return mace_mp(
-            model=self.model_path,
-            device="cuda",
-            default_dtype="float64",
-            head=head
+            model=self.model_path, device="cuda", default_dtype="float64", head=head
         )
-
 
     def _init_orb_calculator(self) -> Calculator:
         from orb_models.forcefield import pretrained
