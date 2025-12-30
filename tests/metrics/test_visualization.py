@@ -15,7 +15,9 @@ def test_aggregate_ood_results_for_one_model(
     aggregator = ResultsFetcher()
     result = aggregator.aggregate_ood_results_for_one_model(model=model)
     np.testing.assert_almost_equal(result["Molecules"], desired=0.28470115, decimal=5)
-    np.testing.assert_almost_equal(result["Inorganic Materials"],desired=0.24101483, decimal=5)
+    np.testing.assert_almost_equal(
+        result["Inorganic Materials"], desired=0.24101483, decimal=5
+    )
     assert result["Catalysis"] is None
     with caplog.at_level(logging.WARNING):
         assert (

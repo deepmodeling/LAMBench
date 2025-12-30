@@ -84,7 +84,8 @@ RECORDS_DIRECT = [
         virial_mae=1.52447,
         virial_rmse_natoms=0.109107,
         virial_mae_natoms=0.0660086,
-    ),DirectPredictRecord(
+    ),
+    DirectPredictRecord(
         id=5,
         model_name="test_dp",
         task_name="AIMD_Chig",
@@ -244,7 +245,6 @@ RECORDS_DIRECT = [
         virial_rmse_natoms=None,
         virial_mae_natoms=None,
     ),
-    
 ]
 
 RECORDS_CALCULATOR = [

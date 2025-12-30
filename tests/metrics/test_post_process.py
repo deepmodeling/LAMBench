@@ -28,7 +28,9 @@ def test_process_results_for_one_model(
             in caplog.text
         )
     assert result["generalizability_force_field_results"]["Weighted"] is None
-    assert result["generalizability_force_field_results"]["MoS2"]["energy_rmse"] == 500.8
+    assert (
+        result["generalizability_force_field_results"]["MoS2"]["energy_rmse"] == 500.8
+    )
 
     # Find differences between the calculator tasks and results
     calculator_task_differences = (
