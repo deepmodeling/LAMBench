@@ -4,7 +4,7 @@ from typing import Optional, Literal
 import lambench
 from pathlib import Path
 from collections import defaultdict
-from lambench.workflow.entrypoint import gather_models
+from lambench.workflow.entrypoint import gather_model_params, gather_model
 from datetime import datetime
 
 #############################
@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 def get_leaderboard_models(timestamp: Optional[datetime] = None) -> list:
-    models = gather_models()
+    models = [gather_model(param, "") for param in gather_model_params()]
     if timestamp is not None:
         models = [
             model for model in models if model.model_metadata.date_added <= timestamp

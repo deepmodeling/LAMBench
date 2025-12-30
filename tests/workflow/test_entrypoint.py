@@ -1,4 +1,3 @@
-from lambench.models.dp_models import DPModel
 from lambench.tasks import PropertyFinetuneTask
 import pytest
 from lambench.workflow.entrypoint import gather_task_type
@@ -6,21 +5,21 @@ from unittest.mock import MagicMock
 
 
 def _create_dp_model(skip_tasks=[]):
-    return DPModel(
-        model_name="test_model",
-        model_family="test_family",
-        model_type="DP",
-        model_path="test_path",
-        virtualenv="test_env",
-        model_metadata={
+    return {
+        "model_name": "test_model",
+        "model_family": "test_family",
+        "model_type": "DP",
+        "model_path": "test_path",
+        "virtualenv": "test_env",
+        "model_metadata": {
             "pretty_name": "test",
             "date_added": "2023-10-01",
             "extra_content": "test",
             "num_parameters": 1000,
             "packages": {"torch": "2.0.0"},
         },
-        skip_tasks=skip_tasks,
-    )
+        "skip_tasks": skip_tasks,
+    }
 
 
 @pytest.fixture
