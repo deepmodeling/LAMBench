@@ -118,6 +118,8 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
             "wiggle150",
             "elastic",
             "vacancy",
+            "binding_energy",
+            "rxn_barrier",
         ]:
             applicability_results[record.task_name] = record.metrics
     return applicability_results

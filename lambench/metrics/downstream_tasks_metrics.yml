@@ -24,3 +24,11 @@ vacancy:
   domain: Inorganic Materials
   metrics: [MAE]
   dummy: {"MAE": 4.381}
+binding_energy:
+  domain: Molecules
+  metrics: [MAE]
+  dummy: {"MAE": 8.098}
+rxn_barrier:
+  domain: Molecules
+  metrics: [MAE]
+  dummy: {"MAE": 20.975}
