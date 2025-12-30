@@ -55,7 +55,11 @@ def submit_tasks_dflow(
         name = "".join([c if c.isalnum() else "-" for c in name])
         if task.test_data is not None:
             # handle dict type test_data, NOTE: if the datasets are in the same parent folder, only need to upload the artifact once.
-            task_data = list(task.test_data.values())[0] if isinstance(task.test_data, dict) else task.test_data
+            task_data = (
+                list(task.test_data.values())[0]
+                if isinstance(task.test_data, dict)
+                else task.test_data
+            )
         else:
             task_data = []
         logging.warning(f"Submitting task {name} with test data paths: {task_data}")
