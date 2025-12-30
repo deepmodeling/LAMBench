@@ -66,7 +66,7 @@ def gather_task_type(
             continue  # Regular ASEModel does not support PropertyFinetuneTask
         for task_name, task_params in task_configs.items():
             if (task_names and task_name not in task_names) or task_class.__name__ in (
-                model_param["skip_tasks"]
+                model_param.get("skip_tasks", [])
             ):
                 continue
             task = task_class(task_name=task_name, **task_params)
