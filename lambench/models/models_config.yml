@@ -40,7 +40,7 @@
       sevenn: 0.11.0
   show_calculator_task: True
 
-- model_name: uma_m_1p1
+- model_name: UMA_m_1p1
   model_type: ASE
   model_family: UMA
   model_path: /bohr/uma-ii97/v1/checkpoints/uma-m-1p1.pt
@@ -93,11 +93,10 @@
     num_parameters: 6439878
     packages:
       mace-torch: mace-mh-1
-  show_finetune_task: True
   show_calculator_task: True
   supports_omol: True
 
-- model_name: DPA3_2_5M
+- model_name: dpa3_250929_v3_2_0_5M
   model_type: DP
   model_family: DP
   model_path: /bohr/testmodel-gevy/v11/dpa3_3_2_0_5M/dp_dpa3_v3.2.0_0929_120w.pt
@@ -109,7 +108,6 @@
     num_parameters: 4816561
     packages:
       deepmd-kit: D0708
-  show_finetune_task: True
   show_calculator_task: True
   supports_omol: True
 
