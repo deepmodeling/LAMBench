@@ -74,7 +74,7 @@ def gather_task_type(
                 # model_domain = task.domain if task.domain else "" # in the future we may have tasks with specific domain.
 
                 # currently only need to distinguish direct tasks for molecules and materials due to OMol25 training set.
-                if task_name in []:  # to be added in a separate PR.
+                if task_name in ["AQM", "H_nature_2022", "AIMD_Chig"]:
                     model_domain = "molecules"
                 else:
                     model_domain = "materials"
