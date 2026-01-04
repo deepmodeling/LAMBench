@@ -112,23 +112,51 @@
   supports_omol: True
   skip_tasks: [PropertyFinetuneTask]
 
+- model_name: dpa2_241126_v2_4_0
+  model_type: DP
+  model_family: DP
+  model_path: /bohr/lambench-model-55c1/v3/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
+  virtualenv: *bohrium_image
+  model_metadata:
+    pretty_name: DPA-2.4-7M
+    date_added: 2025-04-01
+    model_description: DP 2024 Q4, 37head share fitting 120GPU pretrain
+    num_parameters: 6637036
+    packages:
+      deepmd-kit: P0131
+  show_calculator_task: True
+  skip_tasks: [PropertyFinetuneTask]
+
+- model_name: mace_medium-mpa-0
+  model_type: ASE
+  model_family: MACE
+  virtualenv: *bohrium_image
+  model_metadata:
+    pretty_name: MACE-MPA-0
+    date_added: 2025-04-01
+    model_description: https://github.com/ACEsuit/mace-mp/releases/download/mace_mpa_0/mace-mpa-0-medium.model
+    num_parameters: 9063204
+    packages:
+      macetorch: 0.3.12
+  show_calculator_task: True
+  skip_tasks: [PropertyFinetuneTask]
+
+- model_name: orb_v2
+  model_type: ASE
+  model_family: ORB
+  virtualenv: *bohrium_image
+  model_metadata:
+    pretty_name: Orb-v2
+    date_added: 2025-04-01
+    model_description: https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v2-20241011.ckpt
+    num_parameters: 25161727
+    packages:
+      orb-models: 0.4.2
+  show_calculator_task: True
+  skip_tasks: [PropertyFinetuneTask]
+
 
 # Deprecated Models
-
-# - model_name: dpa2_241126_v2_4_0
-#   model_type: DP
-#   model_family: DP
-#   model_path: /bohr/lambench-model-55c1/v3/dpa2_241126_v2_4_0/dp_dpa2_v2.4.0_1126_800w.pt
-#   virtualenv: &bohrium_image registry.dp.tech/dptech/dp/native/prod-375/lambench:v2.9
-#   model_metadata:
-#     pretty_name: DPA-2.4-7M
-#     date_added: 2025-04-01
-#     model_description: DP 2024 Q4, 37head share fitting 120GPU pretrain
-#     num_parameters: 6637036
-#     packages:
-#       deepmd-kit: P0131
-#   show_direct_task: False # Hide deprecated model
-#   skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
 
 # - model_name: dpa3_250211_v3_0_0_7M
 #   model_type: DP
@@ -171,34 +199,6 @@
 #     num_parameters: 4688656
 #     packages:
 #       macetorch: 0.3.12
-#   show_direct_task: False # Hide deprecated model
-#   skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
-
-# - model_name: mace_medium-mpa-0
-#   model_type: ASE
-#   model_family: MACE
-#   virtualenv: *bohrium_image
-#   model_metadata:
-#     pretty_name: MACE-MPA-0
-#     date_added: 2025-04-01
-#     model_description: https://github.com/ACEsuit/mace-mp/releases/download/mace_mpa_0/mace-mpa-0-medium.model
-#     num_parameters: 9063204
-#     packages:
-#       macetorch: 0.3.12
-#   show_direct_task: False # Hide deprecated model
-#   skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
-
-# - model_name: orb_v2
-#   model_type: ASE
-#   model_family: ORB
-#   virtualenv: *bohrium_image
-#   model_metadata:
-#     pretty_name: Orb-v2
-#     date_added: 2025-04-01
-#     model_description: https://orbitalmaterials-public-models.s3.us-west-1.amazonaws.com/forcefields/orb-v2-20241011.ckpt
-#     num_parameters: 25161727
-#     packages:
-#       orb-models: 0.4.2
 #   show_direct_task: False # Hide deprecated model
 #   skip_tasks: [CalculatorTask, DirectPredictTask, PropertyFinetuneTask]
 
