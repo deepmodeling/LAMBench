@@ -82,7 +82,7 @@ class ASEModel(BaseLargeAtomModel):
         self._calc = None
 
     @property
-    def calc(self, head=None) -> Calculator:
+    def calc(self) -> Calculator:
         """ASE Calculator with the model loaded."""
         calculator_dispatch = {
             "MACE": self._init_mace_calculator,
