@@ -110,6 +110,8 @@
       deepmd-kit: D0708
   show_calculator_task: True
   supports_omol: True
+  skip_tasks: [PropertyFinetuneTask]
+
 
 # Deprecated Models
 
