@@ -113,7 +113,11 @@ class ASEModel(BaseLargeAtomModel):
     def _init_mace_calculator(self) -> Calculator:
         from mace.calculators import mace_mp
 
-        model_config = {"model": self.model_path, "device": "cuda", "default_dtype": "float64"}
+        model_config = {
+            "model": self.model_path,
+            "device": "cuda",
+            "default_dtype": "float64",
+        }
         if self.model_domain == "molecules":
             head = "omol"
         else:
