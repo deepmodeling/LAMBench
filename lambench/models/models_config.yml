@@ -89,7 +89,7 @@
   model_metadata:
     pretty_name: MACE-MH-1
     date_added: 2025-11-26
-    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    model_description: A multitask trained model, refer to https://huggingface.co/mace-foundations/mace-mh-1.
     num_parameters: 6439878
     packages:
       mace-torch: mace-mh-1
@@ -104,7 +104,7 @@
   model_metadata:
     pretty_name: DPA-3.2-5M
     date_added: 2025-11-20
-    model_description: DP 2025 Q2, 16 layers with dynamic nnei.
+    model_description: DP 2025 Q4, 24 layers with dynamic nnei and frame-level parameters to support explicit charge/spin inputs.
     num_parameters: 4816561
     packages:
       deepmd-kit: D0708
