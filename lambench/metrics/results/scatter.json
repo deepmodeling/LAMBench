@@ -1,67 +1,27 @@
 [
   {
-    "name": "DPA-2.4-7M",
-    "family": "DP",
-    "nparams": 6637036,
-    "efficiency": 162.04,
-    "std": 0.55,
-    "generalizability error": 0.24
-  },
-  {
     "name": "DPA-3.1-3M",
     "family": "DP",
     "nparams": 3268689,
-    "efficiency": 383.48,
-    "std": 61.69,
-    "generalizability error": 0.17
+    "efficiency": 399.67,
+    "std": 62.84,
+    "generalizability error": 0.19
   },
   {
-    "name": "MACE-MP-0",
-    "family": "MACE",
-    "nparams": 4688656,
-    "efficiency": 337.4,
-    "std": 33.6,
-    "generalizability error": 0.35
-  },
-  {
-    "name": "MACE-MPA-0",
-    "family": "MACE",
-    "nparams": 9063204,
-    "efficiency": 341.4,
-    "std": 32.88,
-    "generalizability error": 0.31
-  },
-  {
-    "name": "Orb-v2",
-    "family": "ORB",
-    "nparams": 25161727,
-    "efficiency": 74.56,
-    "std": 5.03,
-    "generalizability error": 0.25
-  },
-  {
-    "name": "Orb-v3",
+    "name": "Orb-v3-omat",
     "family": "ORB",
     "nparams": 25510582,
-    "efficiency": 252.24,
-    "std": 32.27,
-    "generalizability error": 0.21
-  },
-  {
-    "name": "SevenNet-l3i5",
-    "family": "SevenNet",
-    "nparams": 1171144,
-    "efficiency": 367.9,
-    "std": 80.51,
-    "generalizability error": 0.33
+    "efficiency": 256.72,
+    "std": 33.33,
+    "generalizability error": 0.2
   },
   {
     "name": "SevenNet-MF-ompa",
     "family": "SevenNet",
     "nparams": 26734966,
-    "efficiency": 1188.01,
-    "std": 166.27,
-    "generalizability error": 0.25
+    "efficiency": 1177.61,
+    "std": 164.24,
+    "generalizability error": 0.24
   },
   {
     "name": "MatterSim-v1-5M",
@@ -77,6 +37,46 @@
     "nparams": 12597516,
     "efficiency": 156.48,
     "std": 8.79,
-    "generalizability error": 0.25
+    "generalizability error": 0.26
+  },
+  {
+    "name": "MACE-MH-1",
+    "family": "MACE",
+    "nparams": 6439878,
+    "efficiency": 616.61,
+    "std": 36.57,
+    "generalizability error": 0.17
+  },
+  {
+    "name": "DPA-3.2-5M",
+    "family": "DP",
+    "nparams": 4816561,
+    "efficiency": 499.48,
+    "std": 190.45,
+    "generalizability error": 0.14
+  },
+  {
+    "name": "DPA-2.4-7M",
+    "family": "DP",
+    "nparams": 6637036,
+    "efficiency": 162.04,
+    "std": 0.55,
+    "generalizability error": 0.24
+  },
+  {
+    "name": "MACE-MPA-0",
+    "family": "MACE",
+    "nparams": 9063204,
+    "efficiency": 341.4,
+    "std": 32.88,
+    "generalizability error": 0.3
+  },
+  {
+    "name": "Orb-v2",
+    "family": "ORB",
+    "nparams": 25161727,
+    "efficiency": 74.56,
+    "std": 5.03,
+    "generalizability error": 0.26
   }
 ]
