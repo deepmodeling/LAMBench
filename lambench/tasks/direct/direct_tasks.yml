@@ -35,5 +35,6 @@ HPt_NC_2022:
   test_data: "/bohr/lambench-ood-zwtr/v5/LAMBench-TestData-v4/HPt_NC2022"
 Carbon_growth:
   test_data: "/bohr/lambench-ood-zwtr/v5/LAMBench-TestData-v4/carbon_film_growth"
+  dispersion_correction: d3zero
 In2O3_CO2:
   test_data: "/bohr/lambench-ood-zwtr/v5/LAMBench-TestData-v4/In2O3_CO2"

@@ -15,6 +15,14 @@ Large atomistic models (LAM), also known as machine learning interatomic potenti
 - **Extensible**: Easily add new benchmarks and metrics.
 - **Detailed Reports**: Generates detailed performance reports and visualizations.
 
+## Updates
+The following changes have been made compared to the previouly release version v0.3.1:
+- Added new models: MACE-MH-1, DPA-3.2-5M
+- Updated `Force Field Prediction` tasks, and for the domain of `Molecules`, two sets of labels were provided to support OMol25-trained models.
+- Added new `Property Calculation` tasks: oxygen vacancy formation energy prediction, protein-ligand binding energy prediction, and reaction energy barrier prediction.
+
+<span style="color:red">⚠️ Note: To assess full LAM capacity, we use OMat24-trained task heads for *Force Field Prediction* in Inorganic Materials and Catalysis, and OMol25-trained task heads for Molecules, when available. As for *Property Calculation*, we follow a similar approach, but use OC20-trained task heads for Catalysis when available, as this tends to yield better performance.</span>
+
 # LAMBench Leaderboard
 
 The LAMBench Leaderboard.
@@ -34,9 +42,10 @@ Figure 2: Accuracy-Efficiency Trade-off, $\bar{M}^m_{FF}$ vs $M_E^m$.
 
 We categorize all force-field prediction tasks into 3 domains:
 
-- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `Sours2023Applications`, `Lopanitsyna2023Modeling`, `Mazitov2024Surface`, `Gao2025Spontaneous`
-- **Molecules**: `ANI-1x`, `MD22`, `AIMD-Chig`
-- **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Villanueva2024Water`
+- **Inorganic Materials**: `Torres2019Analysis`, `Batzner2022equivariant`, `Sours2023Applications`, `Lopanitsyna2023Modeling`, `Mazitov2024Surface`, `Gao2025Spontaneous`, `Gao2025Mechanism`
+- **Molecules**: `Sandonas2024Dataset`, `Guan2022Benchmark`, `AIMD-Chig`
+- **Catalysis**: `Vandermause2022Active`, `Zhang2019Bridging`, `Villanueva2024Water`,
+`Schaaf2023Accurate`, `Liu2025Generalized`
 
 To assess model performance across these domains, we use zero-shot inference with energy-bias term adjustments based on test dataset statistics. Performance metrics are aggregated as follows:
 
@@ -46,7 +55,7 @@ To assess model performance across these domains, we use zero-shot inference wit
 
     where $M^m_{k,p,i}$ is the original error metric, $m$ indicates the model, $k$ denotes the domain index, $p$ signifies the prediction index, and $i$ represents the test set index. For a model with worse accuracy than a dummy model, the error metric is set to 1.
     For instance, in force field tasks, the domains include Molecules, Inorganic Materials, and Catalysis, such that $k \in \{\text{Molecules, Inorganic Materials, Catalysis}\}$. The prediction types are categorized as energy ($E$), force ($F$), or virial ($V$), with $p \in \{E, F, V\}$.
-    For the specific domain of Molecules, the test sets are indexed as $i \in \{\text{ANI-1x, MD22, AIMD-Chig}\}$. This baseline model predicts energy based solely on the chemical formula, disregarding any structural details, thereby providing a reference point for evaluating the improvement offered by more sophisticated models.
+    For the specific domain of Molecules, the test sets are indexed as $i \in \{\text{Sandonas2024Dataset, Guan2022Benchmark, AIMD-Chig}\}$. This baseline model predicts energy based solely on the chemical formula, disregarding any structural details, thereby providing a reference point for evaluating the improvement offered by more sophisticated models.
 
 2. For each domain, we compute the log-average of normalized metrics across all datasets  within this domain by
 
@@ -83,12 +92,11 @@ In contrast, an ideal model that perfectly matches Density Functional Theory (DF
 
 For the domain-specific property calculation tasks, we adopt the MAE as the primary error metric.
 
-In the Inorganic Materials domain, the MDR phonon benchmark predicts the maximum phonon frequency, entropy, free energy, and heat capacity at constant volume, while the elasticity benchmark evaluates the shear and bulk moduli. Each prediction type
-is assigned an equal weight of $\frac{1}{6}$.
+In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon frequency, entropy, free energy, and constant-volume heat capacity; the elasticity benchmark evaluates shear and bulk moduli; and the oxygen vacancy benchmark evaluates oxygen vacancy formation energies. Each prediction type is equally weighted.
 
-In the Molecules domain, the TorsionNet500 benchmark evaluates the torsion profile energy, torsional barrier height, and the number of molecules for which the predicted torsional barrier height error exceeds 1 kcal/mol. The Wiggle150 benchmark assesses the relative conformer energy profile. Each prediction type in this domain is assigned a weight of 0.25.
+In the Molecules domain, the TorsionNet500 benchmark evaluates torsion profile energy, torsional barrier height, and the number of molecules with barrier height errors exceeding 1 kcal/mol. The Wiggle150 benchmark assesses relative conformer energy profiles. The protein–ligand binding benchmark evaluates binding energies across multiple sites for a given protein. The reaction barrier benchmark assesses forward and reverse barriers for nine reaction types common in organic chemistry and biochemistry. Each prediction type is equally weighted.
 
-In the Catalysis domain, the OC20NEB-OOD benchmark evaluates the energy barrier, reaction energy change (delta energy), and the percentage of reactions with predicted energy barrier errors exceeding 0.1 eV for three reaction types: transfer, dissociation, and desorption. Each prediction type in this domain is assigned a weight of 0.2.
+In the Catalysis domain, the OC20NEB-OOD benchmark evaluates the energy barrier, reaction energy change (delta energy), and the percentage of reactions with predicted energy barrier errors exceeding 0.1 eV for three reaction types: transfer, dissociation, and desorption. Each prediction type is equally weighted.
 
 The resulting error metric after averaging over all domains is denoted as $\bar M^{m}_{PC}$.
 
