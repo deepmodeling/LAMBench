@@ -1,16 +1,16 @@
 {
   "legend": {
     "data": [
-      "DPA-2.4-7M",
       "DPA-3.1-3M",
-      "MACE-MP-0",
-      "MACE-MPA-0",
-      "Orb-v2",
-      "Orb-v3",
-      "SevenNet-l3i5",
+      "Orb-v3-omat",
       "SevenNet-MF-ompa",
       "MatterSim-v1-5M",
-      "GRACE-2L-OAM"
+      "GRACE-2L-OAM",
+      "MACE-MH-1",
+      "DPA-3.2-5M",
+      "DPA-2.4-7M",
+      "MACE-MPA-0",
+      "Orb-v2"
     ],
     "bottom": 0,
     "textStyle": {
@@ -42,86 +42,86 @@
       "type": "radar",
       "data": [
         {
-          "name": "DPA-2.4-7M",
+          "name": "DPA-3.1-3M",
           "value": [
-            0.8200000000000001,
-            0.8,
-            0.6599999999999999
+            0.73,
+            0.85,
+            0.84
           ]
         },
         {
-          "name": "DPA-3.1-3M",
+          "name": "Orb-v3-omat",
+          "value": [
+            0.75,
+            0.85,
+            0.81
+          ]
+        },
+        {
+          "name": "SevenNet-MF-ompa",
+          "value": [
+            0.6799999999999999,
+            0.85,
+            0.74
+          ]
+        },
+        {
+          "name": "MatterSim-v1-5M",
+          "value": [
+            0.62,
+            0.81,
+            0.72
+          ]
+        },
+        {
+          "name": "GRACE-2L-OAM",
+          "value": [
+            0.65,
+            0.83,
+            0.73
+          ]
+        },
+        {
+          "name": "MACE-MH-1",
           "value": [
             0.84,
-            0.84,
+            0.85,
             0.79
+          ]
+        },
+        {
+          "name": "DPA-3.2-5M",
+          "value": [
+            0.88,
+            0.85,
+            0.83
           ],
           "areaStyle": {
             "opacity": 0.1
           }
         },
         {
-          "name": "MACE-MP-0",
+          "name": "DPA-2.4-7M",
           "value": [
-            0.64,
             0.72,
-            0.5900000000000001
+            0.8200000000000001,
+            0.75
           ]
         },
         {
           "name": "MACE-MPA-0",
           "value": [
-            0.6599999999999999,
+            0.62,
             0.79,
-            0.62
+            0.7
           ]
         },
         {
           "name": "Orb-v2",
           "value": [
-            0.78,
-            0.75,
-            0.71
-          ]
-        },
-        {
-          "name": "Orb-v3",
-          "value": [
-            0.8200000000000001,
-            0.8200000000000001,
-            0.71
-          ]
-        },
-        {
-          "name": "SevenNet-l3i5",
-          "value": [
-            0.75,
-            0.76,
-            0.51
-          ]
-        },
-        {
-          "name": "SevenNet-MF-ompa",
-          "value": [
-            0.75,
-            0.83,
-            0.6599999999999999
-          ]
-        },
-        {
-          "name": "MatterSim-v1-5M",
-          "value": [
+            0.72,
             0.74,
-            0.8200000000000001,
-            0.5900000000000001
-          ]
-        },
-        {
-          "name": "GRACE-2L-OAM",
-          "value": [
-            0.75,
-            0.8200000000000001,
-            0.6699999999999999
+            0.75
           ]
         }
       ]
