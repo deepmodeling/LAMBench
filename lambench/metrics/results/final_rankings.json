@@ -22,7 +22,7 @@
   },
   {
     "Model": "Orb-v3-omat",
-    "Generalizability-FF Error \u2193": 0.197,
+    "Generalizability-FF Error \u2193": 0.198,
     "Generalizability-PC Error \u2193": 0.437,
     "Applicability-Instability \u2193": 0.0,
     "Applicability-Efficiency \u2191": 0.39
@@ -36,7 +36,7 @@
   },
   {
     "Model": "SevenNet-MF-ompa",
-    "Generalizability-FF Error \u2193": 0.245,
+    "Generalizability-FF Error \u2193": 0.244,
     "Generalizability-PC Error \u2193": 0.474,
     "Applicability-Instability \u2193": 0.0,
     "Applicability-Efficiency \u2191": 0.085
@@ -57,7 +57,7 @@
   },
   {
     "Model": "MatterSim-v1-5M",
-    "Generalizability-FF Error \u2193": 0.285,
+    "Generalizability-FF Error \u2193": 0.286,
     "Generalizability-PC Error \u2193": 0.488,
     "Applicability-Instability \u2193": 0.0,
     "Applicability-Efficiency \u2191": 0.393
