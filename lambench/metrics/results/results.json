@@ -97,18 +97,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 14982.5,
-        "energy_mae": 9621.7,
-        "energy_rmse_natoms": 125.4,
-        "energy_mae_natoms": 82.8,
-        "force_rmse": 322.2,
-        "force_mae": 123.9,
-        "virial_rmse": 12944.3,
-        "virial_mae": 4974.8,
-        "virial_rmse_natoms": 139.7,
-        "virial_mae_natoms": 44.9
-      },
       "CompressBi": {
         "energy_rmse": 1227.5,
         "energy_mae": 852.5,
@@ -181,17 +169,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 13875.2,
+        "energy_mae": 8969.5,
+        "energy_rmse_natoms": 116.5,
+        "energy_mae_natoms": 78.5,
+        "force_rmse": 323.6,
+        "force_mae": 129.5,
+        "virial_rmse": 19876.2,
+        "virial_mae": 7958.6,
+        "virial_rmse_natoms": 161.2,
+        "virial_mae_natoms": 61.1
+      },
       "Weighted": {
-        "energy_mae": 374.7,
+        "energy_mae": 372.9,
         "energy_mae_natoms": 6.8,
-        "energy_rmse": 542.1,
+        "energy_rmse": 539.3,
         "energy_rmse_natoms": 9.9,
-        "force_mae": 84.4,
-        "force_rmse": 138.7,
-        "virial_mae": 2333.9,
-        "virial_mae_natoms": 46.8,
-        "virial_rmse": 4698.9,
-        "virial_rmse_natoms": 96.2
+        "force_mae": 84.7,
+        "force_rmse": 138.8,
+        "virial_mae": 2524.0,
+        "virial_mae_natoms": 49.2,
+        "virial_rmse": 5047.0,
+        "virial_rmse_natoms": 98.5
       }
     },
     "generalizability_domain_specific_results": {
@@ -420,18 +420,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 15684.7,
-        "energy_mae": 9890.0,
-        "energy_rmse_natoms": 126.2,
-        "energy_mae_natoms": 81.7,
-        "force_rmse": 218.9,
-        "force_mae": 124.8,
-        "virial_rmse": 9842.2,
-        "virial_mae": 4710.8,
-        "virial_rmse_natoms": 83.4,
-        "virial_mae_natoms": 39.3
-      },
       "HEA25_S": {
         "energy_rmse": 2498.1,
         "energy_mae": 1746.8,
@@ -492,17 +480,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14538.9,
+        "energy_mae": 9240.7,
+        "energy_rmse_natoms": 117.2,
+        "energy_mae_natoms": 77.8,
+        "force_rmse": 221.4,
+        "force_mae": 130.7,
+        "virial_rmse": 20248.8,
+        "virial_mae": 7883.5,
+        "virial_rmse_natoms": 129.0,
+        "virial_mae_natoms": 57.2
+      },
       "Weighted": {
-        "energy_mae": 426.5,
+        "energy_mae": 424.6,
         "energy_mae_natoms": 7.6,
-        "energy_rmse": 606.8,
+        "energy_rmse": 603.7,
         "energy_rmse_natoms": 11.1,
-        "force_mae": 94.6,
-        "force_rmse": 162.0,
-        "virial_mae": 2517.9,
-        "virial_mae_natoms": 49.7,
-        "virial_rmse": 5039.8,
-        "virial_rmse_natoms": 100.5
+        "force_mae": 94.9,
+        "force_rmse": 162.1,
+        "virial_mae": 2743.5,
+        "virial_mae_natoms": 52.9,
+        "virial_rmse": 5683.7,
+        "virial_rmse_natoms": 108.0
       }
     },
     "generalizability_domain_specific_results": {
@@ -745,18 +745,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 15406.7,
-        "energy_mae": 9777.8,
-        "energy_rmse_natoms": 123.2,
-        "energy_mae_natoms": 82.0,
-        "force_rmse": 399.3,
-        "force_mae": 154.5,
-        "virial_rmse": 12371.5,
-        "virial_mae": 4537.3,
-        "virial_rmse_natoms": 441.7,
-        "virial_mae_natoms": 50.2
-      },
       "CompressBi": {
         "energy_rmse": 635.0,
         "energy_mae": 529.1,
@@ -769,17 +757,29 @@
         "virial_rmse_natoms": 51.3,
         "virial_mae_natoms": 30.1
       },
+      "Carbon_growth": {
+        "energy_rmse": 14258.5,
+        "energy_mae": 9086.1,
+        "energy_rmse_natoms": 114.3,
+        "energy_mae_natoms": 77.1,
+        "force_rmse": 400.5,
+        "force_mae": 159.9,
+        "virial_rmse": 19097.9,
+        "virial_mae": 7589.6,
+        "virial_rmse_natoms": 448.9,
+        "virial_mae_natoms": 67.4
+      },
       "Weighted": {
-        "energy_mae": 522.8,
-        "energy_mae_natoms": 9.3,
-        "energy_rmse": 746.0,
-        "energy_rmse_natoms": 13.5,
-        "force_mae": 104.1,
-        "force_rmse": 183.6,
-        "virial_mae": 2163.9,
-        "virial_mae_natoms": 45.1,
-        "virial_rmse": 4322.1,
-        "virial_rmse_natoms": 108.7
+        "energy_mae": 520.3,
+        "energy_mae_natoms": 9.2,
+        "energy_rmse": 742.2,
+        "energy_rmse_natoms": 13.4,
+        "force_mae": 104.4,
+        "force_rmse": 183.7,
+        "virial_mae": 2357.6,
+        "virial_mae_natoms": 47.3,
+        "virial_rmse": 4646.4,
+        "virial_rmse_natoms": 109.0
       }
     },
     "generalizability_domain_specific_results": {
@@ -889,18 +889,6 @@
         "virial_mae": null,
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
-      },
-      "Carbon_growth": {
-        "energy_rmse": 15920.4,
-        "energy_mae": 10227.2,
-        "energy_rmse_natoms": 155.1,
-        "energy_mae_natoms": 90.6,
-        "force_rmse": 295.7,
-        "force_mae": 174.3,
-        "virial_rmse": 10806.6,
-        "virial_mae": 5548.4,
-        "virial_rmse_natoms": 89.4,
-        "virial_mae_natoms": 46.1
       },
       "AIMD_Chig": {
         "energy_rmse": 588.3,
@@ -1046,17 +1034,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14726.1,
+        "energy_mae": 9517.5,
+        "energy_rmse_natoms": 144.4,
+        "energy_mae_natoms": 85.6,
+        "force_rmse": 297.6,
+        "force_mae": 179.9,
+        "virial_rmse": 20340.6,
+        "virial_mae": 8282.0,
+        "virial_rmse_natoms": 130.1,
+        "virial_mae_natoms": 60.9
+      },
       "Weighted": {
-        "energy_mae": 674.7,
+        "energy_mae": 671.5,
         "energy_mae_natoms": 12.2,
-        "energy_rmse": 933.2,
-        "energy_rmse_natoms": 17.4,
-        "force_mae": 135.8,
-        "force_rmse": 226.1,
-        "virial_mae": 3436.7,
-        "virial_mae_natoms": 67.7,
-        "virial_rmse": 6304.0,
-        "virial_rmse_natoms": 121.7
+        "energy_rmse": 928.4,
+        "energy_rmse_natoms": 17.3,
+        "force_mae": 136.1,
+        "force_rmse": 226.2,
+        "virial_mae": 3674.0,
+        "virial_mae_natoms": 71.0,
+        "virial_rmse": 7004.8,
+        "virial_rmse_natoms": 129.5
       }
     },
     "generalizability_domain_specific_results": {
@@ -1239,18 +1239,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 15320.2,
-        "energy_mae": 9716.2,
-        "energy_rmse_natoms": 128.2,
-        "energy_mae_natoms": 82.7,
-        "force_rmse": 437.4,
-        "force_mae": 185.2,
-        "virial_rmse": 13198.7,
-        "virial_mae": 5725.3,
-        "virial_rmse_natoms": 175.2,
-        "virial_mae_natoms": 53.6
-      },
       "Cu_MgO_catalysts": {
         "energy_rmse": 249.0,
         "energy_mae": 184.8,
@@ -1323,17 +1311,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14173.5,
+        "energy_mae": 9032.9,
+        "energy_rmse_natoms": 117.5,
+        "energy_mae_natoms": 77.6,
+        "force_rmse": 438.4,
+        "force_mae": 190.8,
+        "virial_rmse": 19796.8,
+        "virial_mae": 8098.4,
+        "virial_rmse_natoms": 194.4,
+        "virial_mae_natoms": 68.5
+      },
       "Weighted": {
-        "energy_mae": 513.0,
-        "energy_mae_natoms": 9.2,
-        "energy_rmse": 735.3,
-        "energy_rmse_natoms": 13.4,
-        "force_mae": 119.2,
+        "energy_mae": 510.5,
+        "energy_mae_natoms": 9.1,
+        "energy_rmse": 731.5,
+        "energy_rmse_natoms": 13.3,
+        "force_mae": 119.4,
         "force_rmse": 206.7,
-        "virial_mae": 3362.0,
-        "virial_mae_natoms": 66.3,
-        "virial_rmse": 6481.7,
-        "virial_rmse_natoms": 128.6
+        "virial_mae": 3562.1,
+        "virial_mae_natoms": 69.1,
+        "virial_rmse": 6934.8,
+        "virial_rmse_natoms": 130.8
       }
     },
     "generalizability_domain_specific_results": {
@@ -1552,18 +1552,6 @@
         "virial_rmse_natoms": 248.2,
         "virial_mae_natoms": 116.8
       },
-      "Carbon_growth": {
-        "energy_rmse": 15604.8,
-        "energy_mae": 9886.3,
-        "energy_rmse_natoms": 127.2,
-        "energy_mae_natoms": 83.6,
-        "force_rmse": 242.7,
-        "force_mae": 126.8,
-        "virial_rmse": 9925.9,
-        "virial_mae": 4390.8,
-        "virial_rmse_natoms": 84.3,
-        "virial_mae_natoms": 39.3
-      },
       "CompressBi": {
         "energy_rmse": 727.1,
         "energy_mae": 567.2,
@@ -1600,17 +1588,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 15007.3,
+        "energy_mae": 9605.4,
+        "energy_rmse_natoms": 119.8,
+        "energy_mae_natoms": 81.9,
+        "force_rmse": 237.5,
+        "force_mae": 133.7,
+        "virial_rmse": 11835.5,
+        "virial_mae": 5490.3,
+        "virial_rmse_natoms": 95.4,
+        "virial_mae_natoms": 47.2
+      },
       "Weighted": {
-        "energy_mae": 413.2,
-        "energy_mae_natoms": 7.4,
-        "energy_rmse": 582.1,
+        "energy_mae": 412.4,
+        "energy_mae_natoms": 7.3,
+        "energy_rmse": 580.5,
         "energy_rmse_natoms": 10.5,
-        "force_mae": 82.1,
-        "force_rmse": 149.2,
-        "virial_mae": 2547.7,
-        "virial_mae_natoms": 50.7,
-        "virial_rmse": 5007.7,
-        "virial_rmse_natoms": 97.1
+        "force_mae": 82.4,
+        "force_rmse": 149.0,
+        "virial_mae": 2644.4,
+        "virial_mae_natoms": 52.3,
+        "virial_rmse": 5156.8,
+        "virial_rmse_natoms": 99.2
       }
     },
     "generalizability_domain_specific_results": {
@@ -1685,7 +1685,7 @@
         "packages": {
           "mace-torch": "mace-mh-1"
         },
-        "model_description": "DP 2025 Q2, 16 layers with dynamic nnei."
+        "model_description": "A multitask trained model, refer to https://huggingface.co/mace-foundations/mace-mh-1."
       },
       "show_direct_task": true,
       "show_finetune_task": false,
@@ -1756,18 +1756,6 @@
         "virial_mae": null,
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
-      },
-      "Carbon_growth": {
-        "energy_rmse": 15018.2,
-        "energy_mae": 9709.9,
-        "energy_rmse_natoms": 118.1,
-        "energy_mae_natoms": 83.0,
-        "force_rmse": 216.0,
-        "force_mae": 110.8,
-        "virial_rmse": 9932.5,
-        "virial_mae": 4668.4,
-        "virial_rmse_natoms": 87.8,
-        "virial_mae_natoms": 37.8
       },
       "NequIP_NC_2022": {
         "energy_rmse": 97.8,
@@ -1877,17 +1865,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 13948.2,
+        "energy_mae": 9141.4,
+        "energy_rmse_natoms": 111.2,
+        "energy_mae_natoms": 80.4,
+        "force_rmse": 217.0,
+        "force_mae": 114.9,
+        "virial_rmse": 16436.5,
+        "virial_mae": 6725.8,
+        "virial_rmse_natoms": 114.7,
+        "virial_mae_natoms": 51.1
+      },
       "Weighted": {
-        "energy_mae": 340.6,
+        "energy_mae": 339.3,
         "energy_mae_natoms": 6.1,
-        "energy_rmse": 488.3,
+        "energy_rmse": 485.9,
         "energy_rmse_natoms": 8.8,
-        "force_mae": 67.3,
+        "force_mae": 67.4,
         "force_rmse": 111.9,
-        "virial_mae": 2459.3,
-        "virial_mae_natoms": 48.0,
-        "virial_rmse": 4794.5,
-        "virial_rmse_natoms": 92.1
+        "virial_mae": 2613.6,
+        "virial_mae_natoms": 50.5,
+        "virial_rmse": 5214.3,
+        "virial_rmse_natoms": 96.3
       }
     },
     "generalizability_domain_specific_results": {
@@ -1962,7 +1962,7 @@
         "packages": {
           "deepmd-kit": "D0708"
         },
-        "model_description": "DP 2025 Q2, 16 layers with dynamic nnei."
+        "model_description": "DP 2025 Q4, 24 layers with dynamic nnei and frame-level parameters to support explicit charge/spin inputs."
       },
       "show_direct_task": true,
       "show_finetune_task": false,
@@ -2060,18 +2060,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 15579.4,
-        "energy_mae": 9983.2,
-        "energy_rmse_natoms": 147.0,
-        "energy_mae_natoms": 87.8,
-        "force_rmse": 343.5,
-        "force_mae": 161.5,
-        "virial_rmse": 12409.6,
-        "virial_mae": 5911.1,
-        "virial_rmse_natoms": 276.1,
-        "virial_mae_natoms": 55.0
-      },
       "MoS2": {
         "energy_rmse": 333.2,
         "energy_mae": 251.0,
@@ -2156,17 +2144,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14465.3,
+        "energy_mae": 9343.0,
+        "energy_rmse_natoms": 137.8,
+        "energy_mae_natoms": 84.0,
+        "force_rmse": 344.6,
+        "force_mae": 166.4,
+        "virial_rmse": 20913.5,
+        "virial_mae": 8644.8,
+        "virial_rmse_natoms": 291.4,
+        "virial_mae_natoms": 71.0
+      },
       "Weighted": {
-        "energy_mae": 502.9,
-        "energy_mae_natoms": 9.1,
-        "energy_rmse": 701.7,
-        "energy_rmse_natoms": 13.0,
-        "force_mae": 109.2,
-        "force_rmse": 172.8,
-        "virial_mae": 2855.5,
-        "virial_mae_natoms": 58.1,
-        "virial_rmse": 5568.4,
-        "virial_rmse_natoms": 131.0
+        "energy_mae": 500.7,
+        "energy_mae_natoms": 9.0,
+        "energy_rmse": 698.2,
+        "energy_rmse_natoms": 12.9,
+        "force_mae": 109.4,
+        "force_rmse": 172.9,
+        "virial_mae": 3042.3,
+        "virial_mae_natoms": 60.6,
+        "virial_rmse": 6074.4,
+        "virial_rmse_natoms": 132.2
       }
     },
     "generalizability_domain_specific_results": {
@@ -2375,18 +2375,6 @@
         "virial_rmse_natoms": 322.0,
         "virial_mae_natoms": 175.4
       },
-      "Carbon_growth": {
-        "energy_rmse": 15577.8,
-        "energy_mae": 9971.9,
-        "energy_rmse_natoms": 119.8,
-        "energy_mae_natoms": 84.5,
-        "force_rmse": 443.9,
-        "force_mae": 240.0,
-        "virial_rmse": 11903.1,
-        "virial_mae": 6437.6,
-        "virial_rmse_natoms": 117.1,
-        "virial_mae_natoms": 60.4
-      },
       "HEA25_bulk": {
         "energy_rmse": 3568.8,
         "energy_mae": 2417.9,
@@ -2435,17 +2423,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14481.4,
+        "energy_mae": 9438.3,
+        "energy_rmse_natoms": 112.3,
+        "energy_mae_natoms": 80.6,
+        "force_rmse": 443.1,
+        "force_mae": 242.4,
+        "virial_rmse": 14986.6,
+        "virial_mae": 7829.8,
+        "virial_rmse_natoms": 127.4,
+        "virial_mae_natoms": 68.5
+      },
       "Weighted": {
-        "energy_mae": 581.6,
+        "energy_mae": 579.4,
         "energy_mae_natoms": 10.4,
-        "energy_rmse": 831.4,
-        "energy_rmse_natoms": 15.2,
-        "force_mae": 137.8,
+        "energy_rmse": 827.4,
+        "energy_rmse_natoms": 15.1,
+        "force_mae": 137.9,
         "force_rmse": 230.3,
-        "virial_mae": 4588.6,
-        "virial_mae_natoms": 90.5,
-        "virial_rmse": 8845.6,
-        "virial_rmse_natoms": 168.8
+        "virial_mae": 4740.8,
+        "virial_mae_natoms": 92.4,
+        "virial_rmse": 9191.8,
+        "virial_rmse_natoms": 171.2
       }
     },
     "generalizability_domain_specific_results": {
@@ -2666,18 +2666,6 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
-      "Carbon_growth": {
-        "energy_rmse": 15557.5,
-        "energy_mae": 9802.1,
-        "energy_rmse_natoms": 127.5,
-        "energy_mae_natoms": 82.7,
-        "force_rmse": 325.2,
-        "force_mae": 183.5,
-        "virial_rmse": 50077.2,
-        "virial_mae": 21235.5,
-        "virial_rmse_natoms": 405.7,
-        "virial_mae_natoms": 180.1
-      },
       "AQM": {
         "energy_rmse": 456.0,
         "energy_mae": 354.5,
@@ -2714,17 +2702,29 @@
         "virial_rmse_natoms": null,
         "virial_mae_natoms": null
       },
+      "Carbon_growth": {
+        "energy_rmse": 14369.2,
+        "energy_mae": 9100.0,
+        "energy_rmse_natoms": 117.8,
+        "energy_mae_natoms": 77.7,
+        "force_rmse": 326.1,
+        "force_mae": 187.0,
+        "virial_rmse": 48824.6,
+        "virial_mae": 21110.8,
+        "virial_rmse_natoms": 404.6,
+        "virial_mae_natoms": 179.6
+      },
       "Weighted": {
-        "energy_mae": 587.4,
+        "energy_mae": 584.5,
         "energy_mae_natoms": 10.6,
-        "energy_rmse": 894.9,
-        "energy_rmse_natoms": 16.2,
-        "force_mae": 115.3,
-        "force_rmse": 192.0,
-        "virial_mae": 9184.2,
+        "energy_rmse": 890.1,
+        "energy_rmse_natoms": 16.1,
+        "force_mae": 115.4,
+        "force_rmse": 192.1,
+        "virial_mae": 9175.2,
         "virial_mae_natoms": 178.5,
-        "virial_rmse": 17614.0,
-        "virial_rmse_natoms": 334.6
+        "virial_rmse": 17539.8,
+        "virial_rmse_natoms": 334.5
       }
     },
     "generalizability_domain_specific_results": {

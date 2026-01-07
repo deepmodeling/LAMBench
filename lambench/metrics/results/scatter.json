@@ -5,7 +5,7 @@
     "nparams": 3268689,
     "efficiency": 399.67,
     "std": 62.84,
-    "generalizability error": 0.19
+    "generalizability error": 0.2
   },
   {
     "name": "Orb-v3-omat",
@@ -29,7 +29,7 @@
     "nparams": 4549142,
     "efficiency": 254.23,
     "std": 47.65,
-    "generalizability error": 0.28
+    "generalizability error": 0.29
   },
   {
     "name": "GRACE-2L-OAM",
@@ -53,7 +53,7 @@
     "nparams": 4816561,
     "efficiency": 499.48,
     "std": 190.45,
-    "generalizability error": 0.14
+    "generalizability error": 0.15
   },
   {
     "name": "DPA-2.4-7M",
