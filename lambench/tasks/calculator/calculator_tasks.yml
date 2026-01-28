@@ -39,6 +39,6 @@ rxn_barrier:
   calculator_params: null
 pressure:
   test_data: /bohr/lambench-pressure-arjy/v1
-  calculator_params: 
+  calculator_params:
     fmax: 0.001
     max_steps: 500
