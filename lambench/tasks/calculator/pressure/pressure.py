@@ -71,7 +71,7 @@ def run_inference(
                     f"Error during test_one at pressure {pressure}, index {i}: {e}"
                 )
                 dft, lam = None, None
-            if not dft:
+            if dft is None or lam is None:
                 num_fails += 1
                 continue
             num_samples += 1
