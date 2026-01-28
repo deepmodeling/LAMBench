@@ -9,6 +9,7 @@ dependencies = [
 	"ase",
 	"python-dotenv",
 	"numpy",
+	"scipy",
 	"pydantic",
 	"pyyaml",
 	"SQLAlchemy[pymysql]",

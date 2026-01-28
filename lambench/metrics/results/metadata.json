@@ -949,6 +949,18 @@
         "DISPLAY_NAME": "Success Rate",
         "DESCRIPTION": "The success rate of volume calculations at elevated pressures."
       }
+    },
+    "stacking_fault": {
+      "DISPLAY_NAME": "Stacking Fault Energy",
+      "DESCRIPTION": "Evaluation of the stacking fault energy over 46 structures. For each structure, 10 frames were taken from each sliding trajectory, and are labeled with VASP PBE-PAW. During metrics calculation, a shape-preserving PCHIP interpolation is applied to the energy profile along the sliding path, and all datapoints from the interpolated energy profile are used to compute the metrics.",
+      "MAE_E": {
+        "DISPLAY_NAME": "MAE_E (mJ/m²)",
+        "DESCRIPTION": "The mean absolute error of the stacking fault energy."
+      },
+      "MAE_dE":{
+        "DISPLAY_NAME": "MAE_dE (1/unit displacement)",
+        "DESCRIPTION": "The mean absolute error of the normalized change in stacking fault energy per unit displacement along the sliding path (derivative divided by the maximum stacking fault energy)."
+      }
     }
   },
   "adaptability_results": {

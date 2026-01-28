@@ -36,3 +36,7 @@ pressure:
   domain: Inorganic Materials
   metrics: [MAE]
   dummy: {"MAE": 2.505} # Estimated from the MAE between DFT and avg(DFT) over 270 structures
+stacking_fault:
+  domain: Inorganic Materials
+  metrics: [MAE_E, MAE_dE]
+  dummy: {'MAE_E': 1544.8257, 'MAE_dE': 2.0}

@@ -42,3 +42,6 @@ pressure:
   calculator_params:
     fmax: 0.001
     max_steps: 500
+stacking_fault:
+  test_data: /bohr/lambench-stacking-fault-dtjt/v1
+  calculator_params: null
