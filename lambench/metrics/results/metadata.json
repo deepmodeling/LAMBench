@@ -933,6 +933,22 @@
         "DISPLAY_NAME": "Success Rate",
         "DESCRIPTION": "The success rate of reaction barrier calculations."
       }
+    },
+    "pressure": {
+      "DISPLAY_NAME": "Pressurized Materials",
+      "DESCRIPTION": "Evaluation of the volume over 45 structures at elevated pressure from 25 GPa to 150 GPa. Structures are obtained from `Antoine Loew et al 2026 J. Phys. Mater. 9 015010. https://iopscience.iop.org/article/10.1088/2515-7639/ae2ba8.` ",
+      "MAE": {
+        "DISPLAY_NAME": "MAE (Å^3/atom)",
+        "DESCRIPTION": "The mean absolute error of the volume per atom across all configurations and all pressures."
+      },
+      "RMSE": {
+        "DISPLAY_NAME": "RMSE (Å^3/atom)",
+        "DESCRIPTION": "The root mean squared error of the volume per atom across all configurations and all pressures."
+      },
+      "success_rate":{
+        "DISPLAY_NAME": "Success Rate",
+        "DESCRIPTION": "The success rate of volume calculations at elevated pressures."
+      }
     }
   },
   "adaptability_results": {

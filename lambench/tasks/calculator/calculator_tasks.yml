@@ -37,3 +37,8 @@ binding_energy:
 rxn_barrier:
   test_data: /bohr/lambench-BH876-uplk/v1/BH876
   calculator_params: null
+pressure:
+  test_data: /bohr/lambench-pressure-arjy/v1
+  calculator_params:
+    fmax: 0.001
+    max_steps: 500
