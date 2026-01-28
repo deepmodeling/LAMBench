@@ -9,7 +9,8 @@ We downsampled the original test set to 45 structures at each pressure point (25
 """
 
 from ase.io import read
-from ase import Atoms, Calculator
+from ase import Atoms
+from ase.calculators.calculator import Calculator
 from ase.optimize import FIRE
 from ase.filters import FrechetCellFilter
 from pathlib import Path
