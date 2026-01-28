@@ -52,8 +52,8 @@ def calc_one_traj(traj, label, calc):
 def run_inference(model: ASEModel, test_data: Path) -> dict:
     calc = model.calc
 
-    traj_files = sorted(list(test_data.glob("*.traj")))
-    label_files = sorted(list(test_data.glob("*.csv")))
+    traj_files = sorted(list(test_data.rglob("*.traj")))
+    label_files = sorted(list(test_data.rglob("*.csv")))
 
     energy_maes = []
     derivative_maes = []
@@ -68,5 +68,5 @@ def run_inference(model: ASEModel, test_data: Path) -> dict:
 
     return {
         "MAE_E": np.round(np.mean(energy_maes), 4),  # mJ/m²
-        "MAE_dE": np.round(np.mean(derivative_maes), 4),  # mJ/m²/unit displacement
+        "MAE_dE": np.round(np.mean(derivative_maes), 4),  # 1/unit displacement
     }
