@@ -26,10 +26,10 @@ GPA_2_KBAR = 10
 
 def optimize(structure: Atoms, target_p: float, fmax: float, steps: int) -> Atoms:
     target_p = target_p * GPA_2_KBAR * KBAR_2_EVA3  # to eV/A3
-    filter = FrechetCellFilter(structure, scalar_pressure=target_p)
-    opt = FIRE(filter)
+    cell_filter = FrechetCellFilter(structure, scalar_pressure=target_p)
+    opt = FIRE(cell_filter)
     opt.run(fmax=fmax, steps=steps)
-    return filter.atoms
+    return cell_filter.atoms
 
 
 def test_one(
