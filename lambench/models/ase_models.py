@@ -121,7 +121,8 @@ class ASEModel(BaseLargeAtomModel):
         if self.model_domain == "molecules":
             head = "omol"
         else:
-            head = "oc20_usemppbe"
+            # head = "oc20_usemppbe"
+            head = "omat_pbe"
         if self.model_name == "MACE-MH-1":
             model_config["head"] = head
         return mace_mp(**model_config)
@@ -315,6 +316,13 @@ class ASEModel(BaseLargeAtomModel):
                 fmax = task.calculator_params.get("fmax", 1e-3)
                 max_steps = task.calculator_params.get("max_steps", 500)
                 return {"metrics": run_inference(self, task.test_data, fmax, max_steps)}
+            elif task.task_name == "stacking_fault":
+                from lambench.tasks.calculator.stacking_fault.stacking_fault import (
+                    run_inference,
+                )
+
+                assert task.test_data is not None
+                return {"metrics": run_inference(self, task.test_data)}
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")
 
