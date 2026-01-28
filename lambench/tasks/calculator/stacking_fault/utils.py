@@ -15,11 +15,11 @@ def fit_pchip(
     df : pandas.DataFrame
         Dataframe with x and y columns
     x_col : str
-        Name of the x column (default: 'Displacement')
+        Name of the x column
     y_col : str
-        Name of the y column (default: 'Energy')
+        Name of the y column
     num_points : int
-        Number of points for smooth interpolation (default: 200)
+        Number of points for smooth interpolation
 
     Returns:
     --------
