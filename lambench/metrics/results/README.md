@@ -19,7 +19,7 @@ Large atomistic models (LAM), also known as machine learning interatomic potenti
 The following changes have been made compared to the previouly release version v0.3.1:
 - Added new models: MACE-MH-1, DPA-3.2-5M
 - Updated `Force Field Prediction` tasks, and for the domain of `Molecules`, two sets of labels were provided to support OMol25-trained models.
-- Added new `Property Calculation` tasks: oxygen vacancy formation energy prediction, protein-ligand binding energy prediction, and reaction energy barrier prediction.
+- Added new `Property Calculation` tasks: oxygen vacancy formation energy prediction, protein-ligand binding energy prediction, reaction energy barrier prediction, and volume prediction from materials under pressure.
 
 <span style="color:red">⚠️ Note: To assess full LAM capacity, we use OMat24-trained task heads for *Force Field Prediction* in Inorganic Materials and Catalysis, and OMol25-trained task heads for Molecules, when available. As for *Property Calculation*, we follow a similar approach, but use OC20-trained task heads for Catalysis when available, as this tends to yield better performance.</span>
 

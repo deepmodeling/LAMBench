@@ -32,3 +32,7 @@ rxn_barrier:
   domain: Molecules
   metrics: [MAE]
   dummy: {"MAE": 20.975}
+pressure:
+  domain: Inorganic Materials
+  metrics: [MAE]
+  dummy: {"MAE": 2.505} # Estimated from the MAE between DFT and avg(DFT) over 270 structures
