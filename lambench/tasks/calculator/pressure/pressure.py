@@ -17,7 +17,6 @@ from pathlib import Path
 from tqdm import tqdm
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error
 from lambench.models.ase_models import ASEModel
-from collections import defaultdict
 import logging
 
 KBAR_2_EVA3 = 6.2415e-4
@@ -53,13 +52,14 @@ def run_inference(
     max_steps: int,
 ) -> dict[str, float]:
     calc = model.calc
-    final_res = defaultdict(list)
+    all_labels = []
+    all_preds = []
     num_samples = 0
     num_fails = 0
 
     for pressure in tqdm(["025", "050", "075", "100", "125", "150"]):
-        init_traj = read(f"{test_data}/P{pressure}.traj", ":")
-        final_traj = read(f"{test_data}/P{pressure}.traj", ":")
+        init_traj = read(test_data / f"P{pressure}.traj", ":")
+        final_traj = read(test_data / f"P{pressure}.traj", ":")
         for i in tqdm(range(len(init_traj))):
             init = init_traj[i]
             final = final_traj[i]
@@ -75,15 +75,11 @@ def run_inference(
                 num_fails += 1
                 continue
             num_samples += 1
-            final_res[f"{pressure}_labels"].append(dft)
-            final_res[f"{pressure}_preds"].append(lam)
+            all_labels.append(dft)
+            all_preds.append(lam)
 
     return {
-        "MAE": mean_absolute_error(
-            final_res[f"{pressure}_labels"], final_res[f"{pressure}_preds"]
-        ),  # A3/atom
-        "RMSE": root_mean_squared_error(
-            final_res[f"{pressure}_labels"], final_res[f"{pressure}_preds"]
-        ),  # A3/atom
+        "MAE": mean_absolute_error(all_labels, all_preds),  # A3/atom
+        "RMSE": root_mean_squared_error(all_labels, all_preds),  # A3/atom
         "success_rate": (num_samples - num_fails) / num_samples,
     }
