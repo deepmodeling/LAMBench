@@ -238,6 +238,15 @@
         "MAE": 35.075975208493496,
         "RMSE": 48.46839571097656,
         "success_rate": 1.0
+      },
+      "pressure": {
+        "MAE": 0.18342419541790353,
+        "RMSE": 0.4109118486812592,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 68.2396,
+        "MAE_dE": 0.28
       }
     },
     "adaptability_results": {
@@ -549,6 +558,15 @@
         "MAE": 10.041730953645416,
         "RMSE": 12.75501188777192,
         "success_rate": 1.0
+      },
+      "pressure": {
+        "MAE": 0.32509408295939235,
+        "RMSE": 0.4130263859797738,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 82.6745,
+        "MAE_dE": 0.3927
       }
     },
     "applicability_results": {
@@ -826,6 +844,15 @@
         "MAE": 6.151286055876112,
         "RMSE": 14.646970140295773,
         "success_rate": 1.0
+      },
+      "pressure": {
+        "MAE": 0.10589181474251684,
+        "RMSE": 0.1664016255240191,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 65.9334,
+        "MAE_dE": 0.2273
       }
     },
     "applicability_results": {
@@ -1103,6 +1130,15 @@
         "MAE": 10.551373495203812,
         "RMSE": 13.634127860616026,
         "success_rate": 1.0
+      },
+      "pressure": {
+        "MAE": 0.11220056041531118,
+        "RMSE": 0.20302963835957968,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 106.7323,
+        "MAE_dE": 0.4329
       }
     },
     "applicability_results": {
@@ -1380,6 +1416,15 @@
         "MAE": 10.90555943907049,
         "RMSE": 14.16962062805039,
         "success_rate": 1.0
+      },
+      "pressure": {
+        "MAE": 0.10618952842115294,
+        "RMSE": 0.1656951780649334,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 71.8505,
+        "MAE_dE": 0.2771
       }
     },
     "applicability_results": {
@@ -1657,6 +1702,15 @@
         "success_rate": 0.99989957822856,
         "mae_free_energy": 2.0796573304496664,
         "mae_heat_capacity": 1.651748441902226
+      },
+      "stacking_fault": {
+        "MAE_E": 72.5345,
+        "MAE_dE": 0.2613
+      },
+      "pressure": {
+        "MAE": 0.4222305937376236,
+        "RMSE": 0.8041185105996129,
+        "success_rate": 1.0
       }
     },
     "applicability_results": {
@@ -1934,6 +1988,15 @@
         "success_rate": 1.0,
         "mae_free_energy": 3.596827145368043,
         "mae_heat_capacity": 3.2524963795829285
+      },
+      "pressure": {
+        "MAE": 0.13314486144908497,
+        "RMSE": 0.33995180382934687,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 81.9499,
+        "MAE_dE": 0.2952
       }
     },
     "applicability_results": {
@@ -2213,6 +2276,15 @@
       "vacancy": {
         "MAE": 0.4480881249191552,
         "RMSE": 1.0221322941585698
+      },
+      "pressure": {
+        "MAE": 0.28810172028458786,
+        "RMSE": 0.41871946992432674,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 94.6271,
+        "MAE_dE": 0.3137
       }
     },
     "applicability_results": {
@@ -2492,6 +2564,15 @@
       "vacancy": {
         "MAE": 0.4495971429841279,
         "RMSE": 1.292371843434951
+      },
+      "pressure": {
+        "MAE": 0.16543835143192454,
+        "RMSE": 0.24090917954755076,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 79.9706,
+        "MAE_dE": 0.2787
       }
     },
     "applicability_results": {
@@ -2771,6 +2852,15 @@
       "vacancy": {
         "MAE": 0.6155201076047906,
         "RMSE": 1.4033791072628925
+      },
+      "pressure": {
+        "MAE": 0.1452496980884873,
+        "RMSE": 0.2802139915526232,
+        "success_rate": 1.0
+      },
+      "stacking_fault": {
+        "MAE_E": 135.0776,
+        "MAE_dE": 0.6933
       }
     },
     "applicability_results": {
