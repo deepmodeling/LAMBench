@@ -247,6 +247,10 @@
       "stacking_fault": {
         "MAE_E": 68.2396,
         "MAE_dE": 0.28
+      },
+      "interface": {
+        "MAE": 142.49620110387318,
+        "RMSE": 231.38655469469649
       }
     },
     "adaptability_results": {
@@ -567,6 +571,10 @@
       "stacking_fault": {
         "MAE_E": 82.6745,
         "MAE_dE": 0.3927
+      },
+      "interface": {
+        "MAE": 103.1844476541651,
+        "RMSE": 201.09187793793856
       }
     },
     "applicability_results": {
@@ -853,6 +861,10 @@
       "stacking_fault": {
         "MAE_E": 65.9334,
         "MAE_dE": 0.2273
+      },
+      "interface": {
+        "MAE": 109.02898894934616,
+        "RMSE": 209.6424312001448
       }
     },
     "applicability_results": {
@@ -1139,6 +1151,10 @@
       "stacking_fault": {
         "MAE_E": 106.7323,
         "MAE_dE": 0.4329
+      },
+      "interface": {
+        "MAE": 147.02875339238017,
+        "RMSE": 229.79811203553373
       }
     },
     "applicability_results": {
@@ -1425,6 +1441,10 @@
       "stacking_fault": {
         "MAE_E": 71.8505,
         "MAE_dE": 0.2771
+      },
+      "interface": {
+        "MAE": 121.2221219352049,
+        "RMSE": 219.32839871560347
       }
     },
     "applicability_results": {
@@ -1711,6 +1731,10 @@
         "MAE": 0.4222305937376236,
         "RMSE": 0.8041185105996129,
         "success_rate": 1.0
+      },
+      "interface": {
+        "MAE": 105.9743953123711,
+        "RMSE": 201.1948922196501
       }
     },
     "applicability_results": {
@@ -1997,6 +2021,10 @@
       "stacking_fault": {
         "MAE_E": 81.9499,
         "MAE_dE": 0.2952
+      },
+      "interface": {
+        "MAE": 110.97906670669948,
+        "RMSE": 191.94641718187737
       }
     },
     "applicability_results": {
@@ -2285,6 +2313,10 @@
       "stacking_fault": {
         "MAE_E": 94.6271,
         "MAE_dE": 0.3137
+      },
+      "interface": {
+        "MAE": 169.1469262327403,
+        "RMSE": 260.98630002206545
       }
     },
     "applicability_results": {
@@ -2573,6 +2605,10 @@
       "stacking_fault": {
         "MAE_E": 79.9706,
         "MAE_dE": 0.2787
+      },
+      "interface": {
+        "MAE": 156.46280776863412,
+        "RMSE": 276.53025886352896
       }
     },
     "applicability_results": {
@@ -2861,6 +2897,10 @@
       "stacking_fault": {
         "MAE_E": 135.0776,
         "MAE_dE": 0.6933
+      },
+      "interface": {
+        "MAE": 178.50396416953532,
+        "RMSE": 274.04921534765236
       }
     },
     "applicability_results": {
