@@ -14,7 +14,7 @@ dependencies = [
 	"pyyaml",
 	"SQLAlchemy[pymysql]",
 	"tqdm",
-	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@devel#egg=dpdata",
+	"dpdata @ git+https://github.com/deepmodeling/dpdata.git@2eadf39a901130ac1e0464e0e24f4fb9545b9e4e#egg=dpdata",
 	"pandas",
 	"dftd3"
 ]
@@ -26,7 +26,7 @@ authors = [
 
 description = "Benchmarking of Large Atomic Models"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
