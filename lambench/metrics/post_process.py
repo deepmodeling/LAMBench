@@ -122,6 +122,7 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
             "rxn_barrier",
             "pressure",
             "stacking_fault",
+            "interface",
         ]:
             applicability_results[record.task_name] = record.metrics
     return applicability_results

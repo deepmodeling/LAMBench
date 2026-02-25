@@ -902,6 +902,18 @@
         "DESCRIPTION": "The root mean squared error of the oxygen vacancy formation energy across all configurations."
       }
     },
+     "interface": {
+      "DISPLAY_NAME": "Interfacial Energy",
+      "DESCRIPTION": "Evaluation of the interfacial energy over 592 structures with interfaces between two materials. The dataset contains various types of interfaces constructed by different combinations of ceramics, metals, perovskites, and semiconductors. ",
+      "MAE": {
+        "DISPLAY_NAME": "MAE (mJ/m²)",
+        "DESCRIPTION": "The mean absolute error of the interfacial energy across all configurations."
+      },
+       "RMSE": {
+        "DISPLAY_NAME": "RMSE (mJ/m²)",
+        "DESCRIPTION": "The root mean squared error of the interfacial energy across all configurations."
+      }
+     },
     "binding_energy": {
       "DISPLAY_NAME": "Protein-Ligand Binding",
       "DESCRIPTION": "Evaluation of the protein-ligand binding energy using the PLF547 dataset proposed in `J. Chem. Inf. Model. 2020, 60, 3, 1453–1460. https://pubs.acs.org/doi/10.1021/acs.jcim.9b01171.` ",

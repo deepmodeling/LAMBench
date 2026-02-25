@@ -45,3 +45,6 @@ pressure:
 stacking_fault:
   test_data: /bohr/lambench-stacking-fault-dtjt/v1
   calculator_params: null
+interface:
+  test_data: /bohr/lambench-interface-1ric/v1/Interfaces
+  calculator_params: null

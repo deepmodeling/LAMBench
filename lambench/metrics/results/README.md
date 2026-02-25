@@ -19,7 +19,7 @@ Large atomistic models (LAM), also known as machine learning interatomic potenti
 The following changes have been made compared to the previouly release version v0.3.1:
 - Added new models: MACE-MH-1, DPA-3.2-5M
 - Updated `Force Field Prediction` tasks, and for the domain of `Molecules`, two sets of labels were provided to support OMol25-trained models.
-- Added new `Property Calculation` tasks: oxygen vacancy formation energy prediction, protein-ligand binding energy prediction, reaction energy barrier prediction, stacking fault energy prediction, and volume prediction from materials under pressure.
+- Added new `Property Calculation` tasks: oxygen vacancy formation energy prediction, protein-ligand binding energy prediction, reaction energy barrier prediction, stacking fault energy prediction, interfacial energy prediction, and volume prediction from materials under pressure.
 
 <span style="color:red">⚠️ Note: To assess full LAM capacity, we use OMat24-trained task heads for *Force Field Prediction* in Inorganic Materials and Catalysis, and OMol25-trained task heads for Molecules, when available. As for *Property Calculation*, we follow a similar approach, but use OC20-trained task heads for Catalysis when available, as this tends to yield better performance.</span>
 
@@ -92,7 +92,7 @@ In contrast, an ideal model that perfectly matches Density Functional Theory (DF
 
 For the domain-specific property calculation tasks, we adopt the MAE as the primary error metric.
 
-In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon frequency, entropy, free energy, and constant-volume heat capacity; the elasticity benchmark evaluates shear and bulk moduli; and the oxygen vacancy benchmark evaluates oxygen vacancy formation energies. Each prediction type is equally weighted.
+In the Inorganic Materials domain, the MDR phonon benchmark predicts maximum phonon frequency, entropy, free energy, and constant-volume heat capacity; the elasticity benchmark evaluates shear and bulk moduli; the oxygen vacancy benchmark evaluates oxygen vacancy formation energies; the stacking fault benchmark evaluates stacking fault energies; the interfacial energy benchmark evaluates interfacial energies; and the volume benchmark evaluates volume changes for materials under pressure. Each prediction type is equally weighted.
 
 In the Molecules domain, the TorsionNet500 benchmark evaluates torsion profile energy, torsional barrier height, and the number of molecules with barrier height errors exceeding 1 kcal/mol. The Wiggle150 benchmark assesses relative conformer energy profiles. The protein–ligand binding benchmark evaluates binding energies across multiple sites for a given protein. The reaction barrier benchmark assesses forward and reverse barriers for nine reaction types common in organic chemistry and biochemistry. Each prediction type is equally weighted.
 
