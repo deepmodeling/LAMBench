@@ -38,59 +38,61 @@ def run_inference(
 ) -> dict[str, float]:
     """
     Calculate surface cleavage energies using the provided model.
-    
+
     Args:
         model: ASEModel instance with loaded calculator
         test_data: Path to directory containing test data JSON file
-        
+
     Returns:
         Dictionary with MAE and RMSE in meV/A^2
     """
     calc = model.calc
 
     # Find JSON file in the directory
-    json_files = list(test_data.glob('*.json'))
+    json_files = list(test_data.glob("*.json"))
     if not json_files:
         logging.error(f"No JSON file found in {test_data}")
         return {}
-    
+
     json_file = json_files[0]  # Use the first JSON file found
     logging.info(f"Loading test data from {json_file}")
-    
-    with open(json_file, 'r', encoding='utf-8') as f:
+
+    with open(json_file, "r", encoding="utf-8") as f:
         json_data = json.load(f)
-        
-    data = json_data.get('data', [])
+
+    data = json_data.get("data", [])
     adaptor = AseAtomsAdaptor()
-    
+
     predictions = []
     labels = []
 
     for item in tqdm(data, desc="Evaluating cleavage energy"):
         try:
-            target_cleavage = item.get('cleavage_energy_DFT')
+            target_cleavage = item.get("cleavage_energy_DFT")
 
-            slab_dict = parse_dict_string(item['structure_slab'])
-            bulk_dict = parse_dict_string(item['structure_bulk'])
-            
+            slab_dict = parse_dict_string(item["structure_slab"])
+            bulk_dict = parse_dict_string(item["structure_bulk"])
+
             struct_slab = Structure.from_dict(slab_dict)
             struct_bulk = Structure.from_dict(bulk_dict)
-            
+
             atoms_slab = adaptor.get_atoms(struct_slab)
             atoms_bulk = adaptor.get_atoms(struct_bulk)
-            
+
             # Use calculator
             atoms_slab.calc = calc
             e_slab = atoms_slab.get_potential_energy()
-            
+
             atoms_bulk.calc = calc
             e_bulk = atoms_bulk.get_potential_energy()
-            
+
             n_bulk = len(atoms_slab) / len(atoms_bulk)
-            area_slab = item.get('area_slab', item.get('surface_area', 1.0))  # Fallback if key differs
-            
+            area_slab = item.get(
+                "area_slab", item.get("surface_area", 1.0)
+            )  # Fallback if key differs
+
             e_cleavage_pred = (e_slab - n_bulk * e_bulk) / (2.0 * area_slab)
-            
+
             predictions.append(e_cleavage_pred)
             labels.append(target_cleavage)
         except Exception as e:

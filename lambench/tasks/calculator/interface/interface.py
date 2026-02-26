@@ -83,7 +83,9 @@ def run_inference(
             - sub1_mult * p1["energy_total"]
             - sub2_mult * p2["energy_total"]
         )
-        e_int_label = (e_int_label_eV / area) * EV_PER_A2_TO_MJ_PER_M2 / 2 # divide by 2 to get the interfacial energy per interface instead of per supercell
+        e_int_label = (
+            (e_int_label_eV / area) * EV_PER_A2_TO_MJ_PER_M2 / 2
+        )  # divide by 2 to get the interfacial energy per interface instead of per supercell
 
         # Calculate Prediction
         e_calc_tot = get_energy(traj_idx)
