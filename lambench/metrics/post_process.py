@@ -123,6 +123,7 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
             "pressure",
             "stacking_fault",
             "interface",
+            "surface",
         ]:
             applicability_results[record.task_name] = record.metrics
     return applicability_results

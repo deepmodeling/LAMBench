@@ -5,7 +5,6 @@ from tqdm import tqdm
 import logging
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error
 
-# Assuming ASEModel is defined in lambench.models.ase_models
 from lambench.models.ase_models import ASEModel
 
 
@@ -14,7 +13,7 @@ def run_inference(
     test_data: Path,
 ) -> dict[str, float]:
     # Conversion factor from eV/A^2 to mJ/m^2
-    eV_per_A2_to_mJ_per_m2 = 16021.76634
+    EV_PER_A2_TO_MJ_PER_M2 = 16021.76634
 
     calc = model.calc
 
@@ -84,7 +83,9 @@ def run_inference(
             - sub1_mult * p1["energy_total"]
             - sub2_mult * p2["energy_total"]
         )
-        e_int_label = (e_int_label_eV / area) * eV_per_A2_to_mJ_per_m2 / 2
+        e_int_label = (
+            (e_int_label_eV / area) * EV_PER_A2_TO_MJ_PER_M2 / 2
+        )  # divide by 2 to get the interfacial energy per interface instead of per supercell
 
         # Calculate Prediction
         e_calc_tot = get_energy(traj_idx)
@@ -95,7 +96,7 @@ def run_inference(
             continue
 
         e_int_pred_eV = e_calc_tot - sub1_mult * e_calc_p1 - sub2_mult * e_calc_p2
-        e_int_pred = (e_int_pred_eV / area) * eV_per_A2_to_mJ_per_m2 / 2
+        e_int_pred = (e_int_pred_eV / area) * EV_PER_A2_TO_MJ_PER_M2 / 2
         labels.append(e_int_label)
         predictions.append(e_int_pred)
 
