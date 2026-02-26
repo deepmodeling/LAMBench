@@ -87,9 +87,7 @@ def run_inference(
             e_bulk = atoms_bulk.get_potential_energy()
 
             n_bulk = len(atoms_slab) / len(atoms_bulk)
-            area_slab = item.get(
-                "area_slab", item.get("surface_area", 1.0)
-            )  # Fallback if key differs
+            area_slab = item.get("area_slab")
 
             e_cleavage_pred = (e_slab - n_bulk * e_bulk) / (2.0 * area_slab)
 
