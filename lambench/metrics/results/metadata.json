@@ -916,7 +916,7 @@
      },
      "surface": {
       "DISPLAY_NAME": "Cleavage Energy",
-      "DESCRIPTION": "Evaluation of the cleavage energy over 3671 surfaces. The strucutres are obtained from `Ardavan Mehdizadeh and Peter Schindler 2025 AI Sci. 1 025002`.",
+      "DESCRIPTION": "Evaluation of the cleavage energy over 3671 surfaces. The structures are obtained from `Ardavan Mehdizadeh and Peter Schindler 2025 AI Sci. 1 025002`.",
       "MAE": {
         "DISPLAY_NAME": "MAE (meV/Å²)",
         "DESCRIPTION": "The mean absolute error of the cleavage energy across all configurations."
