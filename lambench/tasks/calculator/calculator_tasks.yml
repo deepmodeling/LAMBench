@@ -48,3 +48,6 @@ stacking_fault:
 interface:
   test_data: /bohr/lambench-interface-1ric/v1/Interfaces
   calculator_params: null
+surface:
+  test_data: /bohr/lambench-surfaces-43ll/v1/surface
+  calculator_params: null

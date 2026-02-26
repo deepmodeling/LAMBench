@@ -42,5 +42,9 @@ stacking_fault:
   dummy: {'MAE_E': 1544.8257, 'MAE_dE': 2.0}
 interface:
   domain: Inorganic Materials
-  metrics: [MAE, RMSE]
-  dummy: {'MAE': 2060.4102820362823, 'RMSE': 2385.6150380801196}
+  metrics: [MAE]
+  dummy: {'MAE': 2060.4102820362823}
+surface:
+  domain: Inorganic Materials
+  metrics: [MAE]
+  dummy: {'MAE': 101.22517626586762}
