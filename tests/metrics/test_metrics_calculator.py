@@ -82,7 +82,7 @@ def test_summarize_final_rankings(metrics_calculator):
         return_value={"model1": 0.8, "model2": 0.6}
     )
     metrics_calculator.calculate_generalizability_downstream_score = MagicMock(
-        return_value={"model1": 0.4, "model2": 0.3}
+        return_value=(MagicMock(), {"model1": 0.4, "model2": 0.3})
     )
     metrics_calculator.calculate_efficiency_results = MagicMock(
         return_value={"model1": 0.9, "model2": 0.7}
@@ -90,7 +90,7 @@ def test_summarize_final_rankings(metrics_calculator):
     metrics_calculator.calculate_stability_results = MagicMock(
         return_value={"model1": 0.2, "model2": 0.5}
     )
-    result = metrics_calculator.summarize_final_rankings()
+    _, result = metrics_calculator.summarize_final_rankings()
     assert result is not None
     assert result.iloc[0]["Model"] == "model2"
     assert result.iloc[1]["Model"] == "model1"
@@ -161,6 +161,6 @@ def test_calculate_generalizability_downstream_score(
             }
         },
     ):
-        result = metrics_calculator.calculate_generalizability_downstream_score()
+        _, result = metrics_calculator.calculate_generalizability_downstream_score()
     np.testing.assert_almost_equal(result["model1"], 0.069314, decimal=5)
     np.testing.assert_almost_equal(result["model2"], 0.056273, decimal=5)

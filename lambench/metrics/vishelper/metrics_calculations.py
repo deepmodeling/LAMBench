@@ -159,7 +159,7 @@ class MetricsCalculator:
         )  # drop models with missing domain results
 
         # # Now aggregate all domains to get the final generalizability metrics for each model
-        return domain_results.mean(axis=1).to_dict()
+        return domain_results, domain_results.mean(axis=1).to_dict()
 
     def calculate_stability_results(self) -> dict[str, float]:
         """This calculates the stability score for a given LAM."""
@@ -216,7 +216,9 @@ class MetricsCalculator:
 
     def summarize_final_rankings(self):
         generalizability_ood = self.calculate_generalizability_ood_error_metric()
-        generalizability_downstream = self.calculate_generalizability_downstream_score()
+        downstream_domainwise, generalizability_downstream = (
+            self.calculate_generalizability_downstream_score()
+        )
         stability_results = self.calculate_stability_results()
         efficiency_results = self.calculate_efficiency_results()
         if not generalizability_ood or not generalizability_downstream:
@@ -276,4 +278,4 @@ class MetricsCalculator:
             "Final Rankings:\n",
             summary_df.to_string(index=False),
         )
-        return summary_df
+        return downstream_domainwise, summary_df

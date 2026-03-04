@@ -20,7 +20,10 @@ class LAMBenchMetrics:
         barplot_data = self.plot_generation.generate_barplot(raw_results)
         radar_chart_config = self.plot_generation.generate_radar_plot(barplot_data)
         scatter_plot_data = self.plot_generation.generate_scatter_plot()
-        final_ranking = self.metrics_calculations.summarize_final_rankings()
+        downstream_domainwise, final_ranking = (
+            self.metrics_calculations.summarize_final_rankings()
+        )
+        pc_barplot_data = self.plot_generation.generate_barplot(downstream_domainwise)
 
         result_path = Path(lambench.__file__).parent / "metrics/results"
         with open(result_path / "radar.json", "w") as f:
@@ -34,6 +37,9 @@ class LAMBenchMetrics:
             f.write("\n")
         with open(result_path / "final_rankings.json", "w") as f:
             json.dump(final_ranking.to_dict(orient="records"), f, indent=2)
+            f.write("\n")
+        with open(result_path / "pc_barplot.json", "w") as f:
+            json.dump(pc_barplot_data, f, indent=2)
             f.write("\n")
         print("All plots saved to metrics/results/")
 
