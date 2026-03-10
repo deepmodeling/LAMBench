@@ -83,7 +83,7 @@ class MetricsCalculator:
             model: np.mean(values) for model, values in rearranged_m_bar_domain.items()
         }
 
-    def calculate_generalizability_downstream_score(self) -> dict[str, float]:
+    def calculate_generalizability_downstream_score(self) -> tuple[dict, dict]:
         raw_results = self.fetcher.fetch_downstream_results()
 
         # Extract necessary columns and prepare penalty dict
@@ -159,7 +159,7 @@ class MetricsCalculator:
         )  # drop models with missing domain results
 
         # # Now aggregate all domains to get the final generalizability metrics for each model
-        return domain_results, domain_results.mean(axis=1).to_dict()
+        return domain_results.to_dict(orient="index"), domain_results.mean(axis=1).to_dict()
 
     def calculate_stability_results(self) -> dict[str, float]:
         """This calculates the stability score for a given LAM."""
