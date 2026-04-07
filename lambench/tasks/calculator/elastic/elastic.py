@@ -102,9 +102,10 @@ def get_elastic_for_one(
     """
     atoms = read(StringIO(atom_info["poscar"]), format="vasp")
 
+    calc = model.calc
     relaxed_atoms = model.run_ase_relaxation(
         atoms=atoms,
-        calc=model.calc,
+        calc=calc,
         fmax=fmax,
         steps=max_steps,
         fix_symmetry=False,
@@ -119,7 +120,7 @@ def get_elastic_for_one(
     stresses = []
     for deformed_structure in deformed_structure_set:
         atoms = deformed_structure.to_ase_atoms()
-        atoms.calc = model.calc
+        atoms.calc = calc
         stresses.append(atoms.get_stress(voigt=False))
 
     strains = [
