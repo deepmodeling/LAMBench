@@ -159,7 +159,9 @@ class MetricsCalculator:
         )  # drop models with missing domain results
 
         # # Now aggregate all domains to get the final generalizability metrics for each model
-        return domain_results.to_dict(orient="index"), domain_results.mean(axis=1).to_dict()
+        return domain_results.to_dict(orient="index"), domain_results.mean(
+            axis=1
+        ).to_dict()
 
     def calculate_stability_results(self) -> dict[str, float]:
         """This calculates the stability score for a given LAM."""

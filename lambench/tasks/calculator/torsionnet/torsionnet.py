@@ -29,7 +29,7 @@ def run_torsionnet(
     metric = {}
     result = {}  # predicted energy
     label = {}  # label energy
-    
+
     calc = model.calc
 
     # 500 fragments from Torsionnet500 dataset
