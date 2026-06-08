@@ -23,6 +23,9 @@ neb:
 wiggle150:
   test_data: /bohr/lambench-wiggle150-yazy/v1/Wiggle150.traj
   calculator_params: null
+rxn_path39:
+  test_data: /bohr/lambench-rxn39-755z/v2/trajs
+  calculator_params: null
 elastic:
   test_data: /bohr/lambench-elastic-9qdt/v1/elastic.json
   calculator_params:

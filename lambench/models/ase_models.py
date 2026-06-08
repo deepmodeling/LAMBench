@@ -287,6 +287,18 @@ class ASEModel(BaseLargeAtomModel):
                         task.test_data,
                     )
                 }
+            elif task.task_name == "rxn_path39":
+                from lambench.tasks.calculator.rxn_path39.rxn_path39 import (
+                    run_inference,
+                )
+
+                assert task.test_data is not None
+                return {
+                    "metrics": run_inference(
+                        self,
+                        task.test_data,
+                    )
+                }
             elif task.task_name == "elastic":
                 from lambench.tasks.calculator.elastic.elastic import run_inference
 

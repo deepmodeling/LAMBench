@@ -32,6 +32,10 @@ rxn_barrier:
   domain: Molecules
   metrics: [MAE]
   dummy: {"MAE": 20.975}
+rxn_path39:
+  domain: Molecules
+  metrics: [MAE] # RMSE is not used for calculating metrics
+  dummy: {"MAE": 34.109} # "RMSE": 43.150
 pressure:
   domain: Inorganic Materials
   metrics: [MAE]
