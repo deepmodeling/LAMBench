@@ -79,9 +79,7 @@ def run_inference(model: ASEModel, test_data: Path) -> dict[str, float]:
             try:
                 pred_kcal = atoms.get_potential_energy() * EV_TO_KCAL
             except Exception as e:
-                logging.error(
-                    f"Failed predicting frame {i} of {traj_path}: {e}"
-                )
+                logging.error(f"Failed predicting frame {i} of {traj_path}: {e}")
                 pred_kcal = np.nan
             pred_diffs.append(pred_kcal - ref_pred_kcal)
 
