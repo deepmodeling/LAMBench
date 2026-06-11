@@ -120,6 +120,7 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
             "vacancy",
             "binding_energy",
             "rxn_barrier",
+            "rxn_path39",
             "pressure",
             "stacking_fault",
             "interface",
