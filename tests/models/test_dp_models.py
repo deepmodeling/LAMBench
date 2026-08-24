@@ -1,6 +1,7 @@
-from lambench.models.dp_models import DPModel
-from pydantic import ValidationError
 import pytest
+from pydantic import ValidationError
+
+from lambench.models.dp_models import DPModel
 
 
 def test_load_model_valid(valid_model_data):

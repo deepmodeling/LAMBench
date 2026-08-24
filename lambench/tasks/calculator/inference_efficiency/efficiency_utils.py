@@ -1,7 +1,9 @@
-from ase.atoms import Atoms
-from lambench.models.ase_models import ASEModel
-import numpy as np
 import math
+
+import numpy as np
+from ase.atoms import Atoms
+
+from lambench.models.ase_models import ASEModel
 
 
 def get_efv(atoms: Atoms) -> tuple[float, np.ndarray, np.ndarray]:
@@ -40,7 +42,7 @@ def catch_oom_error(atoms: Atoms) -> bool:
 
 def get_divisors(num: int) -> list[int]:
     divisors = set()
-    for i in range(1, int(math.isqrt(num)) + 1):
+    for i in range(1, math.isqrt(num) + 1):
         if num % i == 0:
             divisors.add(i)
             divisors.add(num // i)

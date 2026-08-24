@@ -1,7 +1,9 @@
-from lambench.tasks import PropertyFinetuneTask
-import pytest
-from lambench.workflow.entrypoint import gather_task_type
 from unittest.mock import MagicMock
+
+import pytest
+
+from lambench.tasks import PropertyFinetuneTask
+from lambench.workflow.entrypoint import gather_task_type
 
 
 def _create_dp_model(skip_tasks=[]):

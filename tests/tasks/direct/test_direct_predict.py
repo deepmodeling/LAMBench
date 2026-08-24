@@ -1,7 +1,8 @@
-from lambench.tasks import DirectPredictTask
-from lambench.models.dp_models import DPModel
-from unittest.mock import patch
 import logging
+from unittest.mock import patch
+
+from lambench.models.dp_models import DPModel
+from lambench.tasks import DirectPredictTask
 
 
 def test_load_direct_predict_task(direct_yml_data):

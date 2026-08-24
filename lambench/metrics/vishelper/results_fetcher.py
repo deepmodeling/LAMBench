@@ -1,21 +1,22 @@
 import logging
+from datetime import datetime
 from pathlib import Path
-from typing import Optional
+
+import pandas as pd
 import yaml
+
 import lambench
 from lambench.databases.calculator_table import CalculatorRecord
 from lambench.databases.direct_predict_table import DirectPredictRecord
 from lambench.metrics.post_process import DIRECT_TASK_WEIGHTS
 from lambench.metrics.utils import (
+    aggregated_inference_efficiency_results,
     exp_average,
     filter_generalizability_force_field_results,
     get_domain_to_direct_task_mapping,
     get_leaderboard_models,
-    aggregated_inference_efficiency_results,
 )
 from lambench.models.basemodel import BaseLargeAtomModel
-import pandas as pd
-from datetime import datetime
 
 DOWNSTREAM_TASK_METRICS = yaml.safe_load(
     open(Path(lambench.__file__).parent / "metrics/downstream_tasks_metrics.yml", "r")
@@ -23,7 +24,7 @@ DOWNSTREAM_TASK_METRICS = yaml.safe_load(
 
 
 class ResultsFetcher:
-    def __init__(self, timestamp: Optional[datetime] = None):
+    def __init__(self, timestamp: datetime | None = None):
         self.leaderboard_models = get_leaderboard_models(timestamp=timestamp)
 
     def aggregate_ood_results_for_one_model(
