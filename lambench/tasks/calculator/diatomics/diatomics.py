@@ -18,31 +18,20 @@ specific language governing permissions and limitations under the License.
 
 ----
 
-Homonuclear diatomics dissociation curve roughness task (Applicability).
+Homonuclear diatomics dissociation curves (Applicability).
 
-This task evaluates whether a model produces physically smooth and topologically
-correct potential energy surfaces along simple bond-stretching coordinates.
+Per-molecule metric, then arithmetic mean over molecules:
 
-Leaderboard metric (Applicability-Roughness ↓):
-    avg_roughness: geometric mean of per-molecule RMSE( d²(E_model-E_DFT)/dr² )
-                   in eV/Å².  Penalises high-frequency oscillations introduced by
-                   the model on top of the DFT reference curve.
+    roughness – RMSE of d²(E_model - E_DFT)/dr²  (eV/Å²)
 
-Stored diagnostic metrics (not scored, available for analysis):
-    avg_min_position_error: mean absolute deviation of the predicted equilibrium
-                            bond length from the DFT reference (Å).  If the model
-                            fails to produce exactly one minimum, the molecule's
-                            scan range is used as a data-driven penalty.
-    avg_rmse:               mean energy RMSE over molecules (eV).
+Leaderboard (Applicability-Roughness ↓) uses avg_roughness.
+
+The last point of every scan is dropped: some PBE dissociation tails have a
+spurious endpoint jump, and trimming all scans the same way avoids per-molecule
+special cases.
 
 Reference data: lambench/tasks/calculator/diatomics/diatomics.json
-    List of dicts with keys:
-        name   – molecule label, e.g. "HH", "NN", "AlAl"
-        method – DFT functional ("PBE")
-        R      – bond lengths (Å), equally spaced
-        E      – DFT energies (eV)
-        F      – DFT forces along bond axis (eV/Å)
-        S^2    – ⟨S²⟩ spin-contamination values
+    name, method, R, E, F, S^2
 """
 
 from __future__ import annotations
@@ -50,72 +39,56 @@ from __future__ import annotations
 import json
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 from ase import Atoms
-from scipy.signal import find_peaks
+from ase.calculators.calculator import Calculator
 
-from lambench.models.ase_models import ASEModel
+if TYPE_CHECKING:
+    from lambench.models.ase_models import ASEModel
 
 _LABEL_FILE = Path(__file__).parent / "diatomics.json"
-_MIN_PROMINENCE = 0.01  # eV — genuine well depth threshold for find_peaks
+_DROP_LAST_POINTS = 1
 
 
 def _element_from_name(mol_name: str) -> str:
     """Extract element symbol: 'AlAl' → 'Al', 'HH' → 'H'."""
-    return mol_name[: len(mol_name) // 2]
+    if len(mol_name) % 2:
+        raise ValueError(f"Expected a repeated homonuclear label, got {mol_name!r}")
+    half = mol_name[: len(mol_name) // 2]
+    if mol_name != half + half:
+        raise ValueError(f"Expected a repeated homonuclear label, got {mol_name!r}")
+    return half
 
 
-def _minima_positions(energies: np.ndarray, bond_lengths: np.ndarray) -> list[float]:
-    """
-    Return bond lengths (Å) at genuine local minima (prominence ≥ 10 meV gate).
-    Works on the valid (non-NaN) subset and maps indices back to bond_lengths.
-    """
-    valid_mask = ~np.isnan(energies)
-    if valid_mask.sum() < 3:
-        return []
-    idx_valid, _ = find_peaks(-energies[valid_mask], prominence=_MIN_PROMINENCE)
-    return bond_lengths[valid_mask][idx_valid].tolist()
-
-
-def _min_position_error(
-    pos_dft: list[float], pos_model: list[float], r_range: float
-) -> float:
-    """
-    Position error of the single equilibrium minimum (Å).
-
-    All reference molecules have exactly one DFT minimum, so pos_dft always
-    contains one element.  If the model also finds exactly one minimum, the
-    error is the absolute position difference.  If the model finds zero or
-    more than one minimum, the scan range is returned as a data-driven penalty
-    (no free parameter).
-    """
-    if len(pos_model) != 1:
-        return r_range
-    return abs(pos_model[0] - pos_dft[0])
+def _scan_arrays(entry: dict) -> tuple[np.ndarray, np.ndarray]:
+    """Bond lengths (Å) and DFT energies (eV), with the last point dropped."""
+    bond_lengths = np.asarray(entry["R"], dtype=float)[:-_DROP_LAST_POINTS]
+    dft_energies = np.asarray(entry["E"], dtype=float)[:-_DROP_LAST_POINTS]
+    if bond_lengths.size != dft_energies.size:
+        raise ValueError(
+            f"{entry.get('name', '<unknown>')}: R and E length mismatch after trim"
+        )
+    return bond_lengths, dft_energies
 
 
 def _compute_roughness(residuals: np.ndarray, dr: float) -> float | None:
-    """
-    RMSE of the normalised second-order finite differences of energy residuals.
-
-        δ²_i = (Δres_{i+1} - Δres_i) / Δr²  ≈  d²(E_model - E_DFT)/dr²
-
-    Δr² normalisation makes the metric comparable across molecules with
-    different grid spacings.  Returns None when fewer than 3 valid points remain.
-    """
+    """RMSE of d² residual / dr².  None if too few finite points."""
     delta2 = np.diff(residuals, n=2)
-    valid = delta2[~np.isnan(delta2)]
+    valid = delta2[np.isfinite(delta2)]
     if len(valid) == 0:
         return None
     return float(np.sqrt(np.mean((valid / dr**2) ** 2)))
 
 
 def _predict_energies(
-    model: ASEModel, element: str, bond_lengths: np.ndarray
+    calc: Calculator, element: str, bond_lengths: np.ndarray
 ) -> np.ndarray:
-    """Evaluate model energy for a homonuclear dimer at each bond length (eV)."""
-    calc = model.calc
+    """Evaluate model energy for a homonuclear dimer at each bond length (eV).
+
+    Isolated dimer in a 30 Å cubic cell with PBC, matching the MLIP Arena setup.
+    """
     cell = 30.0
     energies = []
     for r in bond_lengths:
@@ -138,51 +111,25 @@ def _predict_energies(
 
 
 def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, dict]:
-    """
-    Evaluate model PES roughness on homonuclear diatomic dissociation curves.
-
-    Args:
-        model:     loaded ASEModel
-        test_data: directory containing diatomics.json, or None to use the
-                   bundled reference file next to this module.
-
-    Returns:
-        Per-molecule dict, e.g.::
-
-            {
-                "HH": {"roughness": 0.012, "min_position_error": 0.02,
-                       "n_minima_model": 1, "rmse": 0.05},
-                "NN": {...},
-                ...
-            }
-    """
+    """Evaluate curvature roughness on homonuclear dimers."""
     label_path = _LABEL_FILE if test_data is None else test_data / "diatomics.json"
 
     with open(label_path) as fh:
         reference_data: list[dict] = json.load(fh)
 
     results: dict[str, dict] = {}
+    calc = model.calc
 
     for entry in reference_data:
         mol_name: str = entry["name"]
-        bond_lengths = np.array(entry["R"])
-        dft_energies = np.array(entry["E"])
-
+        bond_lengths, dft_energies = _scan_arrays(entry)
         element = _element_from_name(mol_name)
         dr = float(np.mean(np.diff(bond_lengths)))
 
-        r_range = float(bond_lengths[-1] - bond_lengths[0])
-        pos_dft = _minima_positions(dft_energies, bond_lengths)
-        model_energies = _predict_energies(model, element, bond_lengths)
-        residuals = model_energies - dft_energies
-        pos_model = _minima_positions(model_energies, bond_lengths)
+        model_energies = _predict_energies(calc, element, bond_lengths)
 
         mol_result = {
-            "roughness": _compute_roughness(residuals, dr),
-            "min_position_error": _min_position_error(pos_dft, pos_model, r_range),
-            "n_minima_model": len(pos_model),
-            "rmse": float(np.sqrt(np.nanmean(residuals**2))),
-            "r_range": r_range,
+            "roughness": _compute_roughness(model_energies - dft_energies, dr),
         }
         results[mol_name] = mol_result
         logging.info(f"{mol_name}: {mol_result}")

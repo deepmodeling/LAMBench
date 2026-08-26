@@ -199,17 +199,15 @@ class MetricsCalculator:
 
     def calculate_diatomics_roughness_results(self) -> dict[str, float]:
         """
-        Returns per-model leaderboard scores for the homonuclear diatomics task.
-
-        Score = combined_roughness = avg_roughness × (1 + avg(min_pos_err/r_range)), lower is better.
-        Diagnostic metrics (avg_roughness, avg_min_position_error, avg_rmse) stored in DB but not ranked.
-        Models with missing results are excluded.
+        Leaderboard scores for homonuclear diatomics: avg_roughness (lower is better).
+        Models with missing results are omitted from this dict; the final ranking
+        still includes them with a null roughness column.
         """
         raw = self.fetcher.fetch_diatomics_results()
         return {
-            model: metrics["combined_roughness"]
+            model: metrics["avg_roughness"]
             for model, metrics in raw.items()
-            if metrics is not None and metrics.get("combined_roughness") is not None
+            if metrics is not None and metrics.get("avg_roughness") is not None
         }
 
     def calculate_efficiency_results(self) -> dict[str, float]:
@@ -245,6 +243,7 @@ class MetricsCalculator:
             )
             return
 
+        # Diatomics is not required for inclusion: missing scores stay None.
         shared_models = (
             set(generalizability_ood.keys())
             .intersection(set(generalizability_downstream.keys()))

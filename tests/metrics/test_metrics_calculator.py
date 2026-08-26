@@ -101,10 +101,10 @@ def test_summarize_final_rankings(metrics_calculator):
 
 def test_calculate_diatomics_roughness_results(metrics_calculator, mock_raw_results):
     mock_raw_results.fetch_diatomics_results.return_value = {
-        "model1": {"combined_roughness": 0.05, "avg_roughness": 0.04},
-        "model2": {"combined_roughness": 0.03, "avg_roughness": 0.025},
+        "model1": {"avg_roughness": 0.05},
+        "model2": {"avg_roughness": 0.03},
         "model3": None,
-        "model4": {"combined_roughness": None, "avg_roughness": 0.06},
+        "model4": {"avg_roughness": None},
     }
     result = metrics_calculator.calculate_diatomics_roughness_results()
     assert set(result.keys()) == {"model1", "model2"}
