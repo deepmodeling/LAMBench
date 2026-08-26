@@ -34,7 +34,8 @@ def test_process_results_for_one_model(
 
     # Find differences between the calculator tasks and results
     calculator_task_differences = (
-        CALCULATOR_TASKS.keys() - {"inference_efficiency", "nve_md"}
+        CALCULATOR_TASKS.keys()
+        - {"inference_efficiency", "nve_md", "homonuclear_diatomics"}
     ).symmetric_difference(result["generalizability_domain_specific_results"].keys())
     assert not calculator_task_differences, (
         f"Mismatch in calculator tasks: {calculator_task_differences}"

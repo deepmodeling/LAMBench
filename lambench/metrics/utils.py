@@ -1,3 +1,6 @@
+import json
+from functools import lru_cache
+
 import numpy as np
 import yaml
 from typing import Optional, Literal
@@ -6,6 +9,14 @@ from pathlib import Path
 from collections import defaultdict
 from lambench.workflow.entrypoint import gather_model_params, gather_model
 from datetime import datetime
+
+_DIATOMICS_JSON = (
+    Path(__file__).resolve().parent.parent
+    / "tasks"
+    / "calculator"
+    / "diatomics"
+    / "diatomics.json"
+)
 
 #############################
 # General utility functions #
@@ -149,6 +160,39 @@ def aggregated_inference_efficiency_results(
         ),
         "success_rate": np.round(np.mean(system_level_success_rate), 2),
     }
+
+
+@lru_cache
+def _diatomics_molecule_names() -> tuple[str, ...]:
+    with open(_DIATOMICS_JSON) as fh:
+        return tuple(entry["name"] for entry in json.load(fh))
+
+
+def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float]:
+    """
+    Aggregate per-molecule diatomics results.
+
+    avg_roughness: arithmetic mean of curvature RMSE (eV/Å²), used on the leaderboard.
+    Requires a finite roughness for every molecule in diatomics.json; otherwise None.
+    """
+    if not results:
+        return {"avg_roughness": None}
+
+    names = _diatomics_molecule_names()
+    if not names:
+        return {"avg_roughness": None}
+
+    roughness_values = []
+    for name in names:
+        mol_results = results.get(name)
+        if mol_results is None:
+            return {"avg_roughness": None}
+        roughness = mol_results.get("roughness")
+        if roughness is None or not np.isfinite(roughness):
+            return {"avg_roughness": None}
+        roughness_values.append(roughness)
+
+    return {"avg_roughness": float(np.mean(roughness_values))}
 
 
 ####################################

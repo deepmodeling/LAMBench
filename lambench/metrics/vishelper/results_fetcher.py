@@ -12,6 +12,7 @@ from lambench.metrics.utils import (
     get_domain_to_direct_task_mapping,
     get_leaderboard_models,
     aggregated_inference_efficiency_results,
+    aggregated_diatomics_results,
 )
 from lambench.models.basemodel import BaseLargeAtomModel
 import pandas as pd
@@ -124,6 +125,24 @@ class ResultsFetcher:
         for model in self.leaderboard_models:
             results[model.model_metadata.pretty_name] = (
                 self.fetch_inference_efficiency_results_for_one_model(model)
+            )
+        return results
+
+    def fetch_diatomics_results(self) -> dict[str, dict]:
+        """Returns aggregated diatomics roughness results for all leaderboard models."""
+        results = {}
+        for model in self.leaderboard_models:
+            task_results = CalculatorRecord.query(
+                model_name=model.model_name, task_name="homonuclear_diatomics"
+            )
+            if len(task_results) != 1:
+                logging.warning(
+                    f"Expected one record for {model.model_name} and homonuclear_diatomics, "
+                    f"but got {len(task_results)}"
+                )
+                continue
+            results[model.model_metadata.pretty_name] = aggregated_diatomics_results(
+                task_results[0].metrics
             )
         return results
 

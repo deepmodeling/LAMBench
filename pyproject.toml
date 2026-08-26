@@ -59,4 +59,4 @@ visualization = "lambench.metrics.visualization:main"
 include = ["lambench*"]
 
 [tool.setuptools.package-data]
-"*" = ["*.yml"]
+"*" = ["*.yml", "*.json"]

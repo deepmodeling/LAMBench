@@ -55,3 +55,6 @@ interface:
 surface:
   test_data: /bohr/lambench-surfaces-43ll/v1/surface
   calculator_params: null
+homonuclear_diatomics:
+  test_data: null
+  calculator_params: null
