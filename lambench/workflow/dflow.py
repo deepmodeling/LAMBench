@@ -19,27 +19,6 @@ import lambench
 from lambench.models.basemodel import BaseLargeAtomModel
 from lambench.tasks.base_task import BaseTask
 
-# ASEModel imports dftd3 at module load, so the worker must install it before
-# `from lambench.workflow.dflow import run_task_op`. PythonOPTemplate prepends
-# this block to `script`. Do not use str.format placeholders here: dflow calls
-# pre_script.format(tmp_root=...). Worker images often pin a Tsinghua PyPI
-# mirror that 403s on dftd3 wheels; force indexes that Bohrium can reach.
-_DFTD3_PRE_SCRIPT = """\
-import importlib.util
-import os
-import subprocess
-import sys
-
-os.environ.pop("PIP_INDEX_URL", None)
-os.environ.pop("PIP_EXTRA_INDEX_URL", None)
-if importlib.util.find_spec("dftd3") is None:
-    install = [sys.executable, "-m", "pip", "install", "dftd3"]
-    try:
-        subprocess.check_call(install + ["--index-url", "https://mirrors.aliyun.com/pypi/simple", "--trusted-host", "mirrors.aliyun.com"])
-    except subprocess.CalledProcessError:
-        subprocess.check_call(install + ["--index-url", "https://pypi.org/simple", "--trusted-host", "pypi.org"])
-"""
-
 
 @OP.function
 def run_task_op(
@@ -93,7 +72,7 @@ def submit_tasks_dflow(
                 python_packages=[
                     Path(package.__path__[0]) for package in [lambench, dpdata]
                 ],
-                pre_script=_DFTD3_PRE_SCRIPT,
+                pre_script="import os\nos.system('pip install dftd3')\n",
             ),
             parameters={
                 "task": task,
