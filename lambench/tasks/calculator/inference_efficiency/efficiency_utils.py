@@ -24,18 +24,31 @@ def get_efv(atoms: Atoms) -> tuple[float, np.ndarray, np.ndarray]:
     return e, f, v
 
 
+_OOM_MARKERS = (
+    "out of memory",
+    "oom",
+    "dst tensor is not initialized",
+    "resource_exhausted",
+)
+
+
 def catch_oom_error(atoms: Atoms) -> bool:
     """
     Catch OOM error when running inference.
+
+    TensorFlow reports several messages for the same failure: a genuine BFC OOM
+    often contains "ran out of memory", but a fully exhausted pool can instead
+    raise "Dst tensor is not initialized" when the destination buffer cannot be
+    allocated. Treat both as OOM so binary search can back off.
     """
     try:
         get_efv(atoms)
         return False
     except Exception as e:
-        if "out of memory" in str(e) or "OOM" in str(e):
+        if isinstance(e, MemoryError):
             return True
-        else:
-            return False
+        msg = str(e).lower()
+        return any(marker in msg for marker in _OOM_MARKERS)
 
 
 def get_divisors(num: int) -> list[int]:

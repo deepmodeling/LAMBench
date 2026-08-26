@@ -19,7 +19,7 @@ def run_inference(
     model: ASEModel,
     test_data: Path,
     warmup_ratio: float,
-    natoms_upper_limit: int = 1000,
+    natoms_upper_limit: int = 1500,
 ) -> dict[str, dict[str, float]]:
     """
     Inference for all trajectories, return average time and success rate for each system.
