@@ -17,7 +17,6 @@ from ase.filters import FrechetCellFilter
 from ase.io import write
 from ase.optimize import FIRE
 from ase.calculators.emt import EMT
-from dftd3.ase import DFTD3
 from tqdm import tqdm
 
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -379,6 +378,8 @@ class ASEModel(BaseLargeAtomModel):
 
         calc = model.calc
         if dispersion_correction is not None:
+            from dftd3.ase import DFTD3
+
             calc = SumCalculator(
                 [calc, DFTD3(method="PBE", damping=dispersion_correction)]
             )
