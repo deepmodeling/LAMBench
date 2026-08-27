@@ -20,15 +20,15 @@ specific language governing permissions and limitations under the License.
 
 Homonuclear diatomics dissociation curves (Applicability).
 
-Per-molecule metric, then arithmetic mean over molecules:
+Same comparison as stacking_fault, on the DFT bond lengths (no PCHIP):
+shift each scan so min(E)=0, then MAE of d(E / max(E)) / dr, divided
+by a constant-energy dummy (zeros after the shift) and capped at 1:
 
-    roughness – RMSE of d²(E_model - E_DFT)/dr²  (eV/Å²)
+    0 = perfect match, 1 = dummy or worse.
 
-Leaderboard (Applicability-Roughness ↓) uses avg_roughness.
+    roughness – slope MAE relative to dummy; leaderboard
 
-The last point of every scan is dropped: some PBE dissociation tails have a
-spurious endpoint jump, and trimming all scans the same way avoids per-molecule
-special cases.
+The last point of every scan is dropped (PBE tail artifacts).
 
 Reference data: lambench/tasks/calculator/diatomics/diatomics.json
     name, method, R, E, F, S^2
@@ -73,13 +73,61 @@ def _scan_arrays(entry: dict) -> tuple[np.ndarray, np.ndarray]:
     return bond_lengths, dft_energies
 
 
-def _compute_roughness(residuals: np.ndarray, dr: float) -> float | None:
-    """RMSE of d² residual / dr².  None if too few finite points."""
-    delta2 = np.diff(residuals, n=2)
-    valid = delta2[np.isfinite(delta2)]
-    if len(valid) == 0:
+def _shift_to_min(energies: np.ndarray) -> np.ndarray:
+    return energies - np.min(energies)
+
+
+def _normalized_slopes(bond_lengths: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """d(E / max(E)) / dr on the native DFT scan (Å⁻¹)."""
+    peak = float(np.max(y))
+    slopes = np.diff(y) / np.diff(bond_lengths)
+    if peak > 0:
+        return slopes / peak
+    return np.zeros_like(slopes)
+
+
+def _mae(left: np.ndarray, right: np.ndarray) -> float:
+    return float(np.mean(np.abs(left - right)))
+
+
+def _ratio_capped_at_dummy(value: float, dummy: float) -> float | None:
+    if dummy <= 0 or not np.isfinite(dummy) or not np.isfinite(value):
         return None
-    return float(np.sqrt(np.mean((valid / dr**2) ** 2)))
+    return float(min(value / dummy, 1.0))
+
+
+def _curve_metrics(
+    bond_lengths: np.ndarray, model_energies: np.ndarray, dft_energies: np.ndarray
+) -> dict[str, float] | None:
+    if not np.all(np.isfinite(model_energies)) or not np.all(np.isfinite(dft_energies)):
+        return None
+    if bond_lengths.size < 2:
+        return None
+    if (
+        bond_lengths.size != model_energies.size
+        or bond_lengths.size != dft_energies.size
+    ):
+        return None
+    if np.any(np.diff(bond_lengths) == 0):
+        return None
+
+    y_dft = _shift_to_min(dft_energies)
+    y_model = _shift_to_min(model_energies)
+    y_dummy = np.zeros_like(y_dft)
+
+    roughness = _ratio_capped_at_dummy(
+        _mae(
+            _normalized_slopes(bond_lengths, y_model),
+            _normalized_slopes(bond_lengths, y_dft),
+        ),
+        _mae(
+            _normalized_slopes(bond_lengths, y_dummy),
+            _normalized_slopes(bond_lengths, y_dft),
+        ),
+    )
+    if roughness is None:
+        return None
+    return {"roughness": roughness}
 
 
 def _predict_energies(
@@ -111,7 +159,7 @@ def _predict_energies(
 
 
 def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, dict]:
-    """Evaluate curvature roughness on homonuclear dimers."""
+    """Compare model and PBE dissociation curves with the stacking_fault metric."""
     label_path = _LABEL_FILE if test_data is None else test_data / "diatomics.json"
 
     with open(label_path) as fh:
@@ -124,13 +172,8 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
         mol_name: str = entry["name"]
         bond_lengths, dft_energies = _scan_arrays(entry)
         element = _element_from_name(mol_name)
-        dr = float(np.mean(np.diff(bond_lengths)))
-
         model_energies = _predict_energies(calc, element, bond_lengths)
-
-        mol_result = {
-            "roughness": _compute_roughness(model_energies - dft_energies, dr),
-        }
+        mol_result = _curve_metrics(bond_lengths, model_energies, dft_energies)
         results[mol_name] = mol_result
         logging.info(f"{mol_name}: {mol_result}")
 

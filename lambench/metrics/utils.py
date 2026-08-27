@@ -168,28 +168,32 @@ def _diatomics_molecule_names() -> tuple[str, ...]:
         return tuple(entry["name"] for entry in json.load(fh))
 
 
+def _empty_diatomics_agg() -> dict[str, float | None]:
+    return {"avg_roughness": None}
+
+
 def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float]:
     """
     Aggregate per-molecule diatomics results.
 
-    avg_roughness: arithmetic mean of curvature RMSE (eV/Å²), used on the leaderboard.
+    avg_roughness: mean slope MAE relative to a constant dummy, capped at 1.
     Requires a finite roughness for every molecule in diatomics.json; otherwise None.
     """
     if not results:
-        return {"avg_roughness": None}
+        return _empty_diatomics_agg()
 
     names = _diatomics_molecule_names()
     if not names:
-        return {"avg_roughness": None}
+        return _empty_diatomics_agg()
 
     roughness_values = []
     for name in names:
         mol_results = results.get(name)
         if mol_results is None:
-            return {"avg_roughness": None}
+            return _empty_diatomics_agg()
         roughness = mol_results.get("roughness")
         if roughness is None or not np.isfinite(roughness):
-            return {"avg_roughness": None}
+            return _empty_diatomics_agg()
         roughness_values.append(roughness)
 
     return {"avg_roughness": float(np.mean(roughness_values))}
