@@ -103,7 +103,10 @@ def _curve_metrics(
         return None
     if bond_lengths.size < 2:
         return None
-    if bond_lengths.size != model_energies.size or bond_lengths.size != dft_energies.size:
+    if (
+        bond_lengths.size != model_energies.size
+        or bond_lengths.size != dft_energies.size
+    ):
         return None
     if np.any(np.diff(bond_lengths) == 0):
         return None
