@@ -8,13 +8,15 @@ Only the PLF547 dataset is used.
 
 """
 
-from ase.io import read
-import numpy as np
-from tqdm import tqdm
-from sklearn.metrics import root_mean_squared_error, mean_absolute_error
-from pathlib import Path
-from lambench.models.ase_models import ASEModel
 import logging
+from pathlib import Path
+
+import numpy as np
+from ase.io import read
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error
+from tqdm import tqdm
+
+from lambench.models.ase_models import ASEModel
 
 
 def run_inference(

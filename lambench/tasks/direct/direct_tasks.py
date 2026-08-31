@@ -1,7 +1,8 @@
 from pathlib import Path
 from typing import ClassVar, Literal
-from lambench.tasks.base_task import BaseTask
+
 from lambench.databases.direct_predict_table import DirectPredictRecord
+from lambench.tasks.base_task import BaseTask
 
 
 class DirectPredictTask(BaseTask):

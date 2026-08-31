@@ -1,12 +1,13 @@
+import numpy as np
+import pytest
+from ase import Atoms
+
+from lambench.metrics.utils import aggregated_nve_md_results
+from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.nve_md.nve_md import (
     nve_simulation_single,
     run_md_nve_simulation,
 )
-from lambench.metrics.utils import aggregated_nve_md_results
-import pytest
-from ase import Atoms
-from lambench.models.ase_models import ASEModel
-import numpy as np
 
 
 @pytest.fixture

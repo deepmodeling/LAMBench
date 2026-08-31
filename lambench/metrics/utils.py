@@ -1,14 +1,15 @@
 import json
+from collections import defaultdict
+from datetime import datetime
 from functools import lru_cache
+from pathlib import Path
+from typing import Literal
 
 import numpy as np
 import yaml
-from typing import Optional, Literal
+
 import lambench
-from pathlib import Path
-from collections import defaultdict
-from lambench.workflow.entrypoint import gather_model_params, gather_model
-from datetime import datetime
+from lambench.workflow.entrypoint import gather_model, gather_model_params
 
 _DIATOMICS_JSON = (
     Path(__file__).resolve().parent.parent
@@ -23,7 +24,7 @@ _DIATOMICS_JSON = (
 #############################
 
 
-def get_leaderboard_models(timestamp: Optional[datetime] = None) -> list:
+def get_leaderboard_models(timestamp: datetime | None = None) -> list:
     models = [gather_model(param, "") for param in gather_model_params()]
     if timestamp is not None:
         models = [
@@ -38,7 +39,7 @@ def get_leaderboard_models(timestamp: Optional[datetime] = None) -> list:
     ]
 
 
-def exp_average(log_results: list[dict]) -> dict[str, Optional[float]]:
+def exp_average(log_results: list[dict]) -> dict[str, float | None]:
     """Calculate the exponential average of each metric of the results."""
     exp_average_metrics = {}
     all_keys = set([key for result in log_results for key in result.keys()])
@@ -65,7 +66,7 @@ def exp_average(log_results: list[dict]) -> dict[str, Optional[float]]:
 
 
 def filter_generalizability_force_field_results(
-    task_result: dict, task_config: dict, normalize: Optional[bool] = False
+    task_result: dict, task_config: dict, normalize: bool | None = False
 ) -> dict:
     """
     This function filters the direct task results to keep only the metrics with non-zero task weights.

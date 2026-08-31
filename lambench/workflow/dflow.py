@@ -2,18 +2,15 @@ import logging
 import os
 from pathlib import Path
 from types import NoneType
-from typing import Optional
 
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
-# ruff: noqa: E402
+import dpdata
 from dflow import Task, Workflow
 from dflow.plugins.bohrium import BohriumDatasetsArtifact, create_job_group
 from dflow.plugins.dispatcher import DispatcherExecutor
 from dflow.python import OP, Artifact, PythonOPTemplate
-
-import dpdata
 
 import lambench
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -29,7 +26,7 @@ def run_task_op(
     task.run_task(model)
 
 
-def get_dataset(paths: list[Optional[Path]]) -> Optional[list[BohriumDatasetsArtifact]]:
+def get_dataset(paths: list[Path | None]) -> list[BohriumDatasetsArtifact] | None:
     r = []
     for path in paths:
         if path is not None and str(path).startswith("/bohr/"):

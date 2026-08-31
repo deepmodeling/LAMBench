@@ -12,13 +12,15 @@ This task is inspired by the OC20NEB dataset described in the paper:
 }
 """
 
-from lambench.models.ase_models import ASEModel
 from pathlib import Path
-import pandas as pd
+
 import numpy as np
-from tqdm import tqdm
+import pandas as pd
 from ase.io import read
 from sklearn.metrics import mean_absolute_error
+from tqdm import tqdm
+
+from lambench.models.ase_models import ASEModel
 
 
 def run_inference(

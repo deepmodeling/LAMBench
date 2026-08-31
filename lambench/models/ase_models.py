@@ -1,22 +1,24 @@
 from __future__ import annotations
+
 import logging
+from collections.abc import Callable
 from pathlib import Path
-from typing import Callable, Literal, Optional
+from typing import Literal
 
 import dpdata
 import numpy as np
-from dpdata.data_type import (
-    Axis,
-    DataType,
-)
 from ase import Atoms
 from ase.calculators.calculator import Calculator
+from ase.calculators.emt import EMT
 from ase.calculators.mixing import SumCalculator
 from ase.constraints import FixSymmetry
 from ase.filters import FrechetCellFilter
 from ase.io import write
 from ase.optimize import FIRE
-from ase.calculators.emt import EMT
+from dpdata.data_type import (
+    Axis,
+    DataType,
+)
 from tqdm import tqdm
 
 from lambench.models.basemodel import BaseLargeAtomModel
@@ -155,8 +157,8 @@ class ASEModel(BaseLargeAtomModel):
         )
 
     def _init_uma_calculator(self) -> Calculator:
-        from fairchem.core.units.mlip_unit import load_predict_unit
         from fairchem.core import FAIRChemCalculator
+        from fairchem.core.units.mlip_unit import load_predict_unit
 
         predictor = load_predict_unit(self.model_path, device="cuda")
         if self.model_domain == "molecules":
@@ -539,8 +541,8 @@ class ASEModel(BaseLargeAtomModel):
         steps: int = 500,
         fix_symmetry: bool = True,
         relax_cell: bool = True,
-        observer: Optional[Callable] = None,
-    ) -> Optional[Atoms]:
+        observer: Callable | None = None,
+    ) -> Atoms | None:
         atoms.calc = calc
         if fix_symmetry:
             atoms.set_constraint(FixSymmetry(atoms))

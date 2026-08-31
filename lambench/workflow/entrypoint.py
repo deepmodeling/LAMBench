@@ -2,7 +2,7 @@ import argparse
 import logging
 import traceback
 from pathlib import Path
-from typing import Optional, Type, TypeAlias
+from typing import TypeAlias
 
 import yaml
 
@@ -17,7 +17,7 @@ MODELS = Path(lambench.__file__).parent / "models/models_config.yml"
 
 
 def gather_model_params(
-    model_names: Optional[list[str]] = None,
+    model_names: list[str] | None = None,
 ) -> list[dict]:
     """
     Gather model parameters from the models_config.yml file for selected models.
@@ -50,8 +50,8 @@ job_list: TypeAlias = list[tuple[BaseTask, BaseLargeAtomModel]]
 
 def gather_task_type(
     model_params: list[dict],
-    task_class: Type[BaseTask],
-    task_names: Optional[list[str]] = None,
+    task_class: type[BaseTask],
+    task_names: list[str] | None = None,
 ) -> job_list:
     """
     Gather tasks of a specific type from the task file.
@@ -84,9 +84,9 @@ def gather_task_type(
 
 
 def gather_jobs(
-    model_names: Optional[list[str]] = None,
-    task_names: Optional[list[str]] = None,
-    task_types: Optional[list[Type[BaseTask]]] = None,
+    model_names: list[str] | None = None,
+    task_names: list[str] | None = None,
+    task_types: list[type[BaseTask]] | None = None,
 ) -> job_list:
     jobs: job_list = []
 
