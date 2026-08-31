@@ -14,7 +14,6 @@ Code adapted from the following paper and code:
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -29,8 +28,8 @@ from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.phonon.phonon_utils import (
     THz_TO_K,
     ase_to_phonopy_atoms,
-    phonopy_to_ase_atoms,
     force_observer,
+    phonopy_to_ase_atoms,
 )
 
 
@@ -39,7 +38,7 @@ def run_phonon_simulation_single(
     phonon_file: Path,
     distance: float,
     workdir: Path,
-) -> Optional[dict[str, float]]:
+) -> dict[str, float] | None:
     """
     Run phonon related calculations for a single given phonon file.
 
@@ -120,7 +119,7 @@ def run_phonon_simulation_single(
         }
 
     except Exception as e:
-        logging.error(f"Error occured for {str(phonon_file.name)}: {e}")
+        logging.error(f"Error occured for {phonon_file.name!s}: {e}")
         return None
 
 
@@ -147,7 +146,7 @@ def run_phonon_simulation(
             distance,
             workdir,
         )
-        logging.info(f"Simulation completed for system {str(test_file.name)}.\n")
+        logging.info(f"Simulation completed for system {test_file.name!s}.\n")
 
         if result is not None:
             dataframe_rows.append(result)

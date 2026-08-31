@@ -1,9 +1,11 @@
 import logging
+from collections import defaultdict
+
 import numpy as np
 import pandas as pd
-from collections import defaultdict
-from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
+
 from lambench.metrics.utils import NVEMD_NSTEPS
+from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
 
 
 class MetricsCalculator:
