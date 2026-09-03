@@ -255,6 +255,10 @@
       "surface": {
         "MAE": 10.701869293788128,
         "RMSE": 15.207025348080826
+      },
+      "rxn_path39": {
+        "MAE": 6.48444146353687,
+        "RMSE": 8.129901791481975
       }
     },
     "adaptability_results": {
@@ -303,6 +307,9 @@
         "average_time": 399.66949,
         "standard_deviation": 62.837368,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.4095124579439909
       }
     },
     "model": {
@@ -583,6 +590,10 @@
       "surface": {
         "MAE": 7.730285229089973,
         "RMSE": 10.715703262149056
+      },
+      "rxn_path39": {
+        "MAE": 8.023407534379665,
+        "RMSE": 10.127686384191708
       }
     },
     "applicability_results": {
@@ -597,6 +608,9 @@
         "momenta_diff": 3e-06,
         "simulation_time": 199.693032,
         "success_rate": 1.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.18111448963306656
       }
     },
     "model": {
@@ -877,6 +891,10 @@
       "surface": {
         "MAE": 6.116051042875389,
         "RMSE": 9.060789597643824
+      },
+      "rxn_path39": {
+        "MAE": 9.998645766111366,
+        "RMSE": 13.99415003416049
       }
     },
     "applicability_results": {
@@ -891,6 +909,9 @@
         "momenta_diff": 4e-06,
         "simulation_time": 1191.318543,
         "success_rate": 1.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.2146846094480299
       }
     },
     "model": {
@@ -1171,6 +1192,10 @@
       "surface": {
         "MAE": 17.680635636387308,
         "RMSE": 21.342328325509524
+      },
+      "rxn_path39": {
+        "MAE": 11.757265695870144,
+        "RMSE": 15.676521644551752
       }
     },
     "applicability_results": {
@@ -1185,6 +1210,9 @@
         "average_time": 254.233376,
         "standard_deviation": 47.648748,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.196593496347481
       }
     },
     "model": {
@@ -1465,6 +1493,10 @@
       "surface": {
         "MAE": 8.07711063774917,
         "RMSE": 10.890204413178536
+      },
+      "rxn_path39": {
+        "MAE": 12.359474979660057,
+        "RMSE": 17.681777157764113
       }
     },
     "applicability_results": {
@@ -1479,6 +1511,9 @@
         "average_time": 156.478982,
         "standard_deviation": 8.79467,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.19601320284082707
       }
     },
     "model": {
@@ -1759,6 +1794,10 @@
       "surface": {
         "MAE": 6.590571606490859,
         "RMSE": 9.41158714353
+      },
+      "rxn_path39": {
+        "MAE": 4.591300602185612,
+        "RMSE": 8.396600759168892
       }
     },
     "applicability_results": {
@@ -1773,6 +1812,9 @@
         "average_time": 616.60677,
         "standard_deviation": 36.566305,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.13956221060608592
       }
     },
     "model": {
@@ -2053,6 +2095,10 @@
       "surface": {
         "MAE": 11.031323547761554,
         "RMSE": 15.713459882864909
+      },
+      "rxn_path39": {
+        "MAE": 4.826671006662312,
+        "RMSE": 11.994406239897968
       }
     },
     "applicability_results": {
@@ -2067,6 +2113,9 @@
         "average_time": 499.483171,
         "standard_deviation": 190.45185,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.22845808052470942
       }
     },
     "model": {
@@ -2349,6 +2398,10 @@
       "surface": {
         "MAE": 33.13795075940262,
         "RMSE": 48.74320150682058
+      },
+      "rxn_path39": {
+        "MAE": 6.4083312566975685,
+        "RMSE": 8.287706589505312
       }
     },
     "applicability_results": {
@@ -2363,6 +2416,9 @@
         "average_time": 162.043808,
         "standard_deviation": 0.54926,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.235356261426337
       }
     },
     "model": {
@@ -2645,6 +2701,10 @@
       "surface": {
         "MAE": 9.635507291050429,
         "RMSE": 13.046462981912905
+      },
+      "rxn_path39": {
+        "MAE": 13.77581087776534,
+        "RMSE": 19.85227719907728
       }
     },
     "applicability_results": {
@@ -2659,6 +2719,9 @@
         "average_time": 341.398952,
         "standard_deviation": 32.878672,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.20283503108893725
       }
     },
     "model": {
@@ -2941,6 +3004,10 @@
       "surface": {
         "MAE": 9.389163142132626,
         "RMSE": 15.22927158149521
+      },
+      "rxn_path39": {
+        "MAE": 9.130139226898388,
+        "RMSE": 11.864551133443074
       }
     },
     "applicability_results": {
@@ -2955,6 +3022,9 @@
         "average_time": 74.560947,
         "standard_deviation": 5.027263,
         "success_rate": 100.0
+      },
+      "homonuclear_diatomics": {
+        "avg_roughness": 0.5681722627338927
       }
     },
     "model": {
