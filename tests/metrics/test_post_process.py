@@ -1,12 +1,14 @@
+import logging
+
+import numpy as np
+
 from lambench.metrics.post_process import (
-    process_results_for_one_model,
     DIRECT_TASK_WEIGHTS,
     exp_average,
+    process_results_for_one_model,
 )
-from lambench.models.dp_models import DPModel
 from lambench.metrics.utils import CALCULATOR_TASKS
-import logging
-import numpy as np
+from lambench.models.dp_models import DPModel
 
 
 def test_process_results_for_one_model(
