@@ -1,7 +1,6 @@
 import logging
 import os
 from pathlib import Path
-from typing import Optional
 
 try:
     from deepmd.main import main as deepmd_main
@@ -9,8 +8,8 @@ except ImportError:
     logging.info("deepmd-kit is not installed, DPModel will not work.")
 
 from lambench.models.ase_models import ASEModel
+from lambench.tasks import CalculatorTask, DirectPredictTask, PropertyFinetuneTask
 from lambench.tasks.base_task import BaseTask
-from lambench.tasks import DirectPredictTask, PropertyFinetuneTask, CalculatorTask
 from lambench.tasks.utils import parse_dptest_log_file
 
 
@@ -40,7 +39,7 @@ class DPModel(ASEModel):
                 f"Model type {self.model_type} is not supported by DPModel"
             )
 
-    def evaluate(self, task: BaseTask) -> Optional[dict[str, Optional[float]]]:
+    def evaluate(self, task: BaseTask) -> dict[str, float | None] | None:
         if isinstance(task, DirectPredictTask | CalculatorTask):
             return super().evaluate(task)  # using ase interface
         elif isinstance(task, PropertyFinetuneTask):
@@ -87,14 +86,14 @@ class DPModel(ASEModel):
         return frozen_model
 
     @staticmethod
-    def _change_bias(model: Path, test_data: Path, head: Optional[str] = None):
+    def _change_bias(model: Path, test_data: Path, head: str | None = None):
         change_bias_model = Path.cwd() / f"change-bias-{model.name}"
         command = f"dp --pt change-bias {model} -o {change_bias_model} -s {test_data} {f'--model-branch {head}' if head else ''}"
         deepmd_main(command.split()[1:])
         return change_bias_model
 
     @staticmethod
-    def _test(model: Path, test_data: Path, head: Optional[str] = None):
+    def _test(model: Path, test_data: Path, head: str | None = None):
         test_output = Path("dptest_output.txt")
         command = f"dp --pt test -m {model} -s {test_data} -l {test_output} {f'--head {head}' if head else ''}"
         deepmd_main(command.split()[1:])

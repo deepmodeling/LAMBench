@@ -12,8 +12,8 @@ other frames with respect to that reference, i.e.
 and reports MAE and RMSE over all 39 × 10 = 390 (reaction, frame) pairs.
 """
 
-from pathlib import Path
 import logging
+from pathlib import Path
 
 import numpy as np
 from ase.io import Trajectory
