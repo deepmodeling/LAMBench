@@ -1,17 +1,19 @@
-from lambench.models.ase_models import ASEModel
+import logging
+import time
+
+import numpy as np
 from ase import Atoms
 from ase.calculators.calculator import Calculator
-from ase.md.verlet import VelocityVerlet
 from ase.md.velocitydistribution import (
     MaxwellBoltzmannDistribution,
     Stationary,
     ZeroRotation,
 )
+from ase.md.verlet import VelocityVerlet
 from ase.units import fs
-import numpy as np
-import time
+
+from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.nve_md.nve_md_data import TEST_DATA
-import logging
 
 
 def run_md_nve_simulation(
@@ -34,7 +36,7 @@ def run_md_nve_simulation(
             temperature_K=temperature_K,
         )
         results[str(atoms.symbols)] = result
-        logging.info(f"Simulation completed for system {str(atoms.symbols)}: {result}")
+        logging.info(f"Simulation completed for system {atoms.symbols!s}: {result}")
     return results
 
 

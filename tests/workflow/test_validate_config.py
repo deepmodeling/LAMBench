@@ -1,8 +1,9 @@
-from lambench.tasks.base_task import BaseTask
-from lambench.workflow.entrypoint import MODELS
 import yaml
+
 from lambench.models.ase_models import ASEModel
 from lambench.models.dp_models import DPModel
+from lambench.tasks.base_task import BaseTask
+from lambench.workflow.entrypoint import MODELS
 
 
 def test_validate_model_config():

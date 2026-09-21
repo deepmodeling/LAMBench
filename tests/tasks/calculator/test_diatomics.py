@@ -1,14 +1,14 @@
 import numpy as np
 import pytest
 
+from lambench.metrics.utils import (
+    _diatomics_molecule_names,
+    aggregated_diatomics_results,
+)
 from lambench.tasks.calculator.diatomics.diatomics import (
     _curve_metrics,
     _element_from_name,
     _scan_arrays,
-)
-from lambench.metrics.utils import (
-    _diatomics_molecule_names,
-    aggregated_diatomics_results,
 )
 
 

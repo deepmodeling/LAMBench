@@ -1,24 +1,24 @@
 import json
 import logging
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 import numpy as np
 import yaml
 
 import lambench
-from lambench.databases.direct_predict_table import DirectPredictRecord
 from lambench.databases.calculator_table import CalculatorRecord
+from lambench.databases.direct_predict_table import DirectPredictRecord
 from lambench.databases.property_table import PropertyRecord
-from lambench.models.basemodel import BaseLargeAtomModel
 from lambench.metrics.utils import (
-    filter_generalizability_force_field_results,
-    exp_average,
-    aggregated_nve_md_results,
-    aggregated_inference_efficiency_results,
     aggregated_diatomics_results,
+    aggregated_inference_efficiency_results,
+    aggregated_nve_md_results,
+    exp_average,
+    filter_generalizability_force_field_results,
     get_leaderboard_models,
 )
+from lambench.models.basemodel import BaseLargeAtomModel
 
 DIRECT_TASK_WEIGHTS = yaml.safe_load(
     open(Path(lambench.__file__).parent / "metrics/direct_task_weights.yml", "r")

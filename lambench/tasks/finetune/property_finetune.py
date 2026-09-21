@@ -50,8 +50,7 @@ class PropertyFinetuneTask(BaseTask):
         for key, value in d.items():
             if pattern in key:
                 return value
-        else:
-            logging.error("Descriptor not found in pretrain input.json!")
+        logging.error("Descriptor not found in pretrain input.json!")
         return None
 
     def prepare_property_directory(self, model: DPModel):
