@@ -1,8 +1,8 @@
+from pathlib import Path
+
+import phonopy
 from ase import Atoms
 from phonopy.structure.atoms import PhonopyAtoms
-from pathlib import Path
-import phonopy
-
 
 # Constants unit conversion
 THz_TO_K = 47.9924

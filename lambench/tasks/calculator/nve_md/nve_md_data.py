@@ -1,6 +1,5 @@
 from ase import Atoms
 
-
 TEST_DATA = [
     # randomly selected test systems from Materials Project
     Atoms(

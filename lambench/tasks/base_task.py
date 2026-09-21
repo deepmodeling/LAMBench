@@ -1,8 +1,9 @@
 import logging
 import tempfile
-from typing import ClassVar
-from pydantic import BaseModel, ConfigDict
 from pathlib import Path
+from typing import ClassVar
+
+from pydantic import BaseModel, ConfigDict
 
 from lambench.databases.base_table import BaseRecord
 from lambench.models.basemodel import BaseLargeAtomModel

@@ -1,14 +1,16 @@
+import logging
+import time
+from pathlib import Path
+
+import numpy as np
+from ase.io import read
+
 from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.inference_efficiency.efficiency_utils import (
     binary_search_max_natoms,
-    get_efv,
     find_even_factors,
+    get_efv,
 )
-from ase.io import read
-import logging
-import time
-import numpy as np
-from pathlib import Path
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -95,7 +97,7 @@ def run_one_inference(
             get_efv(atoms)
             successful_inferences += 1
         except Exception as e:
-            logging.error(f"Error in inference for {str(atoms.symbols)}: {e}")
+            logging.error(f"Error in inference for {atoms.symbols!s}: {e}")
             continue
 
         end = time.time()
