@@ -1,9 +1,9 @@
-from pathlib import Path
-from typing import Optional
-from pydantic import BaseModel, ConfigDict
-from enum import Enum
 from abc import abstractmethod
 from datetime import datetime
+from enum import Enum
+from pathlib import Path
+
+from pydantic import BaseModel, ConfigDict
 
 
 class ModelType(str, Enum):
@@ -53,7 +53,7 @@ class BaseLargeAtomModel(BaseModel):
     model_name: str
     model_family: str
     model_type: ModelType
-    model_path: Optional[Path] = None
+    model_path: Path | None = None
     virtualenv: str
     model_metadata: ModelMetadata
     show_direct_task: bool = True
@@ -61,7 +61,7 @@ class BaseLargeAtomModel(BaseModel):
     show_calculator_task: bool = False
     skip_tasks: list[SkipTaskType] = []
     supports_omol: bool = False
-    model_domain: Optional[str] = None
+    model_domain: str | None = None
 
     @abstractmethod
     def evaluate(self, task) -> dict[str, float]:

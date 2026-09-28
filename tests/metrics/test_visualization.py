@@ -1,7 +1,9 @@
+import logging
+
+import numpy as np
+
 from lambench.metrics.visualization import ResultsFetcher
 from lambench.models.dp_models import DPModel
-import logging
-import numpy as np
 
 
 def test_aggregate_ood_results_for_one_model(

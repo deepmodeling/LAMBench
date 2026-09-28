@@ -1,8 +1,8 @@
 from __future__ import annotations  # For class method return type hinting
 
 import os
-from typing import Sequence
-
+from collections.abc import Sequence
+from time import sleep
 
 from dotenv import load_dotenv
 from sqlalchemy import (
@@ -13,9 +13,8 @@ from sqlalchemy import (
     create_engine,
     func,
 )
-from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-from time import sleep
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 Base = declarative_base()
 load_dotenv(override=True)

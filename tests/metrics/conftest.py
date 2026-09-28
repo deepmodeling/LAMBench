@@ -1,8 +1,10 @@
-import pytest
-from lambench.databases.direct_predict_table import DirectPredictRecord
-from lambench.databases.calculator_table import CalculatorRecord
-from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
 from unittest.mock import patch
+
+import pytest
+
+from lambench.databases.calculator_table import CalculatorRecord
+from lambench.databases.direct_predict_table import DirectPredictRecord
+from lambench.metrics.vishelper.results_fetcher import DOWNSTREAM_TASK_METRICS
 
 RECORDS_DIRECT = [
     DirectPredictRecord(

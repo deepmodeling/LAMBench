@@ -1,6 +1,7 @@
-from lambench.databases.base_table import BaseRecord
-from sqlalchemy import Column, Float
 import numpy as np
+from sqlalchemy import Column, Float
+
+from lambench.databases.base_table import BaseRecord
 
 
 class DirectPredictRecord(BaseRecord):
