@@ -1,4 +1,3 @@
-# ruff: noqa: E402
 """
 This module has been modified from MatCalc
 https://github.com/materialsvirtuallab/matcalc/blob/main/src/matcalc/_elasticity.py
@@ -44,17 +43,19 @@ Sci Data 2, 150009 (2015). https://doi.org/10.1038/sdata.2015.9
 """
 
 import json
-from ase.io import read
-import numpy as np
-from numpy.typing import ArrayLike
+import logging
 from io import StringIO
+from pathlib import Path
+
+import numpy as np
+from ase.io import read
+from numpy.typing import ArrayLike
 from pymatgen.analysis.elasticity import DeformedStructureSet, ElasticTensor, Strain
 from pymatgen.analysis.elasticity.elastic import get_strain_state_dict
 from pymatgen.io.ase import AseAtomsAdaptor
-from lambench.models.ase_models import ASEModel
 from sklearn.metrics import mean_absolute_error
-from pathlib import Path
-import logging
+
+from lambench.models.ase_models import ASEModel
 
 EV_A3_TO_GPA = 160.21766208  # eV/Å³ to GPa
 

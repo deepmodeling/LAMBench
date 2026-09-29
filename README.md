@@ -39,17 +39,17 @@ To reproduce the results locally or test a custom model, please refer to the `AS
 
     ```python
     model = ASEModel(
-            model_name="dummy",
-            model_type="ASE",
-            model_family="<FAMILY_NAME>",
-            virtualenv="dummy-env", # not used in local tests
-            model_metadata={
-                "pretty_name":"<DUMMY_NAME>",
-                "num_parameters":1,
-                "packages": {"pydummy": "1.0.0"}, # for pydantic validations
-                "date_added": datetime(2025,5,19)
-            }
-        )
+        model_name="dummy",
+        model_type="ASE",
+        model_family="<FAMILY_NAME>",
+        virtualenv="dummy-env",  # not used in local tests
+        model_metadata={
+            "pretty_name": "<DUMMY_NAME>",
+            "num_parameters": 1,
+            "packages": {"pydummy": "1.0.0"},  # for pydantic validations
+            "date_added": datetime(2025, 5, 19),
+        },
+    )
     # Note: the corresponding ASE calculator needs to be defined in ASEModel.calc.
     ```
 - For finetune tasks, only models based on `DeePMD-kit` framework are supported, please raise an issue if you would like to test other models.

@@ -1,5 +1,6 @@
-from lambench.databases.base_table import BaseRecord
 from sqlalchemy import Column, Float
+
+from lambench.databases.base_table import BaseRecord
 
 
 class PropertyRecord(BaseRecord):

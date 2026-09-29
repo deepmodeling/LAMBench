@@ -6,7 +6,7 @@ from typing import Optional
 
 def parse_dptest_log_file(
     filepath: Path, output_type: str = "standard"
-) -> dict[str, Optional[float]]:
+) -> dict[str, float | None]:
     """
     Parse dptest results to a dict
 
