@@ -1,124 +1,216 @@
 import numpy as np
 import pytest
+from ase.data import atomic_numbers, covalent_radii
 
+from lambench.metrics.utils import aggregated_diatomics_results
 from lambench.tasks.calculator.diatomics.diatomics import (
-    _curve_metrics,
-    _element_from_name,
-    _scan_arrays,
-)
-from lambench.metrics.utils import (
-    _diatomics_molecule_names,
-    aggregated_diatomics_results,
+    eval_window,
+    load_reference,
+    low_quality_elements,
+    reference_dummy_scales,
+    score_curve,
+    scored_element_names,
 )
 
 
-def _full_results(**overrides: dict | None) -> dict:
-    results = {name: {"roughness": 0.02} for name in _diatomics_molecule_names()}
+def _parabola(element: str = "Si", shift: float = 0.0, scale: float = 80.0):
+    r_lo, r_hi = eval_window(element, 6.0, r_min_factor=0.8)
+    distances = np.linspace(r_lo + 1e-4, r_hi - 1e-4, 60)
+    r0 = distances[int(len(distances) * 0.65)]
+    energies = scale * (distances - (r0 + shift)) ** 2
+    force_x = distances - (r0 + shift)
+    return element, distances, r0, energies, force_x
+
+
+def _record(**overrides):
+    record = {
+        "bond_length_error": 0.0,
+        "wall_dist_error": 0.0,
+        "force_flip_fail": 0,
+        "model_excluded": False,
+    }
+    record.update(overrides)
+    return record
+
+
+def _full_results(**overrides):
+    results = {name: _record() for name in scored_element_names()}
     results.update(overrides)
     return results
 
 
-def _well_scan():
-    r = np.linspace(0.8, 4.0, 25)
-    e = (r - 1.4) ** 2 - 1.0
-    return r, e
-
-
-def test_scan_arrays_drops_last_point():
-    r, e = _scan_arrays(
-        {"name": "SiSi", "R": [1.0, 1.2, 1.4, 1.6], "E": [0.0, -1.0, -0.5, 10.0]}
+def test_scored_set_and_reference_gate():
+    names = scored_element_names()
+    assert len(names) == 87
+    assert names[0] == "H"
+    assert names[-1] == "U"
+    for element in ("Po", "At", "Rn", "Fr", "Ra"):
+        assert element not in names
+    assert low_quality_elements() == frozenset(
+        {"Pr", "Pm", "Sm", "Tb", "Dy", "Ho", "Er", "Tm"}
     )
-    np.testing.assert_array_equal(r, [1.0, 1.2, 1.4])
-    np.testing.assert_array_equal(e, [0.0, -1.0, -0.5])
+    distances, energies = load_reference()["H"]
+    assert distances[0] == pytest.approx(
+        0.8 * float(covalent_radii[atomic_numbers["H"]])
+    )
+    assert distances[-1] == pytest.approx(6.0)
+    assert len(distances) == len(energies)
 
 
-def test_perfect_match_is_zero():
-    r, e = _well_scan()
-    metrics = _curve_metrics(r, e, e)
-    assert metrics is not None
-    assert metrics["roughness"] == pytest.approx(0.0)
+def test_dummy_scales_are_positive():
+    dummy = reference_dummy_scales()
+    assert dummy["bond_length_mae"] == pytest.approx(0.6068, abs=1e-3)
+    assert dummy["wall_dist_mae"] == pytest.approx(0.2733, abs=1e-3)
 
 
-def test_constant_offset_is_removed_by_min_shift():
-    r, e = _well_scan()
-    metrics = _curve_metrics(r, e + 1.5, e)
-    assert metrics is not None
-    assert metrics["roughness"] == pytest.approx(0.0, abs=1e-10)
+def test_identical_parabola_has_zero_geometry_error():
+    element, distances, _r0, energies, force_x = _parabola()
+    metrics = score_curve(
+        element,
+        distances,
+        energies,
+        energies,
+        force_x,
+        reference_low_quality=False,
+    )
+    assert metrics["model_excluded"] is False
+    assert metrics["bond_length_error"] == pytest.approx(0.0, abs=1e-6)
+    assert metrics["wall_dist_error"] == pytest.approx(0.0, abs=1e-6)
+    assert metrics["force_flip_fail"] == 0
 
 
-def test_constant_dummy_scores_one():
-    r, e = _well_scan()
-    dummy = _curve_metrics(r, np.full_like(e, e[-1]), e)
-    match = _curve_metrics(r, e, e)
-    assert dummy is not None and match is not None
-    assert dummy["roughness"] == pytest.approx(1.0)
-    assert dummy["roughness"] > match["roughness"]
+def test_shifted_well_moves_bond_length():
+    element, distances, _r0, energies, force_x = _parabola()
+    _element, _distances, _shifted_r0, shifted, shifted_fx = _parabola(shift=0.15)
+    metrics = score_curve(
+        element,
+        distances,
+        energies,
+        shifted,
+        shifted_fx,
+        reference_low_quality=False,
+    )
+    assert metrics["bond_length_error"] == pytest.approx(0.15, abs=1e-6)
 
 
-def test_worse_than_dummy_is_capped_at_one():
-    r, e = _well_scan()
-    y = e - np.min(e)
-    inverted = _curve_metrics(r, np.max(y) - y, e)
-    assert inverted is not None
-    assert inverted["roughness"] == pytest.approx(1.0)
+def test_unbound_reference_skips_bond_length():
+    element, distances, r0, _energies, force_x = _parabola(scale=1e-4)
+    energies = 1e-4 * (distances - r0) ** 2
+    metrics = score_curve(
+        element, distances, energies, energies, force_x, reference_low_quality=False
+    )
+    assert metrics["model_excluded"] is False
+    assert metrics["bond_length_error"] is None
 
 
-def test_zero_bond_step_returns_none():
-    r = np.array([1.0, 1.0, 1.4])
-    e = np.array([0.0, -1.0, -0.5])
-    assert _curve_metrics(r, e, e) is None
+def test_missing_model_wall_uses_reference_radius():
+    element, distances, _r0, energies, force_x = _parabola()
+    flat = np.full_like(energies, energies.min())
+    metrics = score_curve(
+        element, distances, energies, flat, force_x, reference_low_quality=False
+    )
+    assert metrics["wall_dist_error"] is not None
+    assert metrics["wall_dist_error"] > 0.5
 
 
-def test_shape_match_is_scale_invariant():
-    r, e = _well_scan()
-    scaled = _curve_metrics(r, 10 * e, e)
-    assert scaled is not None
-    assert scaled["roughness"] == pytest.approx(0.0, abs=1e-10)
+def test_force_sign_must_change_once():
+    element, distances, _r0, energies, force_x = _parabola()
+    oscillating = np.sin(np.linspace(0, 6 * np.pi, len(distances)))
+    flat = np.zeros_like(force_x)
+    extra = score_curve(
+        element,
+        distances,
+        energies,
+        energies,
+        oscillating,
+        reference_low_quality=False,
+    )
+    none = score_curve(
+        element, distances, energies, energies, flat, reference_low_quality=False
+    )
+    assert extra["force_flip_fail"] == 1
+    assert none["force_flip_fail"] == 1
+    assert extra["model_excluded"] is False
 
 
-def test_oscillation_increases_roughness():
-    r, e = _well_scan()
-    match = _curve_metrics(r, e, e)
-    wiggly = _curve_metrics(r, e + 0.2 * np.sin(25 * (r - r[0])), e)
-    assert match is not None and wiggly is not None
-    assert wiggly["roughness"] > match["roughness"]
+def test_low_quality_reference_skips_geometry():
+    element, distances, _r0, energies, force_x = _parabola()
+    metrics = score_curve(
+        element, distances, energies, energies, force_x, reference_low_quality=True
+    )
+    assert metrics["model_excluded"] is False
+    assert metrics["bond_length_error"] is None
+    assert metrics["wall_dist_error"] is None
+    assert metrics["force_flip_fail"] == 0
 
 
-def test_nonfinite_returns_none():
-    r = np.array([1.0, 1.2, 1.4, 1.6])
-    e = np.array([0.0, np.nan, -0.5, -0.4])
-    assert _curve_metrics(r, e, e) is None
+def test_nonfinite_and_jumpy_curves_are_excluded():
+    element, distances, _r0, energies, force_x = _parabola()
+    broken = energies.copy()
+    broken[len(broken) // 2] = np.nan
+    assert score_curve(
+        element, distances, energies, broken, force_x, reference_low_quality=False
+    )["model_excluded"]
+
+    jumpy = np.zeros_like(energies)
+    jumpy[10:15] += 5.0
+    jumpy[25:30] -= 5.0
+    jumpy[40:45] += 5.0
+    assert score_curve(
+        element, distances, energies, jumpy, force_x, reference_low_quality=False
+    )["model_excluded"]
 
 
-def test_element_from_name():
-    assert _element_from_name("HH") == "H"
-    assert _element_from_name("AlAl") == "Al"
+def test_aggregated_perfect_score_is_zero():
+    agg = aggregated_diatomics_results(_full_results())
+    assert agg["coverage"] == pytest.approx(1.0)
+    assert agg["bond_length_mae"] == pytest.approx(0.0)
+    assert agg["wall_dist_mae"] == pytest.approx(0.0)
+    assert agg["force_flip_rate"] == pytest.approx(0.0)
+    assert agg["score"] == pytest.approx(0.0)
 
 
-def test_element_from_name_rejects_invalid():
-    with pytest.raises(ValueError):
-        _element_from_name("H2")
-    with pytest.raises(ValueError):
-        _element_from_name("AlH")
+def test_aggregated_caps_geometry_at_dummy():
+    dummy = reference_dummy_scales()
+    agg = aggregated_diatomics_results(
+        _full_results(
+            **{
+                name: _record(bond_length_error=dummy["bond_length_mae"] * 5)
+                for name in scored_element_names()
+            }
+        )
+    )
+    assert agg["score"] == pytest.approx(1.0 / 3.0)
 
 
-def test_aggregated_means():
-    names = _diatomics_molecule_names()
-    results = {name: {"roughness": 0.02} for name in names}
-    results["HH"] = {"roughness": 0.01}
-    results["NN"] = {"roughness": 0.03}
-    n = len(names)
+def test_aggregated_flip_rate_and_coverage():
+    names = scored_element_names()
+    results = _full_results(**{name: _record(force_flip_fail=1) for name in names})
+    results["H"] = _record(model_excluded=True, force_flip_fail=None)
     agg = aggregated_diatomics_results(results)
-    assert agg["avg_roughness"] == pytest.approx((0.01 + 0.03 + 0.02 * (n - 2)) / n)
+    coverage = (len(names) - 1) / len(names)
+    assert agg["coverage"] == pytest.approx(coverage)
+    assert agg["force_flip_rate"] == pytest.approx(1.0)
+    assert agg["score"] == pytest.approx(1.0 / (3.0 * coverage))
 
 
-def test_aggregated_empty_results():
-    agg = aggregated_diatomics_results({})
-    assert agg["avg_roughness"] is None
+def test_aggregated_missing_element_counts_against_coverage():
+    results = _full_results()
+    del results["H"]
+    agg = aggregated_diatomics_results(results)
+    assert agg["coverage"] == pytest.approx((len(results)) / (len(results) + 1))
+    assert agg["score"] == pytest.approx(0.0)
 
 
-def test_aggregated_incomplete_coverage_is_none():
-    assert aggregated_diatomics_results(_full_results(HH=None))["avg_roughness"] is None
-    incomplete = _full_results()
-    del incomplete["HH"]
-    assert aggregated_diatomics_results(incomplete)["avg_roughness"] is None
+def test_aggregated_empty_or_incomplete_terms_have_no_score():
+    empty = aggregated_diatomics_results({})
+    assert empty["coverage"] == pytest.approx(0.0)
+    assert empty["score"] is None
+
+    no_bond = aggregated_diatomics_results(
+        _full_results(
+            **{name: _record(bond_length_error=None) for name in scored_element_names()}
+        )
+    )
+    assert no_bond["force_flip_rate"] == pytest.approx(0.0)
+    assert no_bond["score"] is None

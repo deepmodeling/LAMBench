@@ -1,6 +1,3 @@
-import json
-from functools import lru_cache
-
 import numpy as np
 import yaml
 from typing import Optional, Literal
@@ -9,14 +6,6 @@ from pathlib import Path
 from collections import defaultdict
 from lambench.workflow.entrypoint import gather_model_params, gather_model
 from datetime import datetime
-
-_DIATOMICS_JSON = (
-    Path(__file__).resolve().parent.parent
-    / "tasks"
-    / "calculator"
-    / "diatomics"
-    / "diatomics.json"
-)
 
 #############################
 # General utility functions #
@@ -162,41 +151,90 @@ def aggregated_inference_efficiency_results(
     }
 
 
-@lru_cache
-def _diatomics_molecule_names() -> tuple[str, ...]:
-    with open(_DIATOMICS_JSON) as fh:
-        return tuple(entry["name"] for entry in json.load(fh))
-
-
 def _empty_diatomics_agg() -> dict[str, float | None]:
-    return {"avg_roughness": None}
+    return {
+        "bond_length_mae": None,
+        "wall_dist_mae": None,
+        "force_flip_rate": None,
+        "coverage": 0.0,
+        "score": None,
+    }
 
 
-def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float]:
+def _mean_or_none(values: list[float]) -> float | None:
+    if not values:
+        return None
+    return float(np.mean(values))
+
+
+def _dummy_hat(value: float | None, dummy: float) -> float | None:
+    if value is None or not np.isfinite(value) or not np.isfinite(dummy) or dummy <= 0:
+        return None
+    return float(min(value / dummy, 1.0))
+
+
+def _element_is_excluded(record: dict | None) -> bool:
+    if not isinstance(record, dict) or record.get("model_excluded", True):
+        return True
+    flip = record.get("force_flip_fail")
+    return flip is None or not np.isfinite(flip)
+
+
+def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | None]:
+    """Aggregate per-element diatomic curves into one coverage-weighted score.
+
+    bond_length_mae and wall_dist_mae are raw MAEs in Å. force_flip_rate is
+    the fraction of scored elements whose Fx changes sign other than once.
+    Each geometry MAE is divided by the PBE mean-predictor dummy and capped
+    at 1. score is the equal-weight average of those three terms divided by
+    coverage. Missing elements and model_excluded curves lower coverage
+    instead of discarding the model. score is None when coverage is zero or
+    any of the three terms has no finite samples.
     """
-    Aggregate per-molecule diatomics results.
+    from lambench.tasks.calculator.diatomics.diatomics import (
+        reference_dummy_scales,
+        scored_element_names,
+    )
 
-    avg_roughness: mean slope MAE relative to a constant dummy, capped at 1.
-    Requires a finite roughness for every molecule in diatomics.json; otherwise None.
-    """
-    if not results:
-        return _empty_diatomics_agg()
-
-    names = _diatomics_molecule_names()
+    names = scored_element_names()
     if not names:
         return _empty_diatomics_agg()
 
-    roughness_values = []
+    bond_errors: list[float] = []
+    wall_errors: list[float] = []
+    flip_fails: list[float] = []
+    n_excluded = 0
     for name in names:
-        mol_results = results.get(name)
-        if mol_results is None:
-            return _empty_diatomics_agg()
-        roughness = mol_results.get("roughness")
-        if roughness is None or not np.isfinite(roughness):
-            return _empty_diatomics_agg()
-        roughness_values.append(roughness)
+        record = None if not results else results.get(name)
+        if _element_is_excluded(record):
+            n_excluded += 1
+            continue
+        bond = record.get("bond_length_error")
+        wall = record.get("wall_dist_error")
+        if bond is not None and np.isfinite(bond):
+            bond_errors.append(float(bond))
+        if wall is not None and np.isfinite(wall):
+            wall_errors.append(float(wall))
+        flip_fails.append(float(record["force_flip_fail"]))
 
-    return {"avg_roughness": float(np.mean(roughness_values))}
+    coverage = (len(names) - n_excluded) / len(names)
+    bond_mae = _mean_or_none(bond_errors)
+    wall_mae = _mean_or_none(wall_errors)
+    flip_rate = _mean_or_none(flip_fails)
+    dummy = reference_dummy_scales()
+    bond_hat = _dummy_hat(bond_mae, dummy["bond_length_mae"])
+    wall_hat = _dummy_hat(wall_mae, dummy["wall_dist_mae"])
+    if coverage <= 0 or bond_hat is None or wall_hat is None or flip_rate is None:
+        score = None
+    else:
+        score = float((bond_hat + wall_hat + flip_rate) / (3.0 * coverage))
+    return {
+        "bond_length_mae": bond_mae,
+        "wall_dist_mae": wall_mae,
+        "force_flip_rate": flip_rate,
+        "coverage": float(coverage),
+        "score": score,
+    }
 
 
 ####################################

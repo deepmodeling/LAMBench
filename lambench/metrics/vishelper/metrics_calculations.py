@@ -197,17 +197,17 @@ class MetricsCalculator:
             else:
                 return np.clip(np.log10(slope / lambda_0), a_min=0, a_max=None)
 
-    def calculate_diatomics_roughness_results(self) -> dict[str, float]:
+    def calculate_diatomics_results(self) -> dict[str, float]:
         """
-        Leaderboard scores for homonuclear diatomics: avg_roughness (lower is better).
-        Models with missing results are omitted from this dict; the final ranking
-        still includes them with a null roughness column.
+        Leaderboard scores for homonuclear diatomics: coverage-weighted score
+        (lower is better). Models with missing results are omitted from this
+        dict; the final ranking still includes them with a null column.
         """
         raw = self.fetcher.fetch_diatomics_results()
         return {
-            model: metrics["avg_roughness"]
+            model: metrics["score"]
             for model, metrics in raw.items()
-            if metrics is not None and metrics.get("avg_roughness") is not None
+            if metrics is not None and metrics.get("score") is not None
         }
 
     def calculate_efficiency_results(self) -> dict[str, float]:
@@ -236,7 +236,7 @@ class MetricsCalculator:
         )
         stability_results = self.calculate_stability_results()
         efficiency_results = self.calculate_efficiency_results()
-        roughness_results = self.calculate_diatomics_roughness_results()
+        diatomics_results = self.calculate_diatomics_results()
         if not generalizability_ood or not generalizability_downstream:
             logging.warning(
                 "Missing data for generalizability metrics (ood or downstream)"
@@ -270,8 +270,8 @@ class MetricsCalculator:
             "Applicability-Efficiency ↑": [
                 efficiency_results[model] for model in shared_models
             ],
-            "Applicability-Roughness ↓": [
-                roughness_results.get(model) for model in shared_models
+            "Applicability-Diatomics ↓": [
+                diatomics_results.get(model) for model in shared_models
             ],
         }
 
@@ -291,7 +291,7 @@ class MetricsCalculator:
                 "Generalizability-PC Error ↓",
                 "Applicability-Instability ↓",
                 "Applicability-Efficiency ↑",
-                "Applicability-Roughness ↓",
+                "Applicability-Diatomics ↓",
             ],
             ascending=[True, True, True, False, True],
         )

@@ -90,7 +90,7 @@ def test_summarize_final_rankings(metrics_calculator):
     metrics_calculator.calculate_stability_results = MagicMock(
         return_value={"model1": 0.2, "model2": 0.5}
     )
-    metrics_calculator.calculate_diatomics_roughness_results = MagicMock(
+    metrics_calculator.calculate_diatomics_results = MagicMock(
         return_value={"model1": 0.05, "model2": 0.03}
     )
     _, result = metrics_calculator.summarize_final_rankings()
@@ -99,14 +99,14 @@ def test_summarize_final_rankings(metrics_calculator):
     assert result.iloc[1]["Model"] == "model1"
 
 
-def test_calculate_diatomics_roughness_results(metrics_calculator, mock_raw_results):
+def test_calculate_diatomics_results(metrics_calculator, mock_raw_results):
     mock_raw_results.fetch_diatomics_results.return_value = {
-        "model1": {"avg_roughness": 0.05},
-        "model2": {"avg_roughness": 0.03},
+        "model1": {"score": 0.05},
+        "model2": {"score": 0.03},
         "model3": None,
-        "model4": {"avg_roughness": None},
+        "model4": {"score": None},
     }
-    result = metrics_calculator.calculate_diatomics_roughness_results()
+    result = metrics_calculator.calculate_diatomics_results()
     assert set(result.keys()) == {"model1", "model2"}
     np.testing.assert_almost_equal(result["model1"], 0.05)
     np.testing.assert_almost_equal(result["model2"], 0.03)
