@@ -1,10 +1,28 @@
 """Homonuclear diatomic curves (Applicability).
 
-Reference curves are the PBE subset of the Matbench Discovery diatomic
-reference (Figshare 68541277): VASP 6, PBE_64 PAW, MP24 static settings,
-15 Å box, one spin ladder per element merged by the lowest energy at each
-distance. r2SCAN curves from that file are not scored. Po, At, Rn, Fr, and
-Ra are left out of the scored set (87 elements, H–U).
+Data source
+-----------
+PBE curves for homonuclear dimers, from the Matbench Discovery diatomic
+reference. The published file also contains r2SCAN; this task does not
+score it.
+
+    Matbench Discovery diatomic DFT curves (PBE and r2SCAN, H–U)
+    https://figshare.com/files/68541277
+
+    Provenance, VASP settings, and spin ladder
+    https://github.com/janosh/matbench-discovery/blob/main/site/src/lib/diatomics-dft.readme.md
+
+    Riebesell, J., Goodall, R. E. A., Benner, P. et al. A framework to
+    evaluate machine learning crystal stability predictions.
+    Nat. Mach. Intell. 7, 836–847 (2025).
+    https://doi.org/10.1038/s42256-025-01055-1
+
+Each curve was computed with VASP 6, PBE_64 PAW potentials, and Materials
+Project MP24 static settings in a 15 Å cell. Distances run geometrically
+from 0.8 covalent radii to 6 Å. At each distance the stored energy is the
+lowest among an even-NUPDOWN spin ladder plus one antiferromagnetic
+candidate. The file checked in here keeps the PBE distances and energies
+for H–U except Po, At, Rn, Fr, and Ra (87 elements).
 
 Three per-element metrics are averaged over finite values:
 

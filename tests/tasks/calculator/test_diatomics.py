@@ -57,6 +57,35 @@ def test_scored_set_and_reference_gate():
     assert len(distances) == len(energies)
 
 
+def test_reference_curves_have_a_wall_and_an_interior_minimum():
+    """Every stored PBE curve is a rising short-range wall on a 0.8 r_cov–6 Å grid.
+
+    Elements that bind by at least 0.05 eV, and that pass the smoothness
+    gate, also place that minimum inside the scoring window rather than on
+    an endpoint.
+    """
+    low_quality = low_quality_elements()
+    for element, (distances, energies) in load_reference().items():
+        rcov = float(covalent_radii[atomic_numbers[element]])
+        assert np.all(np.diff(distances) > 0)
+        assert np.isfinite(distances).all()
+        assert np.isfinite(energies).all()
+        assert distances[0] == pytest.approx(0.8 * rcov)
+        assert distances[-1] == pytest.approx(6.0)
+        assert float(energies[0] - energies.min()) > 1.0
+        if element in low_quality:
+            continue
+        r_min, r_max = eval_window(element, float(distances[-1]))
+        window = (distances >= r_min) & (distances <= r_max)
+        radii = distances[window]
+        window_energies = energies[window]
+        if float(window_energies[-1] - window_energies.min()) < 0.05:
+            continue
+        minimum = int(np.argmin(window_energies))
+        assert 0 < minimum < len(window_energies) - 1
+        assert radii[0] < radii[minimum] < radii[-1]
+
+
 def test_dummy_scales_are_positive():
     dummy = reference_dummy_scales()
     assert dummy["bond_length_mae"] == pytest.approx(0.6068, abs=1e-3)
