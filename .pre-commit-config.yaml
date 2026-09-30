@@ -10,5 +10,5 @@ repos:
   rev: v0.16.9
   hooks:
     - id: ruff
-      args: ["--fix"]
+      args: ["--fix", "--select", "E4,E7,E9,F"]
     - id: ruff-format
