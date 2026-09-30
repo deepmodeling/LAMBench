@@ -128,7 +128,7 @@ def aggregated_nve_md_results(results: dict[str, dict[str, float]]) -> dict[str,
 ## Inference efficiency utility functions
 def aggregated_inference_efficiency_results(
     results: dict[str, dict[str, float]],
-) -> dict[str, float]:
+) -> dict[str, float | None]:
     system_level_avg = []
     system_level_std = []
     system_level_success_rate = []
@@ -143,19 +143,20 @@ def aggregated_inference_efficiency_results(
     if success_count != len(results):
         return {"average_time": None, "std_time": None, "success_rate": 0.0}
     return {
-        "average_time": np.round(np.mean(system_level_avg), 6),
-        "standard_deviation": np.round(
-            np.sqrt(np.mean(np.square(system_level_std))), 6
+        "average_time": float(np.round(np.mean(system_level_avg), 6)),
+        "standard_deviation": float(
+            np.round(np.sqrt(np.mean(np.square(system_level_std))), 6)
         ),
-        "success_rate": np.round(np.mean(system_level_success_rate), 2),
+        "success_rate": float(np.round(np.mean(system_level_success_rate), 2)),
     }
 
 
+## Diatomic utility functions
 def _empty_diatomics_agg() -> dict[str, float | None]:
     return {
         "bond_length_mae": None,
-        "wall_dist_mae": None,
-        "force_flip_rate": None,
+        "well_depth_mae": None,
+        "force_flip_count": None,
         "coverage": 0.0,
         "score": None,
     }
@@ -176,20 +177,20 @@ def _dummy_hat(value: float | None, dummy: float) -> float | None:
 def _element_is_excluded(record: dict | None) -> bool:
     if not isinstance(record, dict) or record.get("model_excluded", True):
         return True
-    flip = record.get("force_flip_fail")
+    flip = record.get("force_flip_count")
     return flip is None or not np.isfinite(flip)
 
 
 def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | None]:
     """Aggregate per-element diatomic curves into one coverage-weighted score.
 
-    bond_length_mae and wall_dist_mae are raw MAEs in Å. force_flip_rate is
-    the fraction of scored elements whose Fx changes sign other than once.
-    Each geometry MAE is divided by the PBE mean-predictor dummy and capped
-    at 1. score is the equal-weight average of those three terms divided by
-    coverage. Missing elements and model_excluded curves lower coverage
-    instead of discarding the model. score is None when coverage is zero or
-    any of the three terms has no finite samples.
+    bond_length_mae is in Å and well_depth_mae is in eV. force_flip_count is
+    the mean number of sign changes in first-atom Fx. Bond and well errors are
+    divided by their blind dummy scales; force flips use the mean per-element
+    absolute deviation from the ideal count of one. Each term is capped at 1.
+    score is their equal-weight average divided by coverage. Missing elements
+    and model_excluded curves lower coverage instead of discarding the model.
+    score is None when coverage is zero or any term has no finite samples.
     """
     from lambench.tasks.calculator.diatomics.diatomics import (
         reference_dummy_scales,
@@ -201,37 +202,43 @@ def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | 
         return _empty_diatomics_agg()
 
     bond_errors: list[float] = []
-    wall_errors: list[float] = []
-    flip_fails: list[float] = []
+    well_errors: list[float] = []
+    flip_counts: list[float] = []
+    flip_deviations: list[float] = []
     n_excluded = 0
     for name in names:
         record = None if not results else results.get(name)
         if _element_is_excluded(record):
             n_excluded += 1
             continue
+        assert isinstance(record, dict)
         bond = record.get("bond_length_error")
-        wall = record.get("wall_dist_error")
+        well = record.get("well_depth_error")
         if bond is not None and np.isfinite(bond):
             bond_errors.append(float(bond))
-        if wall is not None and np.isfinite(wall):
-            wall_errors.append(float(wall))
-        flip_fails.append(float(record["force_flip_fail"]))
+        if well is not None and np.isfinite(well):
+            well_errors.append(float(well))
+        flip_count = float(record["force_flip_count"])
+        flip_counts.append(flip_count)
+        flip_deviations.append(abs(flip_count - 1.0))
 
     coverage = (len(names) - n_excluded) / len(names)
     bond_mae = _mean_or_none(bond_errors)
-    wall_mae = _mean_or_none(wall_errors)
-    flip_rate = _mean_or_none(flip_fails)
+    well_mae = _mean_or_none(well_errors)
+    flip_count = _mean_or_none(flip_counts)
+    flip_deviation = _mean_or_none(flip_deviations)
     dummy = reference_dummy_scales()
     bond_hat = _dummy_hat(bond_mae, dummy["bond_length_mae"])
-    wall_hat = _dummy_hat(wall_mae, dummy["wall_dist_mae"])
-    if coverage <= 0 or bond_hat is None or wall_hat is None or flip_rate is None:
+    well_hat = _dummy_hat(well_mae, dummy["well_depth_mae"])
+    flip_hat = _dummy_hat(flip_deviation, dummy["force_flip_deviation"])
+    if coverage <= 0 or bond_hat is None or well_hat is None or flip_hat is None:
         score = None
     else:
-        score = float((bond_hat + wall_hat + flip_rate) / (3.0 * coverage))
+        score = float((bond_hat + well_hat + flip_hat) / (3.0 * coverage))
     return {
         "bond_length_mae": bond_mae,
-        "wall_dist_mae": wall_mae,
-        "force_flip_rate": flip_rate,
+        "well_depth_mae": well_mae,
+        "force_flip_count": flip_count,
         "coverage": float(coverage),
         "score": score,
     }

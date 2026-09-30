@@ -32,25 +32,22 @@ Three per-element metrics are averaged over finite values:
 
 - bond_length_error: absolute equilibrium-distance error in Å. The distance
   is a quadratic fit of up to five points around the minimum. Reference
-  binding energies below 0.05 eV are skipped, as are PBE curves that fail
-  the smoothness gate.
-- wall_dist_error: MAE in Å of repulsive-branch radii at 1, 5, 10, 20, 50,
-  and 100 eV above the well. A threshold the reference reaches and the
-  model does not contributes the full reference radius.
-- force_flip_fail: 0 when Fx on the first atom changes sign exactly once
-  after dropping |Fx| < 0.01 eV/Å, otherwise 1.
+  binding energies below 0.05 eV are skipped.
+- well_depth_error: absolute error in eV of
+  ``E(r_far) - min(E)`` over the evaluation window. It is skipped with
+  bond length when the reference binding energy is below 0.05 eV.
+- force_flip_count: number of Fx sign changes on the first atom after
+  dropping |Fx| < 0.01 eV/Å.
 
-Geometry metrics use distances from 0.9 covalent radii to
-min(3.1 Alvarez vdW radii, 6 Å). The wall metric extends the lower bound
-to 0.8 covalent radii. A model curve that is non-finite in that range, or
-that has an energy jump of at least 1.5 eV and at least three
-energy-difference sign flips, is dropped from the averages and lowers
-coverage.
+All metrics use distances from 0.9 covalent radii to
+min(3.1 Alvarez vdW radii, 6 Å). A model curve that is non-finite in that
+range is dropped from the averages and lowers coverage.
 
 The leaderboard score is the equal-weight average of the dummy-normalized
-bond-length MAE, the dummy-normalized wall MAE, and the force-flip rate,
-divided by coverage. The dummy predicts each geometric quantity by the
-mean of the PBE reference. Zero is a perfect single-well match.
+bond-length MAE, dummy-normalized well-depth MAE, and mean absolute
+deviation from one force flip, divided by coverage. The bond-length dummy
+guesses the midpoint of each element's evaluation window. The well-depth
+dummy predicts zero binding energy. Zero is a perfect single-well match.
 
 Reference file: lambench/tasks/calculator/diatomics/diatomics.json
 """
@@ -74,13 +71,9 @@ if TYPE_CHECKING:
 _LABEL_FILE = Path(__file__).parent / "diatomics.json"
 _N_GRID = 50
 _GRID_R_MAX = 6.0
-_WALL_THRESHOLDS_EV = (1.0, 5.0, 10.0, 20.0, 50.0, 100.0)
 _MIN_BINDING_EV = 0.05
-_MIN_ENERGY_JUMP_EV = 1.5
-_MIN_ENERGY_FLIPS = 3
 _MIN_WINDOW_POINTS = 5
 _FORCE_SIGN_THRESHOLD = 1e-2
-_ENERGY_DIFF_THRESHOLD = 1e-3
 _FIT_POINTS = 5
 _BOX_ANGSTROM = 30.0
 
@@ -108,30 +101,6 @@ def eval_window(
     return r_min, r_max
 
 
-def _energy_smoothness(energies: np.ndarray) -> tuple[float, int]:
-    """Energy jump (eV) at sign flips, and the flip count.
-
-    Differences smaller than 1e-3 eV are treated as zero, matching the
-    Matbench Discovery gate.
-    """
-    diffs = np.diff(np.asarray(energies, dtype=float))
-    diffs[np.abs(diffs) < _ENERGY_DIFF_THRESHOLD] = 0
-    signs = np.sign(diffs)
-    kept = signs != 0
-    diffs = diffs[kept]
-    signs = signs[kept]
-    if signs.size < 2:
-        return 0.0, 0
-    flips = np.diff(signs) != 0
-    jump = float(np.abs(diffs[:-1][flips]).sum() + np.abs(diffs[1:][flips]).sum())
-    return jump, int(np.sum(flips))
-
-
-def _fails_smoothness_gate(energies: np.ndarray) -> bool:
-    jump, n_flips = _energy_smoothness(energies)
-    return jump >= _MIN_ENERGY_JUMP_EV and n_flips >= _MIN_ENERGY_FLIPS
-
-
 def _binding_energy(energies: np.ndarray) -> float:
     return float(energies[-1] - np.min(energies))
 
@@ -155,42 +124,6 @@ def _equilibrium_distance(seps: np.ndarray, energies: np.ndarray) -> float:
     return float(seps[min_idx])
 
 
-def _repulsive_radius(
-    seps: np.ndarray, energies: np.ndarray, threshold_ev: float
-) -> float:
-    """Invert the repulsive branch to the radius at E_min + threshold_ev."""
-    min_idx = int(np.argmin(energies))
-    if min_idx == 0:
-        return np.nan
-    radii_inward = seps[min_idx::-1]
-    energy_above_min = energies[min_idx::-1] - energies[min_idx]
-    monotonic_energy = np.maximum.accumulate(energy_above_min)
-    unique_energy, unique_idx = np.unique(monotonic_energy, return_index=True)
-    if len(unique_energy) < 2 or threshold_ev > unique_energy[-1]:
-        return np.nan
-    return float(np.interp(threshold_ev, unique_energy, radii_inward[unique_idx]))
-
-
-def _wall_distance_mae(
-    ref_seps: np.ndarray,
-    ref_energies: np.ndarray,
-    model_seps: np.ndarray,
-    model_energies: np.ndarray,
-) -> float | None:
-    errors: list[float] = []
-    for threshold in _WALL_THRESHOLDS_EV:
-        radius_ref = _repulsive_radius(ref_seps, ref_energies, threshold)
-        if not np.isfinite(radius_ref):
-            continue
-        radius_pred = _repulsive_radius(model_seps, model_energies, threshold)
-        errors.append(
-            abs(radius_pred - radius_ref) if np.isfinite(radius_pred) else radius_ref
-        )
-    if not errors:
-        return None
-    return float(np.mean(errors))
-
-
 def _force_flip_count(force_x: np.ndarray) -> int:
     kept = force_x[np.abs(force_x) >= _FORCE_SIGN_THRESHOLD]
     if kept.size < 2:
@@ -201,8 +134,8 @@ def _force_flip_count(force_x: np.ndarray) -> int:
 def _excluded_record() -> dict[str, float | int | bool | None]:
     return {
         "bond_length_error": None,
-        "wall_dist_error": None,
-        "force_flip_fail": None,
+        "well_depth_error": None,
+        "force_flip_count": None,
         "model_excluded": True,
     }
 
@@ -213,14 +146,10 @@ def score_curve(
     ref_energies: np.ndarray,
     model_energies: np.ndarray,
     model_force_x: np.ndarray,
-    *,
-    reference_low_quality: bool,
 ) -> dict[str, float | int | bool | None]:
     """Score one homonuclear curve against its PBE reference.
 
     ``model_excluded`` is true when the model curve cannot be scored.
-    Reference-quality skips leave ``model_excluded`` false and set the
-    PBE-relative errors to None.
     """
     distances = np.asarray(distances, dtype=float)
     ref_energies = np.asarray(ref_energies, dtype=float)
@@ -235,44 +164,33 @@ def score_curve(
 
     seps_max = float(distances[-1])
     r_min, r_max = eval_window(element, seps_max)
-    wall_r_min = eval_window(element, seps_max, r_min_factor=0.8)[0] - 1e-12
     general = (distances >= r_min) & (distances <= r_max)
-    wall = (distances >= wall_r_min) & (distances <= r_max)
-    if int(general.sum()) < _MIN_WINDOW_POINTS or int(wall.sum()) < 2:
+    if int(general.sum()) < _MIN_WINDOW_POINTS:
         return _excluded_record()
     if not (
-        np.isfinite(model_energies[wall]).all()
-        and np.isfinite(model_force_x[wall]).all()
+        np.isfinite(model_energies[general]).all()
+        and np.isfinite(model_force_x[general]).all()
     ):
         return _excluded_record()
-    if not np.isfinite(ref_energies[wall]).all():
-        return _excluded_record()
-    if _fails_smoothness_gate(model_energies[general]):
+    if not np.isfinite(ref_energies[general]).all():
         return _excluded_record()
 
     n_flips = _force_flip_count(model_force_x[general])
     result: dict[str, float | int | bool | None] = {
         "bond_length_error": None,
-        "wall_dist_error": None,
-        "force_flip_fail": 0 if n_flips == 1 else 1,
+        "well_depth_error": None,
+        "force_flip_count": n_flips,
         "model_excluded": False,
     }
-    if reference_low_quality:
-        return result
 
-    result["wall_dist_error"] = _wall_distance_mae(
-        distances[wall],
-        ref_energies[wall],
-        distances[wall],
-        model_energies[wall],
-    )
     ref_general = ref_energies[general]
-    if _binding_energy(ref_general) >= _MIN_BINDING_EV:
+    model_general = model_energies[general]
+    ref_depth = _binding_energy(ref_general)
+    if ref_depth >= _MIN_BINDING_EV:
         ref_distance = _equilibrium_distance(distances[general], ref_general)
-        model_distance = _equilibrium_distance(
-            distances[general], model_energies[general]
-        )
+        model_distance = _equilibrium_distance(distances[general], model_general)
         result["bond_length_error"] = float(abs(model_distance - ref_distance))
+        result["well_depth_error"] = abs(_binding_energy(model_general) - ref_depth)
     return result
 
 
@@ -298,67 +216,33 @@ def scored_element_names(path: str | None = None) -> tuple[str, ...]:
 
 
 @lru_cache
-def low_quality_elements(path: str | None = None) -> frozenset[str]:
-    """PBE curves too jumpy to use as a geometry reference."""
-    flagged: set[str] = set()
-    for element, (distances, energies) in load_reference(path).items():
-        r_min, r_max = eval_window(element, float(np.max(distances)))
-        mask = (distances >= r_min) & (distances <= r_max)
-        if int(mask.sum()) < _MIN_WINDOW_POINTS:
-            continue
-        window = energies[mask]
-        if not np.isfinite(window).all() or _fails_smoothness_gate(window):
-            flagged.add(element)
-    return frozenset(flagged)
-
-
-@lru_cache
 def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
-    """MAE of predicting each reference geometry by its cross-element mean.
+    """Metric scales from blind bond-position and flat-energy predictions.
 
-    Bond lengths use elements that pass the smoothness gate and bind by at
-    least 0.05 eV. Wall radii use every gated element that reaches a
-    threshold; the dummy error at each threshold is the deviation from the
-    mean radius at that threshold.
+    For each bound reference, the bond dummy guesses the arithmetic midpoint
+    of that element's evaluation window and the well-depth dummy predicts zero.
+    A flat force curve has zero flips, one away from the ideal count of one.
     """
-    low_quality = low_quality_elements(path)
-    bond_lengths: list[float] = []
-    radii: dict[float, dict[str, float]] = {t: {} for t in _WALL_THRESHOLDS_EV}
+    bond_errors: list[float] = []
+    well_errors: list[float] = []
     for element, (distances, energies) in load_reference(path).items():
-        if element in low_quality:
-            continue
         seps_max = float(np.max(distances))
         r_min, r_max = eval_window(element, seps_max)
         general = (distances >= r_min) & (distances <= r_max)
-        if (
-            int(general.sum()) >= 3
-            and _binding_energy(energies[general]) >= _MIN_BINDING_EV
-        ):
-            bond_lengths.append(
-                _equilibrium_distance(distances[general], energies[general])
-            )
-        wall_r_min = eval_window(element, seps_max, r_min_factor=0.8)[0] - 1e-12
-        wall = (distances >= wall_r_min) & (distances <= r_max)
-        if int(wall.sum()) < 2:
+        if int(general.sum()) < 3:
             continue
-        for threshold in _WALL_THRESHOLDS_EV:
-            radius = _repulsive_radius(distances[wall], energies[wall], threshold)
-            if np.isfinite(radius):
-                radii[threshold][element] = radius
+        ref_energies = energies[general]
+        ref_depth = _binding_energy(ref_energies)
+        if ref_depth < _MIN_BINDING_EV:
+            continue
+        ref_distance = _equilibrium_distance(distances[general], ref_energies)
+        bond_errors.append(abs((r_min + r_max) / 2 - ref_distance))
+        well_errors.append(ref_depth)
 
-    bond = np.asarray(bond_lengths, dtype=float)
-    bond_dummy = float(np.mean(np.abs(bond - np.mean(bond))))
-    per_element: dict[str, list[float]] = {}
-    for threshold, values in radii.items():
-        if not values:
-            continue
-        mean_radius = float(np.mean(list(values.values())))
-        for element, radius in values.items():
-            per_element.setdefault(element, []).append(abs(radius - mean_radius))
-    wall_errors = [float(np.mean(errs)) for errs in per_element.values() if errs]
     return {
-        "bond_length_mae": bond_dummy,
-        "wall_dist_mae": float(np.mean(wall_errors)),
+        "bond_length_mae": float(np.mean(bond_errors)),
+        "well_depth_mae": float(np.mean(well_errors)),
+        "force_flip_deviation": 1.0,
     }
 
 
@@ -395,7 +279,6 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
     """Score model curves on the PBE homonuclear reference grid."""
     label_path = None if test_data is None else str(test_data / "diatomics.json")
     reference = load_reference(label_path)
-    low_quality = low_quality_elements(label_path)
     calc = model.calc
     results: dict[str, dict] = {}
     for element, (distances, ref_energies) in reference.items():
@@ -406,7 +289,6 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
             ref_energies,
             model_energies,
             model_force_x,
-            reference_low_quality=element in low_quality,
         )
         results[element] = element_result
         logging.info(f"{element}: {element_result}")
