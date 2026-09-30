@@ -14,12 +14,13 @@ The CCSD(T)/CBS reference for Torsionnet500 dataset is obtained from the followi
 
 from pathlib import Path
 
-from ase import Atoms
 import dpdata
-import sklearn.metrics as metrics
 import pandas as pd
-from lambench.models.ase_models import ASEModel
+from ase import Atoms
+from sklearn import metrics
 from tqdm import tqdm
+
+from lambench.models.ase_models import ASEModel
 
 
 def run_torsionnet(

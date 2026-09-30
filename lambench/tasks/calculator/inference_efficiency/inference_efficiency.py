@@ -1,14 +1,16 @@
+import logging
+import time
+from pathlib import Path
+
+import numpy as np
+from ase.io import read
+
 from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.inference_efficiency.efficiency_utils import (
     binary_search_max_natoms,
-    get_efv,
     find_even_factors,
+    get_efv,
 )
-from ase.io import read
-import logging
-import time
-import numpy as np
-from pathlib import Path
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
@@ -19,7 +21,7 @@ def run_inference(
     model: ASEModel,
     test_data: Path,
     warmup_ratio: float,
-    natoms_upper_limit: int = 1500,
+    natoms_upper_limit: int = 1000,
 ) -> dict[str, dict[str, float]]:
     """
     Inference for all trajectories, return average time and success rate for each system.
@@ -95,7 +97,7 @@ def run_one_inference(
             get_efv(atoms)
             successful_inferences += 1
         except Exception as e:
-            logging.error(f"Error in inference for {str(atoms.symbols)}: {e}")
+            logging.error(f"Error in inference for {atoms.symbols!s}: {e}")
             continue
 
         end = time.time()

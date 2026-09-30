@@ -1,4 +1,3 @@
-# ruff: noqa: E402
 """
 The test data is obtained from the following paper:
 
@@ -8,16 +7,18 @@ DOI 10.1088/2515-7639/ae2ba8
 We downsampled the original test set to 45 structures at each pressure point (25, 50, 75, 100, 125, 150 GPa)
 """
 
-from ase.io import read
+import logging
+from pathlib import Path
+
 from ase import Atoms
 from ase.calculators.calculator import Calculator
-from ase.optimize import FIRE
 from ase.filters import FrechetCellFilter
-from pathlib import Path
+from ase.io import read
+from ase.optimize import FIRE
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error
 from tqdm import tqdm
-from sklearn.metrics import root_mean_squared_error, mean_absolute_error
+
 from lambench.models.ase_models import ASEModel
-import logging
 
 KBAR_2_EVA3 = 6.2415e-4
 GPA_2_KBAR = 10

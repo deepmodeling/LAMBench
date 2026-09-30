@@ -1,7 +1,8 @@
-from lambench.tasks import PropertyFinetuneTask
-from lambench.models.dp_models import DPModel
-from unittest.mock import patch
 import logging
+from unittest.mock import patch
+
+from lambench.models.dp_models import DPModel
+from lambench.tasks import PropertyFinetuneTask
 
 
 def test_load_finetune_task(finetune_yml_data):

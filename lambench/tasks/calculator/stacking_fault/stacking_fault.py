@@ -1,12 +1,13 @@
-from ase.io import read
 from pathlib import Path
-from tqdm import tqdm
+
 import numpy as np
 import pandas as pd
+from ase.io import read
 from sklearn.metrics import mean_absolute_error
+from tqdm import tqdm
+
 from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.stacking_fault.utils import fit_pchip
-
 
 EV_A2_TO_MJ_M2 = 16021.766208
 NUM_POINTS = 200

@@ -8,16 +8,15 @@ Dataset is retrieved from Ardavan Mehdizadeh and Peter Schindler 2025 AI Sci. 1 
 Only 10% of the dataset is randomly sampled for testing.
 """
 
+import ast
 import json
 import logging
 from pathlib import Path
-from tqdm import tqdm
-import ast
-
-from sklearn.metrics import mean_absolute_error, root_mean_squared_error
 
 from pymatgen.core.structure import Structure
 from pymatgen.io.ase import AseAtomsAdaptor
+from sklearn.metrics import mean_absolute_error, root_mean_squared_error
+from tqdm import tqdm
 
 from lambench.models.ase_models import ASEModel
 

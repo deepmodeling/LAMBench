@@ -1,11 +1,13 @@
-from lambench.tasks.calculator.inference_efficiency.efficiency_utils import (
-    find_even_factors,
-    binary_search_max_natoms,
-)
-import pytest
-import numpy as np
-from ase.atoms import Atoms
 from unittest.mock import MagicMock
+
+import numpy as np
+import pytest
+from ase.atoms import Atoms
+
+from lambench.tasks.calculator.inference_efficiency.efficiency_utils import (
+    binary_search_max_natoms,
+    find_even_factors,
+)
 
 OOM_TEST_ATOM = Atoms(
     symbols="Mg",
