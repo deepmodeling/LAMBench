@@ -4,6 +4,7 @@ from ase.data import atomic_numbers, covalent_radii
 
 from lambench.metrics.utils import aggregated_diatomics_results
 from lambench.tasks.calculator.diatomics.diatomics import (
+    design_distances,
     eval_window,
     load_reference,
     low_quality_elements,
@@ -41,14 +42,29 @@ def _full_results(**overrides):
 
 def test_scored_set_and_reference_gate():
     names = scored_element_names()
-    assert len(names) == 87
+    assert len(names) == 76
     assert names[0] == "H"
     assert names[-1] == "U"
-    for element in ("Po", "At", "Rn", "Fr", "Ra"):
+    for element in (
+        "Po",
+        "At",
+        "Rn",
+        "Fr",
+        "Ra",
+        "Ni",
+        "Zr",
+        "Pr",
+        "Pm",
+        "Sm",
+        "Tb",
+        "Dy",
+        "Ho",
+        "Er",
+        "Tm",
+        "Ir",
+    ):
         assert element not in names
-    assert low_quality_elements() == frozenset(
-        {"Pr", "Pm", "Sm", "Tb", "Dy", "Ho", "Er", "Tm"}
-    )
+    assert low_quality_elements() == frozenset()
     distances, energies = load_reference()["H"]
     assert distances[0] == pytest.approx(
         0.8 * float(covalent_radii[atomic_numbers["H"]])
@@ -67,8 +83,8 @@ def test_reference_curves_have_a_wall_and_an_interior_minimum():
     low_quality = low_quality_elements()
     for element, (distances, energies) in load_reference().items():
         rcov = float(covalent_radii[atomic_numbers[element]])
-        assert np.all(np.diff(distances) > 0)
-        assert np.isfinite(distances).all()
+        assert len(distances) == len(energies) == 50
+        assert np.allclose(distances, design_distances(element), rtol=0, atol=1e-6)
         assert np.isfinite(energies).all()
         assert distances[0] == pytest.approx(0.8 * rcov)
         assert distances[-1] == pytest.approx(6.0)
@@ -88,8 +104,8 @@ def test_reference_curves_have_a_wall_and_an_interior_minimum():
 
 def test_dummy_scales_are_positive():
     dummy = reference_dummy_scales()
-    assert dummy["bond_length_mae"] == pytest.approx(0.6068, abs=1e-3)
-    assert dummy["wall_dist_mae"] == pytest.approx(0.2733, abs=1e-3)
+    assert dummy["bond_length_mae"] == pytest.approx(0.6186, abs=1e-3)
+    assert dummy["wall_dist_mae"] == pytest.approx(0.2802, abs=1e-3)
 
 
 def test_identical_parabola_has_zero_geometry_error():

@@ -21,8 +21,12 @@ Each curve was computed with VASP 6, PBE_64 PAW potentials, and Materials
 Project MP24 static settings in a 15 Å cell. Distances run geometrically
 from 0.8 covalent radii to 6 Å. At each distance the stored energy is the
 lowest among an even-NUPDOWN spin ladder plus one antiferromagnetic
-candidate. The file checked in here keeps the PBE distances and energies
-for H–U except Po, At, Rn, Fr, and Ra (87 elements).
+candidate. Po, At, Rn, Fr, and Ra are outside the scored set. The public
+file does not include the raw spin-candidate curves or a per-point edit
+log, so a deleted distance cannot be restored and a replaced energy cannot
+be detected. This task therefore keeps a PBE curve only when it is exactly
+the 50-point design grid. That drops Ni, Zr, Pr, Pm, Sm, Tb, Dy, Ho, Er,
+Tm, and Ir (45 missing distances). 76 curves remain.
 
 Three per-element metrics are averaged over finite values:
 
@@ -69,6 +73,9 @@ if TYPE_CHECKING:
 
 _LABEL_FILE = Path(__file__).parent / "diatomics.json"
 _EXCLUDED_ELEMENTS = frozenset({"Po", "At", "Rn", "Fr", "Ra"})
+_N_GRID = 50
+_GRID_R_MAX = 6.0
+_GRID_ATOL = 1e-6
 _WALL_THRESHOLDS_EV = (1.0, 5.0, 10.0, 20.0, 50.0, 100.0)
 _MIN_BINDING_EV = 0.05
 _MIN_ENERGY_JUMP_EV = 1.5
@@ -78,6 +85,22 @@ _FORCE_SIGN_THRESHOLD = 1e-2
 _ENERGY_DIFF_THRESHOLD = 1e-3
 _FIT_POINTS = 5
 _BOX_ANGSTROM = 30.0
+
+
+def design_distances(element: str) -> np.ndarray:
+    """50 geometric separations from 0.8 covalent radii to 6 Å."""
+    r_min = 0.8 * float(covalent_radii[atomic_numbers[element]])
+    return r_min * (_GRID_R_MAX / r_min) ** (np.arange(_N_GRID) / (_N_GRID - 1))
+
+
+def matches_design_grid(element: str, distances: np.ndarray) -> bool:
+    """True when ``distances`` is the design grid and nothing else."""
+    distances = np.asarray(distances, dtype=float)
+    if distances.size != _N_GRID:
+        return False
+    return bool(
+        np.allclose(distances, design_distances(element), rtol=0, atol=_GRID_ATOL)
+    )
 
 
 def eval_window(
@@ -269,7 +292,12 @@ def score_curve(
 def load_reference(
     path: str | None = None,
 ) -> dict[str, tuple[np.ndarray, np.ndarray]]:
-    """Scored PBE curves keyed by element, distances then energies in Å and eV."""
+    """Scored PBE curves keyed by element, distances then energies in Å and eV.
+
+    Curves that are not the 50-point design grid are omitted. The published
+    reference deleted those distances, and the missing energies are not in
+    the file.
+    """
     label_path = _LABEL_FILE if path is None else Path(path)
     with open(label_path) as fh:
         raw: list[dict] = json.load(fh)
@@ -278,10 +306,11 @@ def load_reference(
         element = entry["element"]
         if element in _EXCLUDED_ELEMENTS:
             continue
-        curves[element] = (
-            np.asarray(entry["R"], dtype=float),
-            np.asarray(entry["E"], dtype=float),
-        )
+        distances = np.asarray(entry["R"], dtype=float)
+        if not matches_design_grid(element, distances):
+            logging.warning(f"{element} is not the 50-point design grid; skipping")
+            continue
+        curves[element] = (distances, np.asarray(entry["E"], dtype=float))
     return curves
 
 
