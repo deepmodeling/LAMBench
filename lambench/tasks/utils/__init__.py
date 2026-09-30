@@ -1,7 +1,6 @@
 import logging
 from math import isnan
 from pathlib import Path
-from typing import Optional
 
 
 def parse_dptest_log_file(
