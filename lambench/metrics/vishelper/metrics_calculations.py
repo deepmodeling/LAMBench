@@ -201,7 +201,7 @@ class MetricsCalculator:
 
     def calculate_diatomics_results(self) -> dict[str, float]:
         """
-        Leaderboard scores for homonuclear diatomics: coverage-weighted score
+        Leaderboard scores for homonuclear diatomics: complete-coverage score
         (lower is better). Models with missing results are omitted from this
         dict; the final ranking still includes them with a null column.
         """

@@ -1,3 +1,6 @@
+import json
+from types import SimpleNamespace
+
 import numpy as np
 import pytest
 from ase.data import atomic_numbers, covalent_radii
@@ -8,6 +11,7 @@ from lambench.tasks.calculator.diatomics.diatomics import (
     eval_window,
     load_reference,
     reference_dummy_scales,
+    run_inference,
     score_curve,
     scored_element_names,
 )
@@ -35,7 +39,13 @@ def _record(**overrides):
 def _full_results(**overrides):
     results = {name: _record() for name in scored_element_names()}
     results.update(overrides)
-    return results
+    return {
+        "reference": {
+            "elements": list(scored_element_names()),
+            "dummy_scales": reference_dummy_scales(),
+        },
+        "curves": results,
+    }
 
 
 def test_scored_set_and_reference_gate():
@@ -259,20 +269,20 @@ def test_aggregated_caps_reference_errors_at_dummy(metric, dummy_key):
 def test_aggregated_roughness_and_coverage():
     names = scored_element_names()
     results = _full_results(**{name: _record(roughness=1.0) for name in names})
-    results["H"] = _record(model_excluded=True, roughness=None)
+    results["curves"]["H"] = _record(model_excluded=True, roughness=None)
     agg = aggregated_diatomics_results(results)
     coverage = (len(names) - 1) / len(names)
     assert agg["coverage"] == pytest.approx(coverage)
     assert agg["avg_roughness"] == pytest.approx(1.0)
-    assert agg["score"] == pytest.approx(1.0 / (3.0 * coverage))
+    assert agg["score"] is None
 
 
 def test_aggregated_missing_element_counts_against_coverage():
     results = _full_results()
-    del results["H"]
+    del results["curves"]["H"]
     agg = aggregated_diatomics_results(results)
-    assert agg["coverage"] == pytest.approx((len(results)) / (len(results) + 1))
-    assert agg["score"] == pytest.approx(0.0)
+    assert agg["coverage"] == pytest.approx(75 / 76)
+    assert agg["score"] is None
 
 
 def test_aggregated_empty_or_incomplete_terms_have_no_score():
@@ -287,3 +297,60 @@ def test_aggregated_empty_or_incomplete_terms_have_no_score():
     )
     assert no_bond["avg_roughness"] == pytest.approx(0.0)
     assert no_bond["score"] is None
+
+
+def test_custom_reference_metadata_survives_json_roundtrip(tmp_path, monkeypatch):
+    reference = {
+        name: (r, e * 3 + 10)
+        for name, (r, e) in load_reference().items()
+        if name in {"H", "Li"}
+    }
+    path = tmp_path / "diatomics.json"
+    path.write_text(
+        json.dumps(
+            [
+                {"element": name, "R": r.tolist(), "E": e.tolist()}
+                for name, (r, e) in reference.items()
+            ]
+        )
+    )
+    monkeypatch.setattr(
+        "lambench.tasks.calculator.diatomics.diatomics._predict_curve",
+        lambda calc, name, distances: reference[name][1],
+    )
+    results = json.loads(
+        json.dumps(run_inference(SimpleNamespace(calc=None), tmp_path))
+    )
+    dummy = reference_dummy_scales(str(path))
+    assert results["reference"]["elements"] == ["H", "Li"]
+    assert results["reference"]["dummy_scales"] == dummy
+    assert dummy["well_depth_mae"] != reference_dummy_scales()["well_depth_mae"]
+    agg = aggregated_diatomics_results(results)
+    assert agg["coverage"] == 1.0
+    assert agg["score"] == pytest.approx(0.0)
+
+    for record in results["curves"].values():
+        record.update(
+            roughness=1.0,
+            bond_length_error=dummy["bond_length_mae"],
+            well_depth_error=dummy["well_depth_mae"],
+        )
+    assert aggregated_diatomics_results(results)["score"] == pytest.approx(1.0)
+    del results["curves"]["Li"]
+    assert aggregated_diatomics_results(results)["coverage"] == 0.5
+    assert aggregated_diatomics_results(results)["score"] is None
+
+
+def test_reference_without_bound_elements_has_no_dummy_scale(tmp_path):
+    r, e = load_reference()["He"]
+    path = tmp_path / "diatomics.json"
+    path.write_text(json.dumps([{"element": "He", "R": r.tolist(), "E": e.tolist()}]))
+    dummy = reference_dummy_scales(str(path))
+    assert dummy == {"bond_length_mae": None, "well_depth_mae": None}
+    results = {
+        "reference": {"elements": ["He"], "dummy_scales": dummy},
+        "curves": {"He": score_curve("He", r, e, e)},
+    }
+    agg = aggregated_diatomics_results(results)
+    assert agg["coverage"] == 1.0
+    assert agg["score"] is None

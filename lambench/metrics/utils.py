@@ -170,8 +170,14 @@ def _mean_or_none(values: list[float]) -> float | None:
     return float(np.mean(values))
 
 
-def _dummy_hat(value: float | None, dummy: float) -> float | None:
-    if value is None or not np.isfinite(value) or not np.isfinite(dummy) or dummy <= 0:
+def _dummy_hat(value: float | None, dummy: float | None) -> float | None:
+    if (
+        value is None
+        or dummy is None
+        or not np.isfinite(value)
+        or not np.isfinite(dummy)
+        or dummy <= 0
+    ):
         return None
     return float(min(value / dummy, 1.0))
 
@@ -184,22 +190,23 @@ def _element_is_excluded(record: dict | None) -> bool:
 
 
 def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | None]:
-    """Aggregate per-element diatomic curves into one coverage-weighted score.
+    """Aggregate curves using the reference metadata saved during inference.
 
     bond_length_mae is in Å and well_depth_mae is in eV. avg_roughness is
     the mean original finite-difference slope error normalized by a constant
     energy dummy. Bond and well errors use their blind dummy scales. Each
     term is capped at 1.
-    score is their equal-weight average divided by coverage. Missing elements
-    and model_excluded curves lower coverage instead of discarding the model.
-    score is None when coverage is zero or any term has no finite samples.
+    score is their equal-weight average, reported only for complete coverage.
+    Missing or model_excluded elements make score None. Raw metrics and
+    coverage are retained for diagnostics. A term without samples also makes
+    score None (for example, a reference set with no bound elements).
     """
-    from lambench.tasks.calculator.diatomics.diatomics import (
-        reference_dummy_scales,
-        scored_element_names,
-    )
-
-    names = scored_element_names()
+    if not results:
+        return _empty_diatomics_agg()
+    reference = results["reference"]
+    names = reference["elements"]
+    dummy = reference["dummy_scales"]
+    curves = results["curves"]
     if not names:
         return _empty_diatomics_agg()
 
@@ -208,7 +215,7 @@ def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | 
     roughness_values: list[float] = []
     n_excluded = 0
     for name in names:
-        record = None if not results else results.get(name)
+        record = curves.get(name)
         if _element_is_excluded(record):
             n_excluded += 1
             continue
@@ -225,13 +232,12 @@ def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | 
     bond_mae = _mean_or_none(bond_errors)
     well_mae = _mean_or_none(well_errors)
     avg_roughness = _mean_or_none(roughness_values)
-    dummy = reference_dummy_scales()
     bond_hat = _dummy_hat(bond_mae, dummy["bond_length_mae"])
     well_hat = _dummy_hat(well_mae, dummy["well_depth_mae"])
-    if coverage <= 0 or bond_hat is None or well_hat is None or avg_roughness is None:
+    if n_excluded or bond_hat is None or well_hat is None or avg_roughness is None:
         score = None
     else:
-        score = float((bond_hat + well_hat + avg_roughness) / (3.0 * coverage))
+        score = float((bond_hat + well_hat + avg_roughness) / 3.0)
     return {
         "bond_length_mae": bond_mae,
         "well_depth_mae": well_mae,

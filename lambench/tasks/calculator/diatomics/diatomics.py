@@ -48,8 +48,8 @@ averages and lowers coverage.
 
 The leaderboard score is the equal-weight average of the dummy-normalized
 bond-length MAE, dummy-normalized well-depth MAE, and mean roughness,
-divided by coverage. The bond-length dummy guesses the midpoint of each
-element's evaluation window. The well-depth
+and is only reported when every reference element is scored. The bond-length
+dummy guesses the midpoint of each element's evaluation window. The well-depth
 dummy predicts zero binding energy. Zero is a perfect single-well match.
 
 Reference file: lambench/tasks/calculator/diatomics/diatomics.json
@@ -253,7 +253,7 @@ def scored_element_names(path: str | None = None) -> tuple[str, ...]:
 
 
 @lru_cache
-def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
+def reference_dummy_scales(path: str | None = None) -> dict[str, float | None]:
     """Metric scales from blind bond-position and flat-energy predictions.
 
     For each bound reference, the bond dummy guesses the arithmetic midpoint
@@ -276,8 +276,8 @@ def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
         well_errors.append(ref_depth)
 
     return {
-        "bond_length_mae": float(np.mean(bond_errors)),
-        "well_depth_mae": float(np.mean(well_errors)),
+        "bond_length_mae": float(np.mean(bond_errors)) if bond_errors else None,
+        "well_depth_mae": float(np.mean(well_errors)) if well_errors else None,
     }
 
 
@@ -304,7 +304,7 @@ def _predict_curve(calc: Calculator, element: str, distances: np.ndarray) -> np.
 
 
 def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, dict]:
-    """Score model curves on the PBE homonuclear reference grid."""
+    """Score curves and persist their reference set and dummy normalization."""
     label_path = None if test_data is None else str(test_data / "diatomics.json")
     reference = load_reference(label_path)
     calc = model.calc
@@ -319,4 +319,10 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
         )
         results[element] = element_result
         logging.info(f"{element}: {element_result}")
-    return results
+    return {
+        "reference": {
+            "elements": list(reference),
+            "dummy_scales": reference_dummy_scales(label_path),
+        },
+        "curves": results,
+    }
