@@ -158,7 +158,7 @@ def _empty_diatomics_agg() -> dict[str, float | None]:
     return {
         "bond_length_mae": None,
         "well_depth_mae": None,
-        "force_flip_count": None,
+        "avg_roughness": None,
         "coverage": 0.0,
         "score": None,
     }
@@ -179,17 +179,17 @@ def _dummy_hat(value: float | None, dummy: float) -> float | None:
 def _element_is_excluded(record: dict | None) -> bool:
     if not isinstance(record, dict) or record.get("model_excluded", True):
         return True
-    flip = record.get("force_flip_count")
-    return flip is None or not np.isfinite(flip)
+    roughness = record.get("roughness")
+    return roughness is None or not np.isfinite(roughness) or not 0 <= roughness <= 1
 
 
 def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | None]:
     """Aggregate per-element diatomic curves into one coverage-weighted score.
 
-    bond_length_mae is in Å and well_depth_mae is in eV. force_flip_count is
-    the mean number of sign changes in first-atom Fx. Bond and well errors are
-    divided by their blind dummy scales; force flips use the mean per-element
-    absolute deviation from the ideal count of one. Each term is capped at 1.
+    bond_length_mae is in Å and well_depth_mae is in eV. avg_roughness is
+    the mean original finite-difference slope error normalized by a constant
+    energy dummy. Bond and well errors use their blind dummy scales. Each
+    term is capped at 1.
     score is their equal-weight average divided by coverage. Missing elements
     and model_excluded curves lower coverage instead of discarding the model.
     score is None when coverage is zero or any term has no finite samples.
@@ -205,8 +205,7 @@ def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | 
 
     bond_errors: list[float] = []
     well_errors: list[float] = []
-    flip_counts: list[float] = []
-    flip_deviations: list[float] = []
+    roughness_values: list[float] = []
     n_excluded = 0
     for name in names:
         record = None if not results else results.get(name)
@@ -220,27 +219,23 @@ def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float | 
             bond_errors.append(float(bond))
         if well is not None and np.isfinite(well):
             well_errors.append(float(well))
-        flip_count = float(record["force_flip_count"])
-        flip_counts.append(flip_count)
-        flip_deviations.append(abs(flip_count - 1.0))
+        roughness_values.append(float(record["roughness"]))
 
     coverage = (len(names) - n_excluded) / len(names)
     bond_mae = _mean_or_none(bond_errors)
     well_mae = _mean_or_none(well_errors)
-    flip_count = _mean_or_none(flip_counts)
-    flip_deviation = _mean_or_none(flip_deviations)
+    avg_roughness = _mean_or_none(roughness_values)
     dummy = reference_dummy_scales()
     bond_hat = _dummy_hat(bond_mae, dummy["bond_length_mae"])
     well_hat = _dummy_hat(well_mae, dummy["well_depth_mae"])
-    flip_hat = _dummy_hat(flip_deviation, dummy["force_flip_deviation"])
-    if coverage <= 0 or bond_hat is None or well_hat is None or flip_hat is None:
+    if coverage <= 0 or bond_hat is None or well_hat is None or avg_roughness is None:
         score = None
     else:
-        score = float((bond_hat + well_hat + flip_hat) / (3.0 * coverage))
+        score = float((bond_hat + well_hat + avg_roughness) / (3.0 * coverage))
     return {
         "bond_length_mae": bond_mae,
         "well_depth_mae": well_mae,
-        "force_flip_count": flip_count,
+        "avg_roughness": avg_roughness,
         "coverage": float(coverage),
         "score": score,
     }

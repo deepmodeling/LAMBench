@@ -36,17 +36,20 @@ Three per-element metrics are averaged over finite values:
 - well_depth_error: absolute error in eV of
   ``E(r_far) - min(E)`` over the evaluation window. It is skipped with
   bond length when the reference binding energy is below 0.05 eV.
-- force_flip_count: number of Fx sign changes on the first atom after
-  dropping |Fx| < 0.01 eV/Å.
+- roughness: finite-difference slope MAE between independently min-shifted,
+  peak-normalized model and reference energies, normalized by a constant-energy
+  dummy and capped at one. Uses the native grid with the last point dropped.
 
-All metrics use distances from 0.9 covalent radii to
-min(3.1 Alvarez vdW radii, 6 Å). A model curve that is non-finite in that
-range is dropped from the averages and lowers coverage.
+Bond length and well depth use distances from 0.9 covalent radii to
+min(3.1 Alvarez vdW radii, 6 Å). Roughness uses the native reference grid
+with its last point dropped, preserving the original finite-difference metric.
+A curve with non-finite values in either scored range is dropped from the
+averages and lowers coverage.
 
 The leaderboard score is the equal-weight average of the dummy-normalized
-bond-length MAE, dummy-normalized well-depth MAE, and mean absolute
-deviation from one force flip, divided by coverage. The bond-length dummy
-guesses the midpoint of each element's evaluation window. The well-depth
+bond-length MAE, dummy-normalized well-depth MAE, and mean roughness,
+divided by coverage. The bond-length dummy guesses the midpoint of each
+element's evaluation window. The well-depth
 dummy predicts zero binding energy. Zero is a perfect single-well match.
 
 Reference file: lambench/tasks/calculator/diatomics/diatomics.json
@@ -73,7 +76,7 @@ _N_GRID = 50
 _GRID_R_MAX = 6.0
 _MIN_BINDING_EV = 0.05
 _MIN_WINDOW_POINTS = 5
-_FORCE_SIGN_THRESHOLD = 1e-2
+_DROP_LAST_POINTS = 1
 _FIT_POINTS = 5
 _BOX_ANGSTROM = 30.0
 
@@ -89,8 +92,8 @@ def eval_window(
 ) -> tuple[float, float]:
     """Element-specific scoring window in Å.
 
-    The default lower bound is 0.9 covalent radii. Wall scoring passes
-    ``r_min_factor=0.8``. The upper bound is min(3.1 Alvarez vdW radii,
+    The default lower bound is 0.9 covalent radii. The upper bound is
+    min(3.1 Alvarez vdW radii,
     ``seps_max``). Missing vdW radii leave the upper bound at ``seps_max``.
     """
     atomic_num = atomic_numbers[element]
@@ -124,18 +127,46 @@ def _equilibrium_distance(seps: np.ndarray, energies: np.ndarray) -> float:
     return float(seps[min_idx])
 
 
-def _force_flip_count(force_x: np.ndarray) -> int:
-    kept = force_x[np.abs(force_x) >= _FORCE_SIGN_THRESHOLD]
-    if kept.size < 2:
-        return 0
-    return int(np.sum(np.diff(np.sign(kept)) != 0))
+def _shift_to_min(energies: np.ndarray) -> np.ndarray:
+    return energies - np.min(energies)
 
 
-def _excluded_record() -> dict[str, float | int | bool | None]:
+def _normalized_slopes(bond_lengths: np.ndarray, y: np.ndarray) -> np.ndarray:
+    """d(E / max(E)) / dr on the native DFT scan (Å⁻¹)."""
+    peak = float(np.max(y))
+    slopes = np.diff(y) / np.diff(bond_lengths)
+    if peak > 0:
+        return slopes / peak
+    return np.zeros_like(slopes)
+
+
+def _roughness(
+    bond_lengths: np.ndarray, model_energies: np.ndarray, dft_energies: np.ndarray
+) -> float | None:
+    """Original slope MAE relative to a constant-energy dummy, capped at one.
+
+    Inputs use the native reference grid with the final point already dropped.
+    The caller validates array shapes and strictly increasing distances.
+    """
+    if not np.all(np.isfinite(model_energies)) or not np.all(np.isfinite(dft_energies)):
+        return None
+    if bond_lengths.size < 2:
+        return None
+    ref_slopes = _normalized_slopes(bond_lengths, _shift_to_min(dft_energies))
+    model_slopes = _normalized_slopes(bond_lengths, _shift_to_min(model_energies))
+    # A constant-energy dummy has zero normalized slopes.
+    dummy_error = float(np.mean(np.abs(ref_slopes)))
+    error = float(np.mean(np.abs(model_slopes - ref_slopes)))
+    if dummy_error <= 0 or not np.isfinite(dummy_error) or not np.isfinite(error):
+        return None
+    return float(min(error / dummy_error, 1.0))
+
+
+def _excluded_record() -> dict[str, float | bool | None]:
     return {
         "bond_length_error": None,
         "well_depth_error": None,
-        "force_flip_count": None,
+        "roughness": None,
         "model_excluded": True,
     }
 
@@ -145,8 +176,7 @@ def score_curve(
     distances: np.ndarray,
     ref_energies: np.ndarray,
     model_energies: np.ndarray,
-    model_force_x: np.ndarray,
-) -> dict[str, float | int | bool | None]:
+) -> dict[str, float | bool | None]:
     """Score one homonuclear curve against its PBE reference.
 
     ``model_excluded`` is true when the model curve cannot be scored.
@@ -154,12 +184,15 @@ def score_curve(
     distances = np.asarray(distances, dtype=float)
     ref_energies = np.asarray(ref_energies, dtype=float)
     model_energies = np.asarray(model_energies, dtype=float)
-    model_force_x = np.asarray(model_force_x, dtype=float)
-    if not (
-        distances.size == ref_energies.size == model_energies.size == model_force_x.size
-    ):
+    if any(values.ndim != 1 for values in (distances, ref_energies, model_energies)):
         return _excluded_record()
-    if distances.size < 2 or np.any(np.diff(distances) <= 0):
+    if not (distances.size == ref_energies.size == model_energies.size):
+        return _excluded_record()
+    if (
+        distances.size < 2
+        or not np.isfinite(distances).all()
+        or np.any(np.diff(distances) <= 0)
+    ):
         return _excluded_record()
 
     seps_max = float(distances[-1])
@@ -169,17 +202,21 @@ def score_curve(
         return _excluded_record()
     if not (
         np.isfinite(model_energies[general]).all()
-        and np.isfinite(model_force_x[general]).all()
+        and np.isfinite(ref_energies[general]).all()
     ):
         return _excluded_record()
-    if not np.isfinite(ref_energies[general]).all():
-        return _excluded_record()
 
-    n_flips = _force_flip_count(model_force_x[general])
-    result: dict[str, float | int | bool | None] = {
+    roughness = _roughness(
+        distances[:-_DROP_LAST_POINTS],
+        model_energies[:-_DROP_LAST_POINTS],
+        ref_energies[:-_DROP_LAST_POINTS],
+    )
+    if roughness is None:
+        return _excluded_record()
+    result: dict[str, float | bool | None] = {
         "bond_length_error": None,
         "well_depth_error": None,
-        "force_flip_count": n_flips,
+        "roughness": roughness,
         "model_excluded": False,
     }
 
@@ -221,7 +258,6 @@ def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
 
     For each bound reference, the bond dummy guesses the arithmetic midpoint
     of that element's evaluation window and the well-depth dummy predicts zero.
-    A flat force curve has zero flips, one away from the ideal count of one.
     """
     bond_errors: list[float] = []
     well_errors: list[float] = []
@@ -229,7 +265,7 @@ def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
         seps_max = float(np.max(distances))
         r_min, r_max = eval_window(element, seps_max)
         general = (distances >= r_min) & (distances <= r_max)
-        if int(general.sum()) < 3:
+        if int(general.sum()) < _MIN_WINDOW_POINTS:
             continue
         ref_energies = energies[general]
         ref_depth = _binding_energy(ref_energies)
@@ -242,16 +278,12 @@ def reference_dummy_scales(path: str | None = None) -> dict[str, float]:
     return {
         "bond_length_mae": float(np.mean(bond_errors)),
         "well_depth_mae": float(np.mean(well_errors)),
-        "force_flip_deviation": 1.0,
     }
 
 
-def _predict_curve(
-    calc: Calculator, element: str, distances: np.ndarray
-) -> tuple[np.ndarray, np.ndarray]:
-    """Model energy (eV) and Fx on the first atom (eV/Å) at each distance."""
+def _predict_curve(calc: Calculator, element: str, distances: np.ndarray) -> np.ndarray:
+    """Model energy (eV) at each distance."""
     energies = np.empty(distances.size, dtype=float)
-    force_x = np.empty(distances.size, dtype=float)
     for i, distance in enumerate(distances):
         atoms = Atoms(
             symbols=[element, element],
@@ -262,17 +294,13 @@ def _predict_curve(
         atoms.calc = calc
         try:
             energy = float(atoms.get_potential_energy())
-            forces = np.asarray(atoms.get_forces(), dtype=float)
-            fx = float(forces[0, 0])
-            if not np.isfinite(energy) or not np.isfinite(forces).all():
-                raise ValueError("non-finite energy or forces")
+            if not np.isfinite(energy):
+                raise ValueError("non-finite energy")
         except Exception as exc:
             logging.warning(f"{element}2 @ r={float(distance):.3f} Å failed: {exc}")
             energy = np.nan
-            fx = np.nan
         energies[i] = energy
-        force_x[i] = fx
-    return energies, force_x
+    return energies
 
 
 def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, dict]:
@@ -282,13 +310,12 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
     calc = model.calc
     results: dict[str, dict] = {}
     for element, (distances, ref_energies) in reference.items():
-        model_energies, model_force_x = _predict_curve(calc, element, distances)
+        model_energies = _predict_curve(calc, element, distances)
         element_result = score_curve(
             element,
             distances,
             ref_energies,
             model_energies,
-            model_force_x,
         )
         results[element] = element_result
         logging.info(f"{element}: {element_result}")
