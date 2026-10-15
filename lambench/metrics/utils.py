@@ -170,34 +170,88 @@ def _diatomics_molecule_names() -> tuple[str, ...]:
 
 
 def _empty_diatomics_agg() -> dict[str, float | None]:
-    return {"avg_roughness": None}
+    return {
+        "avg_roughness": None,
+        "bond_length_mae": None,
+        "well_depth_mae": None,
+        "bond_length_score": None,
+        "well_depth_score": None,
+        "score": None,
+    }
 
 
-def aggregated_diatomics_results(results: dict[str, dict]) -> dict[str, float]:
+def _diatomic_dummy_score(error: float, dummy_error: float) -> float:
+    # A zero-error dummy is already exact: only an exact prediction matches it.
+    if dummy_error == 0:
+        return 0.0 if error == 0 else 1.0
+    return float(min(error / dummy_error, 1.0))
+
+
+def aggregated_diatomics_results(results: dict) -> dict[str, float | None]:
     """
     Aggregate per-molecule diatomics results.
 
     avg_roughness: mean slope MAE relative to a constant dummy, capped at 1.
-    Requires a finite roughness for every molecule in diatomics.json; otherwise None.
+    New results carry the tested molecule set and per-molecule dummy errors.
+    The three scores are averaged with equal weight only for complete results.
+    Legacy roughness-only records remain readable but have no combined score.
     """
     if not results:
         return _empty_diatomics_agg()
 
-    names = _diatomics_molecule_names()
+    names = results.get("reference_molecules", _diatomics_molecule_names())
+    curves = results.get("curves", results)
     if not names:
         return _empty_diatomics_agg()
 
     roughness_values = []
+    errors = {"bond_length": [], "well_depth": []}
+    scores = {"bond_length": [], "well_depth": []}
+    complete_metrics = True
     for name in names:
-        mol_results = results.get(name)
+        mol_results = curves.get(name)
         if mol_results is None:
             return _empty_diatomics_agg()
         roughness = mol_results.get("roughness")
-        if roughness is None or not np.isfinite(roughness):
+        if roughness is None or not np.isfinite(roughness) or not 0 <= roughness <= 1:
             return _empty_diatomics_agg()
         roughness_values.append(roughness)
+        for metric, metric_errors in errors.items():
+            error = mol_results.get(f"{metric}_error")
+            dummy = mol_results.get(f"{metric}_dummy_error")
+            if metric == "bond_length" and error is None and dummy is None:
+                # Only references below the binding threshold skip bond position.
+                depth = mol_results.get("well_depth_dummy_error")
+                if depth is None or depth >= 0.05:
+                    complete_metrics = False
+                continue
+            if (
+                error is None
+                or dummy is None
+                or not np.isfinite(error)
+                or not np.isfinite(dummy)
+                or error < 0
+                or dummy < 0
+            ):
+                complete_metrics = False
+                continue
+            metric_errors.append(error)
+            scores[metric].append(_diatomic_dummy_score(error, dummy))
 
-    return {"avg_roughness": float(np.mean(roughness_values))}
+    aggregated = _empty_diatomics_agg()
+    aggregated["avg_roughness"] = float(np.mean(roughness_values))
+    for metric, metric_errors in errors.items():
+        if metric_errors:
+            aggregated[f"{metric}_mae"] = float(np.mean(metric_errors))
+            aggregated[f"{metric}_score"] = float(np.mean(scores[metric]))
+    terms = [
+        aggregated["avg_roughness"],
+        aggregated["bond_length_score"],
+        aggregated["well_depth_score"],
+    ]
+    if complete_metrics and all(term is not None for term in terms):
+        aggregated["score"] = float(np.mean(terms))
+    return aggregated
 
 
 ####################################
