@@ -26,7 +26,17 @@ by a constant-energy dummy (zeros after the shift) and capped at 1:
 
     0 = perfect match, 1 = dummy or worse.
 
-    roughness – slope MAE relative to dummy; leaderboard
+    roughness – slope MAE relative to dummy
+
+Two additional metrics use the same trimmed scan: equilibrium bond-length
+error (angstrom) and well-depth error (eV), with depth defined relative to
+the last retained separation rather than an infinite-distance atomic limit.
+Bond length is fitted to up to five points around the sampled minimum and
+skipped when reference depth is below 0.05 eV. Its dummy guesses the scan
+midpoint; the well-depth dummy predicts constant energy (zero well depth).
+Each error is dummy-normalized and capped per molecule, then averaged.
+The leaderboard uses the equal-weight mean of these two scores and roughness,
+only when every reference molecule has a valid result.
 
 The last point of every scan is dropped (PBE tail artifacts).
 
@@ -50,6 +60,8 @@ if TYPE_CHECKING:
 
 _LABEL_FILE = Path(__file__).parent / "diatomics.json"
 _DROP_LAST_POINTS = 1
+_MIN_BINDING_EV = 0.05
+_FIT_POINTS = 5
 
 
 def _element_from_name(mol_name: str) -> str:
@@ -96,9 +108,29 @@ def _ratio_capped_at_dummy(value: float, dummy: float) -> float | None:
     return float(min(value / dummy, 1.0))
 
 
+def _equilibrium_distance(bond_lengths: np.ndarray, energies: np.ndarray) -> float:
+    """Fit the local well, falling back to the sampled minimum if not convex."""
+    if np.ptp(energies) == 0:
+        return float((bond_lengths[0] + bond_lengths[-1]) / 2)
+    minimum = int(np.argmin(energies))
+    sampled = float(bond_lengths[minimum])
+    if len(bond_lengths) < 3 or minimum in (0, len(bond_lengths) - 1):
+        return sampled
+    start = min(max(0, minimum - _FIT_POINTS // 2), max(0, len(energies) - _FIT_POINTS))
+    r = bond_lengths[start : start + _FIT_POINTS]
+    e = energies[start : start + _FIT_POINTS]
+    a, b, _ = np.polyfit(r, e - energies[minimum], 2)
+    if a <= 0:
+        return sampled
+    fitted = -b / (2 * a)
+    return float(fitted) if r[0] <= fitted <= r[-1] else sampled
+
+
 def _curve_metrics(
     bond_lengths: np.ndarray, model_energies: np.ndarray, dft_energies: np.ndarray
-) -> dict[str, float] | None:
+) -> dict[str, float | None] | None:
+    if any(values.ndim != 1 for values in (bond_lengths, model_energies, dft_energies)):
+        return None
     if not np.all(np.isfinite(model_energies)) or not np.all(np.isfinite(dft_energies)):
         return None
     if bond_lengths.size < 2:
@@ -108,7 +140,7 @@ def _curve_metrics(
         or bond_lengths.size != dft_energies.size
     ):
         return None
-    if np.any(np.diff(bond_lengths) == 0):
+    if not np.isfinite(bond_lengths).all() or np.any(np.diff(bond_lengths) <= 0):
         return None
 
     y_dft = _shift_to_min(dft_energies)
@@ -127,7 +159,22 @@ def _curve_metrics(
     )
     if roughness is None:
         return None
-    return {"roughness": roughness}
+    ref_depth = float(y_dft[-1])
+    model_depth = float(y_model[-1])
+    result: dict[str, float | None] = {
+        "roughness": roughness,
+        "bond_length_error": None,
+        "bond_length_dummy_error": None,
+        "well_depth_error": abs(model_depth - ref_depth),
+        "well_depth_dummy_error": ref_depth,
+    }
+    if ref_depth >= _MIN_BINDING_EV:
+        ref_distance = _equilibrium_distance(bond_lengths, dft_energies)
+        model_distance = _equilibrium_distance(bond_lengths, model_energies)
+        midpoint = float((bond_lengths[0] + bond_lengths[-1]) / 2)
+        result["bond_length_error"] = abs(model_distance - ref_distance)
+        result["bond_length_dummy_error"] = abs(midpoint - ref_distance)
+    return result
 
 
 def _predict_energies(
@@ -158,14 +205,14 @@ def _predict_energies(
     return np.array(energies)
 
 
-def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, dict]:
-    """Compare model and PBE dissociation curves with the stacking_fault metric."""
+def run_inference(model: ASEModel, test_data: Path | None = None) -> dict:
+    """Score trimmed scans and save the exact reference molecule set."""
     label_path = _LABEL_FILE if test_data is None else test_data / "diatomics.json"
 
     with open(label_path) as fh:
         reference_data: list[dict] = json.load(fh)
 
-    results: dict[str, dict] = {}
+    results: dict[str, dict | None] = {}
     calc = model.calc
 
     for entry in reference_data:
@@ -177,4 +224,7 @@ def run_inference(model: ASEModel, test_data: Path | None = None) -> dict[str, d
         results[mol_name] = mol_result
         logging.info(f"{mol_name}: {mol_result}")
 
-    return results
+    return {
+        "reference_molecules": [entry["name"] for entry in reference_data],
+        "curves": results,
+    }
