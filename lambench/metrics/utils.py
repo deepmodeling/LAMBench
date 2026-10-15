@@ -216,7 +216,7 @@ def aggregated_diatomics_results(results: dict) -> dict[str, float | None]:
         if roughness is None or not np.isfinite(roughness) or not 0 <= roughness <= 1:
             return _empty_diatomics_agg()
         roughness_values.append(roughness)
-        for metric in errors:
+        for metric, metric_errors in errors.items():
             error = mol_results.get(f"{metric}_error")
             dummy = mol_results.get(f"{metric}_dummy_error")
             if metric == "bond_length" and error is None and dummy is None:
@@ -235,14 +235,14 @@ def aggregated_diatomics_results(results: dict) -> dict[str, float | None]:
             ):
                 complete_metrics = False
                 continue
-            errors[metric].append(error)
+            metric_errors.append(error)
             scores[metric].append(_diatomic_dummy_score(error, dummy))
 
     aggregated = _empty_diatomics_agg()
     aggregated["avg_roughness"] = float(np.mean(roughness_values))
-    for metric in errors:
-        if errors[metric]:
-            aggregated[f"{metric}_mae"] = float(np.mean(errors[metric]))
+    for metric, metric_errors in errors.items():
+        if metric_errors:
+            aggregated[f"{metric}_mae"] = float(np.mean(metric_errors))
             aggregated[f"{metric}_score"] = float(np.mean(scores[metric]))
     terms = [
         aggregated["avg_roughness"],
