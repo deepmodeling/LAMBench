@@ -4,10 +4,12 @@ import csv
 import json
 import logging
 from collections import defaultdict
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
-from ase import units
+from ase import Atoms, units
 from ase.io import read
 
 TAIL_POWERS = {"QQ": 1, "QP": 2, "PP": 3}
@@ -16,20 +18,42 @@ CT_GROUPS = {
     "highq": ("QQ09", "QP09", "QP10", "QP16"),
     "hl_all": ("HLA",),
 }
+TAIL_MIN_DISTANCE = 10.0
+TAIL_MIN_R2 = 0.95
 HL_BONDS = (1.9, 2.2)
+HL_MIN_FORCE = 0.05
+MIN_RELATIVE_ENERGY = 0.1
+EV_TO_KCAL_MOL = units.mol / units.kcal
+PREDICTION_ERRORS = (ValueError, RuntimeError, KeyError, NotImplementedError)
+
+EnergyEvaluator = Callable[[Atoms, int, int], float]
+ReferenceRow = dict[str, str]
 
 
-def _csv(path):
+@dataclass(frozen=True)
+class Prediction:
+    energy_kcal_mol: float
+    force_x_ev_angstrom: float | None
+    distance: float
+    orientation: str
+    grid: str
+
+
+Predictions = dict[tuple[str, str], Prediction]
+
+
+def _read_csv(path: Path) -> list[ReferenceRow]:
     with path.open(newline="") as file:
         return list(csv.DictReader(file))
 
 
-def _selection(value):
+def _selection(value: str | int) -> slice:
+    """Convert a one-based inclusive fragment selection to an ASE slice."""
     first, _, last = str(value).partition("-")
     return slice(int(first) - 1, int(last or first))
 
 
-def _predict(model, paths, hl_refs):
+def _energy_evaluator(model) -> EnergyEvaluator:
     calc = model.calc
     dp_input = None
     if model.model_family == "DP":
@@ -50,93 +74,123 @@ def _predict(model, paths, hl_refs):
             raise ValueError("Non-finite energy")
         return energy
 
+    return evaluate
+
+
+def _fragment_energy(first: Atoms, hl: dict | None, evaluate: EnergyEvaluator) -> float:
+    info = first.info
+    if hl is None:
+        return sum(
+            evaluate(
+                first[_selection(info[f"selection_{part}"])],
+                info[f"charge_{part}"],
+                info.get("spin", 1),
+            )
+            for part in ("a", "b")
+        )
+
+    molecule = first[_selection(info["selection_mol"])]
+    spectator = _selection(info["selection_spec"]).start
+    molecule_energy = evaluate(molecule, hl["mol_charge"], hl["mol_mult"])
+    spectator_energy = evaluate(
+        first[spectator : spectator + 1], hl["spec_charge"], hl["spec_mult"]
+    )
+    return molecule_energy + hl["n_spec"] * spectator_energy
+
+
+def _hl_force(atoms: Atoms, frame_id: str) -> float | None:
+    try:
+        # The HL bond lies along the x axis.
+        first_atom = _selection(atoms.info["selection_mol"]).start
+        return float(atoms.get_forces()[first_atom, 0])
+    except PREDICTION_ERRORS as exc:
+        logging.warning("Electrostatics %s force failed: %s", frame_id, exc)
+        return None
+
+
+def _predict(model, paths: list[Path], hl_refs: dict) -> Predictions:
+    evaluate = _energy_evaluator(model)
     predictions = {}
     for path in paths:
         frames = read(path, index=":", format="extxyz")
-        first = frames[0]
-        info = first.info
-        spin = info.get("spin", 1)
-        hl = hl_refs.get(path.stem)
+        system = path.stem
+        hl = hl_refs.get(system)
         try:
-            if hl is None:
-                offset = sum(
-                    evaluate(
-                        first[_selection(info[f"selection_{part}"])],
-                        info[f"charge_{part}"],
-                        spin,
-                    )
-                    for part in ("a", "b")
-                )
-            else:
-                molecule = first[_selection(info["selection_mol"])]
-                spectator = _selection(info["selection_spec"]).start
-                offset = evaluate(molecule, hl["mol_charge"], hl["mol_mult"])
-                offset += hl["n_spec"] * evaluate(
-                    first[spectator : spectator + 1], hl["spec_charge"], hl["spec_mult"]
-                )
-        except (ValueError, RuntimeError, KeyError, NotImplementedError) as exc:
+            fragment_energy = _fragment_energy(frames[0], hl, evaluate)
+        except PREDICTION_ERRORS as exc:
             logging.warning(
-                "Electrostatics %s fragment evaluation failed: %s", path.stem, exc
+                "Electrostatics %s fragment evaluation failed: %s", system, exc
             )
             continue
 
         for atoms in frames:
-            frame = atoms.info
-            frame_id = str(frame["frame"])
+            info = atoms.info
+            frame_id = str(info["frame"])
             try:
-                energy = evaluate(atoms, frame["charge"], frame.get("spin", 1))
-            except (ValueError, RuntimeError, KeyError, NotImplementedError) as exc:
+                energy = evaluate(atoms, info["charge"], info.get("spin", 1))
+            except PREDICTION_ERRORS as exc:
                 logging.warning("Electrostatics %s energy failed: %s", frame_id, exc)
                 continue
-            force = None
-            if hl is not None:
-                try:
-                    force = float(
-                        atoms.get_forces()[_selection(frame["selection_mol"]).start, 0]
-                    )
-                except (ValueError, RuntimeError, KeyError, NotImplementedError) as exc:
-                    logging.warning("Electrostatics %s force failed: %s", frame_id, exc)
-            predictions[path.stem, frame_id] = (
-                (energy - offset) * units.mol / units.kcal,
-                force,
-                frame,
+
+            predictions[system, frame_id] = Prediction(
+                energy_kcal_mol=(energy - fragment_energy) * EV_TO_KCAL_MOL,
+                force_x_ev_angstrom=_hl_force(atoms, frame_id)
+                if hl is not None
+                else None,
+                distance=float(info["R"]),
+                orientation=info["orient"],
+                grid=str(info["grid"]),
             )
     return predictions
 
 
-def _tail_metrics(reference, predictions):
+def _fit_power_law(
+    distances: list[float], energies: list[float], power: int
+) -> tuple[float, float | None]:
+    """Fit E = A / R**power + B and return A and R²."""
+    energy = np.asarray(energies)
+    if not np.ptp(energy):
+        return 0.0, None
+
+    design = np.column_stack([np.asarray(distances) ** -power, np.ones(len(distances))])
+    coefficients = np.linalg.lstsq(design, energy, rcond=None)[0]
+    variance = np.sum((energy - energy.mean()) ** 2)
+    residual = np.sum((energy - design @ coefficients) ** 2)
+    return float(coefficients[0]), float(1 - residual / variance)
+
+
+def _tail_metrics(reference: Path, predictions: Predictions) -> dict:
     points = defaultdict(dict)
-    for (system, _), (energy, _, info) in predictions.items():
-        if str(info["grid"]).startswith("radial") and float(info["R"]) > 10:
-            points[system, info["orient"]][float(info["R"])] = energy
+    for (system, _), prediction in predictions.items():
+        if (
+            prediction.grid.startswith("radial")
+            and prediction.distance > TAIL_MIN_DISTANCE
+        ):
+            series = points[system, prediction.orientation]
+            series[prediction.distance] = prediction.energy_kcal_mol
 
     distances = defaultdict(list)
-    for row in _csv(reference / "tail_points.csv"):
+    for row in _read_csv(reference / "tail_points.csv"):
         distances[row["system"], row["orientation"]].append(float(row["R"]))
 
     summary = {}
-    fits = _csv(reference / "tail_fits.csv")
+    fits = _read_csv(reference / "tail_fits.csv")
     for category, power in TAIL_POWERS.items():
         series = [row for row in fits if row["category"] == category]
         evaluated = passed = sign_errors = 0
         errors = []
         for row in series:
             key = row["system"], row["orientation"]
-            r = distances[key]
+            radii = distances[key]
             values = points[key]
-            if len(r) < 3 or any(distance not in values for distance in r):
+            if len(radii) < 3 or any(radius not in values for radius in radii):
                 continue
             evaluated += 1
-            energy = np.array([values[distance] for distance in r])
-            x = np.column_stack([np.asarray(r) ** -power, np.ones(len(r))])
-            coefficients = np.linalg.lstsq(x, energy, rcond=None)[0]
-            variance = np.sum((energy - energy.mean()) ** 2) if np.ptp(energy) else 0.0
-            if (
-                variance > 0
-                and 1 - np.sum((energy - x @ coefficients) ** 2) / variance > 0.95
-            ):
+            model_a, r2 = _fit_power_law(
+                radii, [values[radius] for radius in radii], power
+            )
+            if r2 is not None and r2 > TAIL_MIN_R2:
                 passed += 1
-            model_a = float(coefficients[0]) if variance > 0 else 0.0
             ref_a = float(row["A_kcal"])
             if np.sign(model_a) == np.sign(ref_a):
                 errors.append(abs(1 - model_a / ref_a))
@@ -155,13 +209,54 @@ def _tail_metrics(reference, predictions):
     return summary
 
 
-def _curve_metrics(reference, predictions):
+def _aligned_curve_errors(
+    rows: list[ReferenceRow], predictions: Predictions
+) -> tuple[np.ndarray, np.ndarray] | None:
+    """Compare energy changes relative to the farthest reference point."""
+    ordered = sorted(rows, key=lambda row: float(row["R"]))
+    keys = [(row["system"], row["frame_id"]) for row in ordered]
+    if len(keys) < 2 or any(key not in predictions for key in keys):
+        return None
+
+    model_energy = np.array([predictions[key].energy_kcal_mol for key in keys])
+    ref_energy = np.array([float(row["E_int_kcal"]) for row in ordered])
+    model_shift = model_energy - model_energy[-1]
+    ref_shift = ref_energy - ref_energy[-1]
+    return abs(model_shift - ref_shift), abs(ref_shift)
+
+
+def _restoring_force_metrics(
+    rows: list[ReferenceRow], predictions: Predictions
+) -> dict:
+    ratios = []
+    expected = 0
+    for row in rows:
+        ref = float(row["F_bond_dft_eVA"])
+        if not (float(row["r_bond"]) in HL_BONDS and abs(ref) > HL_MIN_FORCE):
+            continue
+        expected += 1
+        prediction = predictions.get((row["system"], row["frame_id"]))
+        force = prediction.force_x_ev_angstrom if prediction is not None else None
+        if force is not None and np.isfinite(force):
+            ratios.append(force / ref)
+
+    return {
+        "n_expected": expected,
+        "n_evaluated": len(ratios),
+        "n_correct_sign": sum(ratio > 0 for ratio in ratios),
+        "median_ratio": float(np.median(ratios)) if ratios else None,
+    }
+
+
+def _curve_metrics(reference: Path, predictions: Predictions) -> dict:
     ct_rows = [
-        row for row in _csv(reference / "ct_points.csv") if row["benchmark"] == "ct"
+        row
+        for row in _read_csv(reference / "ct_points.csv")
+        if row["benchmark"] == "ct"
     ]
     hl_rows = [
         row
-        for row in _csv(reference / "hl.csv")
+        for row in _read_csv(reference / "hl.csv")
         if row["system"] == "HLA" and row["orientation"] in {"r=1.9", "r=2.2"}
     ]
     curves = defaultdict(list)
@@ -172,14 +267,12 @@ def _curve_metrics(reference, predictions):
     errors = defaultdict(list)
     changes = defaultdict(list)
     for (system, _), rows in curves.items():
-        rows.sort(key=lambda row: float(row["R"]))
-        keys = [(system, row["frame_id"]) for row in rows]
-        if len(rows) < 2 or any(key not in predictions for key in keys):
+        aligned = _aligned_curve_errors(rows, predictions)
+        if aligned is None:
             continue
-        model = np.array([predictions[key][0] for key in keys])
-        ref = np.array([float(row["E_int_kcal"]) for row in rows])
-        errors[system].extend(abs((model - model[-1]) - (ref - ref[-1])))
-        changes[system].extend(abs(ref - ref[-1]))
+        error, change = aligned
+        errors[system].extend(error)
+        changes[system].extend(change)
 
     # Keep HLA comparable by requiring both frozen branches.
     if any((row["system"], row["frame_id"]) not in predictions for row in hl_rows):
@@ -189,7 +282,7 @@ def _curve_metrics(reference, predictions):
     relative = [
         maes[system] / float(np.mean(changes[system]))
         for system in maes
-        if np.mean(changes[system]) > 0.1
+        if np.mean(changes[system]) > MIN_RELATIVE_ENERGY
     ]
 
     groups = {}
@@ -201,34 +294,15 @@ def _curve_metrics(reference, predictions):
             "n_systems": len(systems),
         }
 
-    ratios = []
-    expected = 0
-    for row in hl_rows:
-        ref = float(row["F_bond_dft_eVA"])
-        if float(row["r_bond"]) in HL_BONDS and abs(ref) > 0.05:
-            expected += 1
-            prediction = predictions.get(("HLA", row["frame_id"]))
-            if (
-                prediction is not None
-                and prediction[1] is not None
-                and np.isfinite(prediction[1])
-            ):
-                ratios.append(prediction[1] / ref)
-
     return {
         "groups": groups,
         "median_mae_kcal_mol": float(np.median(list(maes.values()))) if maes else None,
         "median_relative_mae": float(np.median(relative)) if relative else None,
-        "restoring_force": {
-            "n_expected": expected,
-            "n_evaluated": len(ratios),
-            "n_correct_sign": sum(ratio > 0 for ratio in ratios),
-            "median_ratio": float(np.median(ratios)) if ratios else None,
-        },
+        "restoring_force": _restoring_force_metrics(hl_rows, predictions),
     }
 
 
-def run_inference(model, data: Path):
+def run_inference(model, data: Path) -> dict:
     inputs = data / "inputs"
     reference = data / "reference"
     twobody = sorted((inputs / "twobody").glob("*.xyz"))
