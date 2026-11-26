@@ -65,11 +65,8 @@ LAMBENCH_ELECTROSTATICS_DATA=/path/to/data lambench --local --tasks electrostati
 ```
 
 Use a mounted `/bohr/...` dataset path in `calculator_tasks.yml` for scheduled
-Bohrium runs. Models use their existing ASE calculator. Register MACE-POLAR
-with `model_type: ASE` and `model_family: MACE-POLAR`. For a DeePMD long-range
-checkpoint, set `model_metadata.use_separate_spin_charge: true` if its ASE
-calculator accepts `charge_spin`, and set `model_metadata.head` to select a
-checkpoint head (or `null` to use the checkpoint default).
+Bohrium runs. The task evaluates models already registered in LAMBench using
+their existing ASE calculators.
 
 ## Contributing
 
