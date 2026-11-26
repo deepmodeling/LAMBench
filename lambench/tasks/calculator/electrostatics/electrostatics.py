@@ -11,8 +11,8 @@ from ase.io import read
 from lambench.tasks.calculator.electrostatics.metrics import (
     Prediction,
     Predictions,
-    curve_metrics,
-    tail_metrics,
+    curve_errors,
+    tail_fits,
 )
 
 EV_TO_KCAL_MOL = units.mol / units.kcal
@@ -83,10 +83,8 @@ def run_inference(model, data: Path) -> dict:
     if not predictions:
         raise RuntimeError("No valid electrostatics predictions")
     return {
-        "power_law": tail_metrics(reference, predictions),
-        "charge_transfer_and_halogen_localization": curve_metrics(
-            reference, predictions
-        ),
+        "tail_fits": tail_fits(reference, predictions),
+        **curve_errors(reference, predictions),
     }
 
 

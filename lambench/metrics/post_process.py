@@ -10,6 +10,7 @@ import lambench
 from lambench.databases.calculator_table import CalculatorRecord
 from lambench.databases.direct_predict_table import DirectPredictRecord
 from lambench.databases.property_table import PropertyRecord
+from lambench.metrics.electrostatics import aggregate_electrostatics
 from lambench.metrics.utils import (
     aggregated_diatomics_results,
     aggregated_inference_efficiency_results,
@@ -50,7 +51,7 @@ def process_results_for_one_model(model: BaseLargeAtomModel):
         )
 
     single_model_results["generalizability_long_range_results"] = {
-        record.task_name: record.metrics
+        record.task_name: aggregate_electrostatics(record.metrics)
         for record in CalculatorRecord.query(
             model_name=model.model_name, task_name="electrostatics"
         )

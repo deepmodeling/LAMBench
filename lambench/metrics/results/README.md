@@ -102,7 +102,9 @@ The resulting error metric after averaging over all domains is denoted as $\bar 
 
 ### Long-range Interactions
 
-Post-processing exports electrostatics under
+The calculator task stores per-series fits, per-system aligned energy errors,
+and predicted and reference restoring forces. Post-processing computes
+coverage, dimensionless metrics, and group summaries before exporting under
 `generalizability_long_range_results.electrostatics`. It reports fixed-power
 tail fits (QQ, QP and PP), coefficient errors for matching signs, far-end
 aligned CT and HL energy MAEs in kcal/mol, and HL restoring force direction
