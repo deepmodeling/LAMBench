@@ -8,7 +8,7 @@ import numpy as np
 from ase import Atoms, units
 from ase.io import read
 
-from lambench.tasks.calculator.electrostatics.metrics import (
+from lambench.tasks.calculator.electrostatics.utils import (
     Prediction,
     Predictions,
     curve_errors,
