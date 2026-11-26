@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 import traceback
 from pathlib import Path
 from typing import TypeAlias
@@ -69,12 +70,24 @@ def gather_task_type(
                 model_param.get("skip_tasks", [])
             ):
                 continue
+            if task_name == "electrostatics" and task_params["test_data"] is None:
+                data_path = os.getenv("LAMBENCH_ELECTROSTATICS_DATA")
+                if not data_path:
+                    if task_names:
+                        logging.warning(
+                            "Set LAMBENCH_ELECTROSTATICS_DATA to the benchmark data directory."
+                        )
+                    continue
+                task_params = {
+                    **task_params,
+                    "test_data": Path(data_path).expanduser().resolve(),
+                }
             task = task_class(task_name=task_name, **task_params)
             if not task.exist(model_param["model_name"]):
                 # model_domain = task.domain if task.domain else "" # in the future we may have tasks with specific domain.
 
                 # currently only need to distinguish direct tasks for molecules and materials due to OMol25 training set.
-                if task_name in ["AQM", "H_nature_2022", "AIMD_Chig"]:
+                if task_name in ["AQM", "H_nature_2022", "AIMD_Chig", "electrostatics"]:
                     model_domain = "molecules"
                 else:
                     model_domain = "materials"

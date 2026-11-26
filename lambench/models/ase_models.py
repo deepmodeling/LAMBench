@@ -90,6 +90,7 @@ class ASEModel(BaseLargeAtomModel):
 
         calculator_dispatch = {
             "MACE": self._init_mace_calculator,
+            "MACE-POLAR": self._init_mace_polar_calculator,
             "ORB": self._init_orb_calculator,
             "SevenNet": self._init_sevennet_calculator,
             "Equiformer": self._init_equiformer_calculator,
@@ -130,6 +131,11 @@ class ASEModel(BaseLargeAtomModel):
         if self.model_name == "MACE-MH-1":
             model_config["head"] = head
         return mace_mp(**model_config)
+
+    def _init_mace_polar_calculator(self) -> Calculator:
+        from mace.calculators import mace_polar
+
+        return mace_polar(model=self.model_path, device="cuda", default_dtype="float64")
 
     def _init_orb_calculator(self) -> Calculator:
         from orb_models.forcefield import pretrained
@@ -173,6 +179,9 @@ class ASEModel(BaseLargeAtomModel):
 
     def _init_dp_calculator(self) -> Calculator:
         from deepmd.calculator import DP
+
+        if "head" in self.model_metadata.model_fields_set:
+            return DP(model=self.model_path, head=self.model_metadata.head)
 
         if self.supports_omol and self.model_domain == "molecules":
             return DP(
@@ -223,7 +232,17 @@ class ASEModel(BaseLargeAtomModel):
 
             return self.run_ase_dptest(self, data_path, task.dispersion_correction)
         elif isinstance(task, CalculatorTask):
-            if task.task_name == "nve_md":
+            if task.task_name == "electrostatics":
+                from lambench.tasks.calculator.electrostatics.electrostatics import (
+                    run_inference,
+                )
+
+                if task.test_data is None:
+                    raise ValueError(
+                        "Electrostatics requires an external data directory"
+                    )
+                return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
                     run_md_nve_simulation,
                 )

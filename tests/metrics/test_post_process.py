@@ -2,6 +2,7 @@ import logging
 
 import numpy as np
 
+from lambench.databases.calculator_table import CalculatorRecord
 from lambench.metrics.post_process import (
     DIRECT_TASK_WEIGHTS,
     exp_average,
@@ -19,7 +20,21 @@ def test_process_results_for_one_model(
     model.show_direct_task = True
     model.show_finetune_task = False
     model.show_calculator_task = True
+    long_range = CalculatorRecord(
+        model_name=model.model_name,
+        task_name="electrostatics",
+        metrics={"power_law": {"QQ": {"n_pass_r2": 0}}},
+    )
+    query = mock_calculator_query.side_effect
+    mock_calculator_query.side_effect = lambda **kwargs: (
+        [long_range]
+        if kwargs.get("task_name") == "electrostatics"
+        else [*query(**kwargs), long_range]
+    )
     result = process_results_for_one_model(model)
+    assert result["generalizability_long_range_results"] == {
+        "electrostatics": long_range.metrics
+    }
 
     assert DIRECT_TASK_WEIGHTS.keys() - result[
         "generalizability_force_field_results"
@@ -37,7 +52,7 @@ def test_process_results_for_one_model(
     # Find differences between the calculator tasks and results
     calculator_task_differences = (
         CALCULATOR_TASKS.keys()
-        - {"inference_efficiency", "nve_md", "homonuclear_diatomics"}
+        - {"inference_efficiency", "nve_md", "homonuclear_diatomics", "electrostatics"}
     ).symmetric_difference(result["generalizability_domain_specific_results"].keys())
     assert not calculator_task_differences, (
         f"Mismatch in calculator tasks: {calculator_task_differences}"

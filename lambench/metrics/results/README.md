@@ -100,6 +100,17 @@ In the Catalysis domain, the OC20NEB-OOD benchmark evaluates the energy barrier,
 
 The resulting error metric after averaging over all domains is denoted as $\bar M^{m}_{PC}$.
 
+### Long-range Interactions
+
+Post-processing exports electrostatics under
+`generalizability_long_range_results.electrostatics`. It reports fixed-power
+tail fits (QQ, QP and PP), coefficient errors for matching signs, far-end
+aligned CT and HL energy MAEs in kcal/mol, and HL restoring force direction
+and magnitude ratios. Coverage counts accompany the metrics. A tail series
+or energy curve contributes to the summary when all its frozen reference
+points have predictions. The existing generalizability ranking uses the
+force field and property calculation results.
+
 ## Applicability
 
 ### Efficiency

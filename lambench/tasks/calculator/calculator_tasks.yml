@@ -57,3 +57,6 @@ surface:
 homonuclear_diatomics:
   test_data: null
   calculator_params: null
+electrostatics:
+  test_data: null
+  calculator_params: null

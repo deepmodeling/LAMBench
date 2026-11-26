@@ -49,6 +49,13 @@ def process_results_for_one_model(model: BaseLargeAtomModel):
             process_domain_specific_for_one_model(model)
         )
 
+    single_model_results["generalizability_long_range_results"] = {
+        record.task_name: record.metrics
+        for record in CalculatorRecord.query(
+            model_name=model.model_name, task_name="electrostatics"
+        )
+    }
+
     # Adaptability Task
     if model.show_finetune_task:
         single_model_results["adaptability_results"] = (
