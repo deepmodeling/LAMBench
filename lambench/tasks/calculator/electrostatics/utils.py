@@ -27,7 +27,7 @@ class Prediction:
 Predictions = dict[tuple[str, str], Prediction]
 
 
-def _read_csv(path: Path) -> list[ReferenceRow]:
+def read_csv(path: Path) -> list[ReferenceRow]:
     with path.open(newline="") as file:
         return list(csv.DictReader(file))
 
@@ -47,22 +47,24 @@ def _fit_power_law(
     return float(coefficients[0]), float(1 - residual / variance)
 
 
-def tail_fits(reference: Path, predictions: Predictions) -> dict:
+def tail_fits(
+    reference: Path, series: list[ReferenceRow], predictions: Predictions
+) -> dict:
     points = defaultdict(dict)
     for (system, _), prediction in predictions.items():
         if (
             prediction.grid.startswith("radial")
             and prediction.distance > TAIL_MIN_DISTANCE
         ):
-            series = points[system, prediction.orientation]
-            series[prediction.distance] = prediction.energy_kcal_mol
+            series_points = points[system, prediction.orientation]
+            series_points[prediction.distance] = prediction.energy_kcal_mol
 
     distances = defaultdict(list)
-    for row in _read_csv(reference / "tail_points.csv"):
+    for row in read_csv(reference / "tail_points.csv"):
         distances[row["system"], row["orientation"]].append(float(row["R"]))
 
     fits = {category: [] for category in TAIL_POWERS}
-    for row in _read_csv(reference / "tail_fits.csv"):
+    for row in series:
         category = row["category"]
         key = row["system"], row["orientation"]
         radii = distances[key]
@@ -100,38 +102,46 @@ def _aligned_curve_errors(
     return abs(model_shift - ref_shift), abs(ref_shift)
 
 
-def curve_errors(reference: Path, predictions: Predictions) -> dict:
-    ct_rows = [
-        row
-        for row in _read_csv(reference / "ct_points.csv")
-        if row["benchmark"] == "ct"
-    ]
-    hl_rows = [
-        row
-        for row in _read_csv(reference / "hl.csv")
-        if row["system"] == "HLA" and row["orientation"] in {"r=1.9", "r=2.2"}
-    ]
+def curve_errors(
+    rows: list[ReferenceRow],
+    predictions: Predictions,
+    *,
+    split_orientations: bool = False,
+) -> dict:
+    """Return aligned MAEs for systems with complete reference coverage."""
     curves = defaultdict(list)
-    for row in ct_rows + hl_rows:
-        branch = row["orientation"] if row["system"] == "HLA" else ""
+    for row in rows:
+        branch = row["orientation"] if split_orientations else ""
         curves[row["system"], branch].append(row)
 
     errors = defaultdict(list)
     changes = defaultdict(list)
-    for (system, _), rows in curves.items():
-        aligned = _aligned_curve_errors(rows, predictions)
+    for (system, _), branch_rows in curves.items():
+        aligned = _aligned_curve_errors(branch_rows, predictions)
         if aligned is None:
             continue
         error, change = aligned
         errors[system].extend(error)
         changes[system].extend(change)
 
-    # Keep HLA comparable by requiring both frozen branches.
-    if any((row["system"], row["frame_id"]) not in predictions for row in hl_rows):
-        errors.pop("HLA", None)
+    # A system with several orientations contributes only with full coverage.
+    for row in rows:
+        key = row["system"], row["frame_id"]
+        if key not in predictions:
+            errors.pop(row["system"], None)
 
+    return {
+        system: {
+            "mae_kcal_mol": float(np.mean(values)),
+            "reference_change_kcal_mol": float(np.mean(changes[system])),
+        }
+        for system, values in errors.items()
+    }
+
+
+def restoring_forces(rows: list[ReferenceRow], predictions: Predictions) -> dict:
     forces = {}
-    for row in hl_rows:
+    for row in rows:
         ref = float(row["F_bond_dft_eVA"])
         if not (float(row["r_bond"]) in HL_BONDS and abs(ref) > HL_MIN_FORCE):
             continue
@@ -144,13 +154,4 @@ def curve_errors(reference: Path, predictions: Predictions) -> dict:
             "reference_ev_angstrom": ref,
         }
 
-    return {
-        "aligned_energy_errors": {
-            system: {
-                "mae_kcal_mol": float(np.mean(values)),
-                "reference_change_kcal_mol": float(np.mean(changes[system])),
-            }
-            for system, values in errors.items()
-        },
-        "restoring_forces": forces,
-    }
+    return forces

@@ -12,8 +12,18 @@ MIN_RELATIVE_ENERGY = 0.1
 
 
 def aggregate_electrostatics(results: dict) -> dict:
-    # Earlier records already contain the export summary.
-    if "tail_fits" not in results:
+    if "charge_transfer" in results:
+        hl = results["halogen_localization"]
+        results = {
+            "tail_fits": results["power_law"]["tail_fits"],
+            "aligned_energy_errors": {
+                **results["charge_transfer"]["aligned_energy_errors"],
+                **hl["aligned_energy_errors"],
+            },
+            "restoring_forces": hl["restoring_forces"],
+        }
+    elif "tail_fits" not in results:
+        # Earlier records already contain the export summary.
         return results
 
     power_law = {}
