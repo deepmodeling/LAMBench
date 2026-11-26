@@ -58,5 +58,6 @@ homonuclear_diatomics:
   test_data: null
   calculator_params: null
 electrostatics:
-  test_data: null
+  # Replace with the mounted dataset directory when it is available.
+  test_data: /bohr/electrostatics-dummy/data
   calculator_params: null

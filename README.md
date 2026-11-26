@@ -58,15 +58,12 @@ To reproduce the results locally or test a custom model, please refer to the `AS
 
 The `electrostatics` calculator task uses an external data directory containing
 `inputs/twobody/`, `inputs/hl/` and `reference/`. Once the dataset is available,
-point the task to its extracted `data` directory:
+replace the placeholder `test_data` in `calculator_tasks.yml` with the path to
+its `data` directory. Use a mounted `/bohr/...` path for Bohrium runs.
 
 ```bash
-LAMBENCH_ELECTROSTATICS_DATA=/path/to/data lambench --local --tasks electrostatics --models MODEL_NAME
+lambench --local --tasks electrostatics --models MODEL_NAME
 ```
-
-Use a mounted `/bohr/...` dataset path in `calculator_tasks.yml` for scheduled
-Bohrium runs. The task evaluates models already registered in LAMBench using
-their existing ASE calculators.
 
 ## Contributing
 
