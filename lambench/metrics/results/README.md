@@ -100,6 +100,23 @@ In the Catalysis domain, the OC20NEB-OOD benchmark evaluates the energy barrier,
 
 The resulting error metric after averaging over all domains is denoted as $\bar M^{m}_{PC}$.
 
+### Long-range Interactions
+
+Electrostatics stores the dimensionless mean absolute relative coefficient
+error, `mean(abs(1 - A_pred / A_ref))`, for each fixed-power category
+(QQ, QP and PP). Fits with a zero reference coefficient are excluded. A category reports `null` for
+the error when all available fits are at or below 0.1% of their reference
+coefficient magnitudes, or when no fits are available.
+
+If any category has a detectable response, charge transfer reports
+`relative_mae`, the equal-weight mean of each complete system's far-end-aligned
+energy MAE divided by its constant-model MAE. Systems with a baseline MAE at
+or below 0.1 kcal/mol are excluded. A relative MAE of 1 matches the constant
+baseline and values above 1 are retained. Without a detectable tail response,
+charge transfer is `null`.
+The overall ranking continues to use the force field and property
+calculation results.
+
 ## Applicability
 
 ### Efficiency
