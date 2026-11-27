@@ -56,15 +56,10 @@ def power_law_mae(
     for row in read_csv(reference / "tail_points.csv"):
         distances[row["system"], row["orientation"]].append(float(row["R"]))
 
-    summary = {
-        category: {"n_series": 0, "n_evaluated": 0, "coefficient_mae": None}
-        for category in TAIL_POWERS
-    }
     errors = defaultdict(list)
     responsive_categories = set()
     for row in series:
         category = row["category"]
-        summary[category]["n_series"] += 1
         key = row["system"], row["orientation"]
         radii = distances[key]
         values = points[key]
@@ -79,11 +74,14 @@ def power_law_mae(
         if abs(coefficient) > MIN_RELATIVE_COEFFICIENT * abs(reference_coefficient):
             responsive_categories.add(category)
 
-    for category, result in summary.items():
-        result["n_evaluated"] = len(errors[category])
-        if category in responsive_categories:
-            result["coefficient_mae"] = float(np.mean(errors[category]))
-    return summary
+    return {
+        category: {
+            "coefficient_mae": float(np.mean(errors[category]))
+            if category in responsive_categories
+            else None,
+        }
+        for category in TAIL_POWERS
+    }
 
 
 def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> dict:
@@ -105,6 +103,4 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
 
     return {
         "mae_kcal_mol": float(np.mean(maes)) if maes else None,
-        "n_evaluated": len(maes),
-        "n_systems": len(curves),
     }
