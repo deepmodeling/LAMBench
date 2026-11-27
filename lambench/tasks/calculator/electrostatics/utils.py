@@ -10,6 +10,7 @@ import numpy as np
 TAIL_POWERS = {"QQ": 1, "QP": 2, "PP": 3}
 TAIL_MIN_DISTANCE = 10.0
 MIN_RELATIVE_COEFFICIENT = 1e-3
+MIN_CT_BASELINE_MAE_KCAL_MOL = 0.1
 
 ReferenceRow = dict[str, str]
 
@@ -92,6 +93,7 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
         curves[row["system"]].append(row)
 
     maes = []
+    relative_maes = []
     for system, curve in curves.items():
         ordered = sorted(curve, key=lambda row: float(row["R"]))
         keys = [(system, row["frame_id"]) for row in ordered]
@@ -100,9 +102,17 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
 
         model = np.array([predictions[key].energy_kcal_mol for key in keys])
         reference = np.array([float(row["E_int_kcal"]) for row in ordered])
-        error = (model - model[-1]) - (reference - reference[-1])
-        maes.append(float(np.mean(np.abs(error))))
+        aligned_reference = reference - reference[-1]
+        error = (model - model[-1]) - aligned_reference
+        mae = float(np.mean(np.abs(error)))
+        maes.append(mae)
+
+        # A constant prediction becomes zero after far-end alignment.
+        baseline_mae = float(np.mean(np.abs(aligned_reference)))
+        if baseline_mae > MIN_CT_BASELINE_MAE_KCAL_MOL:
+            relative_maes.append(mae / baseline_mae)
 
     return {
         "mae_kcal_mol": float(np.mean(maes)) if maes else None,
+        "relative_mae": float(np.mean(relative_maes)) if relative_maes else None,
     }

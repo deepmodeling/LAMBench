@@ -110,7 +110,11 @@ coefficient magnitudes, or when no fits are available.
 
 If any category has a detectable response, charge transfer reports the
 equal-weight mean of complete systems' far-end-aligned energy MAEs
-(kcal/mol). Otherwise charge transfer is `null`.
+(kcal/mol). It also reports `relative_mae`, the equal-weight mean of each
+system's MAE divided by its constant-model MAE. Systems with a baseline MAE
+at or below 0.1 kcal/mol contribute only to the absolute MAE. A relative MAE
+of 1 matches the constant baseline and values above 1 are retained.
+Without a detectable tail response, charge transfer is `null`.
 The overall ranking continues to use the force field and property
 calculation results.
 
