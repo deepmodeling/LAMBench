@@ -20,12 +20,13 @@ from lambench.metrics.utils import (
 )
 from lambench.models.basemodel import BaseLargeAtomModel
 
-DIRECT_TASK_WEIGHTS = yaml.safe_load(
-    open(Path(lambench.__file__).parent / "metrics/direct_task_weights.yml", "r")
-)
-PROPERTY_TASK_MAP = yaml.safe_load(
-    open(Path(lambench.__file__).parent / "metrics/finetune_tasks_metrics.yml", "r")
-)
+logger = logging.getLogger(__name__)
+
+with (Path(__file__).parent / "direct_task_weights.yml").open() as file:
+    DIRECT_TASK_WEIGHTS = yaml.safe_load(file)
+
+with (Path(__file__).parent / "finetune_tasks_metrics.yml").open() as file:
+    PROPERTY_TASK_MAP = yaml.safe_load(file)
 
 PROPERTY_TASK_REVERSE_MAP = {
     v_i: k for k, v in PROPERTY_TASK_MAP.items() for v_i in v["subtasks"]
@@ -74,14 +75,14 @@ def process_results_for_one_model(model: BaseLargeAtomModel):
 def process_force_field_for_one_model(model: BaseLargeAtomModel):
     direct_task_records = DirectPredictRecord.query(model_name=model.model_name)
     if not direct_task_records:
-        logging.warning(f"No direct task records found for {model.model_name}")
+        logger.warning(f"No direct task records found for {model.model_name}")
         return {}
 
     generalizability_force_field_results = {}
     norm_log_results = []
     for record in direct_task_records:
         if record.task_name not in DIRECT_TASK_WEIGHTS:
-            logging.warning(
+            logger.warning(
                 f"Deprecated direct task {record.task_name} for {model.model_name}"
             )
             continue
@@ -99,7 +100,7 @@ def process_force_field_for_one_model(model: BaseLargeAtomModel):
     )
     if missing_tasks:
         generalizability_force_field_results["Weighted"] = None
-        logging.warning(
+        logger.warning(
             f"Weighted results for {model.model_name} are marked as None due to missing tasks: {missing_tasks}"
         )
     else:
@@ -114,7 +115,7 @@ def process_force_field_for_one_model(model: BaseLargeAtomModel):
 def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
     calculator_task_records = CalculatorRecord.query(model_name=model.model_name)
     if not calculator_task_records:
-        logging.warning(f"No calculator task records found for {model.model_name}")
+        logger.warning(f"No calculator task records found for {model.model_name}")
         return {}
 
     applicability_results = {}
@@ -141,7 +142,7 @@ def process_domain_specific_for_one_model(model: BaseLargeAtomModel):
 def process_adaptability_for_one_model(model: BaseLargeAtomModel):
     property_task_records = PropertyRecord.query(model_name=model.model_name)
     if not property_task_records:
-        logging.warning(f"No property task records found for {model.model_name}")
+        logger.warning(f"No property task records found for {model.model_name}")
         return {}
 
     property_task_results = defaultdict(list)
@@ -153,7 +154,7 @@ def process_adaptability_for_one_model(model: BaseLargeAtomModel):
     for task_name, results in property_task_results.items():
         # Missing Data Check
         if len(results) != len(PROPERTY_TASK_MAP[task_name]["subtasks"]):
-            logging.warning(f"Missing data for {model.model_name} in {task_name}")
+            logger.warning(f"Missing data for {model.model_name} in {task_name}")
             return {}
 
         property_task_results[task_name] = {
@@ -169,7 +170,7 @@ def process_adaptability_for_one_model(model: BaseLargeAtomModel):
 def process_applicability_task_for_one_model(model: BaseLargeAtomModel):
     calculator_task_records = CalculatorRecord.query(model_name=model.model_name)
     if not calculator_task_records:
-        logging.warning(f"No calculator task records found for {model.model_name}")
+        logger.warning(f"No calculator task records found for {model.model_name}")
         return {}
 
     applicability_results = {}

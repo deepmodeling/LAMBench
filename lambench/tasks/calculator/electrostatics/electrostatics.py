@@ -16,6 +16,8 @@ from lambench.tasks.calculator.electrostatics.utils import (
     read_csv,
 )
 
+logger = logging.getLogger(__name__)
+
 EV_TO_KCAL_MOL = units.mol / units.kcal
 PREDICTION_ERRORS = (ValueError, RuntimeError, KeyError, NotImplementedError)
 
@@ -78,7 +80,7 @@ def _predict_system(path, calc, dp_input) -> Predictions:
     try:
         fragment_energy = _fragment_energy(frames[0], calc, dp_input)
     except PREDICTION_ERRORS as exc:
-        logging.warning("Electrostatics %s fragment evaluation failed: %s", system, exc)
+        logger.warning("Electrostatics %s fragment evaluation failed: %s", system, exc)
         return predictions
 
     for atoms in frames:
@@ -87,7 +89,7 @@ def _predict_system(path, calc, dp_input) -> Predictions:
         try:
             energy = _energy(atoms, info["charge"], info.get("spin", 1), calc, dp_input)
         except PREDICTION_ERRORS as exc:
-            logging.warning("Electrostatics %s energy failed: %s", frame_id, exc)
+            logger.warning("Electrostatics %s energy failed: %s", frame_id, exc)
             continue
 
         predictions[system, frame_id] = Prediction(

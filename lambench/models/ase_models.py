@@ -23,6 +23,8 @@ from tqdm import tqdm
 
 from lambench.models.basemodel import BaseLargeAtomModel
 
+logger = logging.getLogger(__name__)
+
 # pyright: reportMissingImports=false
 
 
@@ -101,7 +103,7 @@ class ASEModel(BaseLargeAtomModel):
         }
 
         if self.model_family not in calculator_dispatch:
-            logging.warning(
+            logger.warning(
                 f"Model {self.model_name} is not supported by ASEModel, using EMT as default calculator."
             )
             self._calc = EMT()
@@ -111,7 +113,7 @@ class ASEModel(BaseLargeAtomModel):
 
     @calc.setter
     def calc(self, value: Calculator):
-        logging.warning("Overriding the default calculator.")
+        logger.warning("Overriding the default calculator.")
         self._calc = value
 
     def _init_mace_calculator(self) -> Calculator:
@@ -446,12 +448,12 @@ class ASEModel(BaseLargeAtomModel):
                         )
                         file.parent.mkdir(parents=True, exist_ok=True)
                         write(file, atoms)
-                        logging.error(
+                        logger.error(
                             f"Error in energy prediction; CIF file saved as {file}."
                         )
                         failed_structures.append(atoms.symbols)
                         if len(failed_structures) > failed_tolereance:
-                            logging.error(f"Failed structures: {failed_structures}")
+                            logger.error(f"Failed structures: {failed_structures}")
                             raise RuntimeError("Too many failures; aborting.")
                         continue  # skip this frame
                     energy_pre.append(energy_predict)
@@ -495,7 +497,7 @@ class ASEModel(BaseLargeAtomModel):
                         pass
 
         if failed_structures:
-            logging.error(f"Failed structures: {failed_structures}")
+            logger.error(f"Failed structures: {failed_structures}")
         atom_num = np.array(atom_num)
         energy_err = np.array(energy_err)
         energy_pre = np.array(energy_pre)
@@ -560,8 +562,8 @@ class ASEModel(BaseLargeAtomModel):
             opt.insert_observer(observer, atoms=opt.atoms)
         try:
             opt.run(fmax=fmax, steps=steps)
-        except Exception as e:
-            logging.error(f"Relaxation failed: {e}")
+        except Exception as e:  # noqa: BLE001 - preserve calculator failure fallback
+            logger.error(f"Relaxation failed: {e}")
             return None
         if relax_cell:
             atoms = atoms.atoms
