@@ -70,13 +70,15 @@ def power_law_mae(
             radii, [values[radius] for radius in radii], TAIL_POWERS[category]
         )
         reference_coefficient = float(row["A_kcal"])
-        errors[category].append(abs(coefficient - reference_coefficient))
+        if reference_coefficient == 0:
+            continue
+        errors[category].append(abs(1 - coefficient / reference_coefficient))
         if abs(coefficient) > MIN_RELATIVE_COEFFICIENT * abs(reference_coefficient):
             responsive_categories.add(category)
 
     return {
         category: {
-            "coefficient_mae": float(np.mean(errors[category]))
+            "coefficient_relative_mae": float(np.mean(errors[category]))
             if category in responsive_categories
             else None,
         }

@@ -33,7 +33,10 @@ def run_inference(model, data: Path) -> dict:
     cache: dict[Path, Predictions] = {}
     power_law = run_power_law(inputs / "twobody", reference, calc, dp_input, cache)
     charge_transfer = None
-    if any(category["coefficient_mae"] is not None for category in power_law.values()):
+    if any(
+        category["coefficient_relative_mae"] is not None
+        for category in power_law.values()
+    ):
         charge_transfer = run_charge_transfer(
             inputs / "twobody", reference, calc, dp_input, cache
         )

@@ -102,11 +102,11 @@ The resulting error metric after averaging over all domains is denoted as $\bar 
 
 ### Long-range Interactions
 
-Electrostatics stores the mean absolute coefficient error for
-each fixed-power category (QQ, QP and PP). A category reports `null` for
+Electrostatics stores the dimensionless mean absolute relative coefficient
+error, `mean(abs(1 - A_pred / A_ref))`, for each fixed-power category
+(QQ, QP and PP). Fits with a zero reference coefficient are excluded. A category reports `null` for
 the error when all available fits are at or below 0.1% of their reference
-coefficient magnitudes, or when no fits are available. Coefficient errors
-are reported in kcal/mol times Å to the power of the category exponent.
+coefficient magnitudes, or when no fits are available.
 
 If any category has a detectable response, charge transfer reports the
 equal-weight mean of complete systems' far-end-aligned energy MAEs
