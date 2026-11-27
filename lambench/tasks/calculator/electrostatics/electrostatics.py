@@ -31,34 +31,33 @@ def run_inference(model: ASEModel, data: Path) -> dict:
         elif calc.dp.get_dim_fparam() == 2:
             dp_input = "fparam"
 
-    cache: dict[Path, Predictions] = {}
-    power_law = run_power_law(inputs / "twobody", reference, calc, dp_input, cache)
+    power_law = run_power_law(inputs / "twobody", reference, calc, dp_input)
     charge_transfer = None
     if any(
         category["coefficient_relative_mae"] is not None
         for category in power_law.values()
     ):
         charge_transfer = run_charge_transfer(
-            inputs / "twobody", reference, calc, dp_input, cache
+            inputs / "twobody", reference, calc, dp_input
         )
     return {"power_law": power_law, "charge_transfer": charge_transfer}
 
 
-def run_power_law(data, reference, calc, dp_input, cache) -> dict:
+def run_power_law(data, reference, calc, dp_input) -> dict:
     series = read_csv(reference / "tail_fits.csv")
-    predictions = _predict_systems(data, series, calc, dp_input, cache)
+    predictions = _predict_systems(data, series, calc, dp_input)
     return power_law_mae(reference, series, predictions)
 
 
-def run_charge_transfer(data, reference, calc, dp_input, cache) -> dict:
+def run_charge_transfer(data, reference, calc, dp_input) -> dict:
     rows = [
         row for row in read_csv(reference / "ct_points.csv") if row["benchmark"] == "ct"
     ]
-    predictions = _predict_systems(data, rows, calc, dp_input, cache)
+    predictions = _predict_systems(data, rows, calc, dp_input)
     return charge_transfer_mae(rows, predictions)
 
 
-def _predict_systems(data, rows, calc, dp_input, cache) -> Predictions:
+def _predict_systems(data, rows, calc, dp_input) -> Predictions:
     paths = sorted(data.glob("*.xyz"))
     if not paths:
         raise FileNotFoundError(f"Expected XYZ files in {data}")
@@ -68,9 +67,7 @@ def _predict_systems(data, rows, calc, dp_input, cache) -> Predictions:
     for path in paths:
         if path.stem not in systems:
             continue
-        if path not in cache:
-            cache[path] = _predict_system(path, calc, dp_input)
-        predictions.update(cache[path])
+        predictions.update(_predict_system(path, calc, dp_input))
     return predictions
 
 
