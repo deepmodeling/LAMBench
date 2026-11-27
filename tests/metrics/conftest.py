@@ -258,6 +258,19 @@ RECORDS_CALCULATOR = [
         metrics=DOWNSTREAM_TASK_METRICS[task]["dummy"],
     )
     for idx, task in enumerate(DOWNSTREAM_TASK_METRICS)
+] + [
+    CalculatorRecord(
+        model_name="test_dp",
+        task_name="electrostatics",
+        metrics={
+            "power_law": {
+                "QQ": {"coefficient_relative_mae": 0.1},
+                "QP": {"coefficient_relative_mae": None},
+                "PP": {"coefficient_relative_mae": None},
+            },
+            "charge_transfer": {"relative_mae": 0.25},
+        },
+    ),
 ]
 
 

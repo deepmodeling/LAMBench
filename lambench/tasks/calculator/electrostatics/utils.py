@@ -92,7 +92,6 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
     for row in rows:
         curves[row["system"]].append(row)
 
-    maes = []
     relative_maes = []
     for system, curve in curves.items():
         ordered = sorted(curve, key=lambda row: float(row["R"]))
@@ -105,7 +104,6 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
         aligned_reference = reference - reference[-1]
         error = (model - model[-1]) - aligned_reference
         mae = float(np.mean(np.abs(error)))
-        maes.append(mae)
 
         # A constant prediction becomes zero after far-end alignment.
         baseline_mae = float(np.mean(np.abs(aligned_reference)))
@@ -113,6 +111,5 @@ def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> d
             relative_maes.append(mae / baseline_mae)
 
     return {
-        "mae_kcal_mol": float(np.mean(maes)) if maes else None,
         "relative_mae": float(np.mean(relative_maes)) if relative_maes else None,
     }
