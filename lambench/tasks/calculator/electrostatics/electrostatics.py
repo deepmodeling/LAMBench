@@ -7,6 +7,7 @@ import numpy as np
 from ase import Atoms, units
 from ase.io import read
 
+from lambench.models.ase_models import ASEModel
 from lambench.tasks.calculator.electrostatics.utils import (
     Prediction,
     Predictions,
@@ -19,7 +20,7 @@ EV_TO_KCAL_MOL = units.mol / units.kcal
 PREDICTION_ERRORS = (ValueError, RuntimeError, KeyError, NotImplementedError)
 
 
-def run_inference(model, data: Path) -> dict:
+def run_inference(model: ASEModel, data: Path) -> dict:
     inputs = data / "inputs"
     reference = data / "reference"
     calc = model.calc
