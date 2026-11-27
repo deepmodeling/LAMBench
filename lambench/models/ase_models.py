@@ -223,17 +223,7 @@ class ASEModel(BaseLargeAtomModel):
 
             return self.run_ase_dptest(self, data_path, task.dispersion_correction)
         elif isinstance(task, CalculatorTask):
-            if task.task_name == "electrostatics":
-                from lambench.tasks.calculator.electrostatics.electrostatics import (
-                    run_inference,
-                )
-
-                if task.test_data is None:
-                    raise ValueError(
-                        "Electrostatics requires an external data directory"
-                    )
-                return {"metrics": run_inference(self, task.test_data)}
-            elif task.task_name == "nve_md":
+            if task.task_name == "nve_md":
                 from lambench.tasks.calculator.nve_md.nve_md import (
                     run_md_nve_simulation,
                 )
@@ -362,6 +352,13 @@ class ASEModel(BaseLargeAtomModel):
             elif task.task_name == "homonuclear_diatomics":
                 from lambench.tasks.calculator.diatomics.diatomics import run_inference
 
+                return {"metrics": run_inference(self, task.test_data)}
+            elif task.task_name == "electrostatics":
+                from lambench.tasks.calculator.electrostatics.electrostatics import (
+                    run_inference,
+                )
+
+                assert task.test_data is not None
                 return {"metrics": run_inference(self, task.test_data)}
             else:
                 raise NotImplementedError(f"Task {task.task_name} is not implemented.")

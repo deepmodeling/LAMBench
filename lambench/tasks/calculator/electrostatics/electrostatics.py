@@ -12,8 +12,8 @@ from lambench.tasks.calculator.electrostatics.utils import (
     Prediction,
     Predictions,
     charge_transfer_mae,
-    read_csv,
     power_law_mae,
+    read_csv,
 )
 
 EV_TO_KCAL_MOL = units.mol / units.kcal
