@@ -1,6 +1,5 @@
 """Run ASE predictions for the long-range electrostatics benchmark."""
 
-import json
 import logging
 from pathlib import Path
 
@@ -11,10 +10,9 @@ from ase.io import read
 from lambench.tasks.calculator.electrostatics.utils import (
     Prediction,
     Predictions,
-    curve_errors,
+    charge_transfer_mae,
     read_csv,
-    restoring_forces,
-    tail_fits,
+    power_law_mae,
 )
 
 EV_TO_KCAL_MOL = units.mol / units.kcal
@@ -33,26 +31,19 @@ def run_inference(model, data: Path) -> dict:
             dp_input = "fparam"
 
     cache: dict[Path, Predictions] = {}
-    results = {
-        "power_law": run_power_law(
+    power_law = run_power_law(inputs / "twobody", reference, calc, dp_input, cache)
+    charge_transfer = None
+    if any(category["coefficient_mae"] is not None for category in power_law.values()):
+        charge_transfer = run_charge_transfer(
             inputs / "twobody", reference, calc, dp_input, cache
-        ),
-        "charge_transfer": run_charge_transfer(
-            inputs / "twobody", reference, calc, dp_input, cache
-        ),
-        "halogen_localization": run_halogen_localization(
-            inputs / "hl", reference, calc, dp_input, cache
-        ),
-    }
-    if not any(cache.values()):
-        raise RuntimeError("No valid electrostatics predictions")
-    return results
+        )
+    return {"power_law": power_law, "charge_transfer": charge_transfer}
 
 
 def run_power_law(data, reference, calc, dp_input, cache) -> dict:
     series = read_csv(reference / "tail_fits.csv")
     predictions = _predict_systems(data, series, calc, dp_input, cache)
-    return {"tail_fits": tail_fits(reference, series, predictions)}
+    return power_law_mae(reference, series, predictions)
 
 
 def run_charge_transfer(data, reference, calc, dp_input, cache) -> dict:
@@ -60,27 +51,10 @@ def run_charge_transfer(data, reference, calc, dp_input, cache) -> dict:
         row for row in read_csv(reference / "ct_points.csv") if row["benchmark"] == "ct"
     ]
     predictions = _predict_systems(data, rows, calc, dp_input, cache)
-    return {"aligned_energy_errors": curve_errors(rows, predictions)}
+    return charge_transfer_mae(rows, predictions)
 
 
-def run_halogen_localization(data, reference, calc, dp_input, cache) -> dict:
-    rows = [
-        row
-        for row in read_csv(reference / "hl.csv")
-        if row["system"] == "HLA" and row["orientation"] in {"r=1.9", "r=2.2"}
-    ]
-    with (data / "hl_refs.json").open() as file:
-        fragments = json.load(file)
-    predictions = _predict_systems(data, rows, calc, dp_input, cache, fragments)
-    return {
-        "aligned_energy_errors": curve_errors(
-            rows, predictions, split_orientations=True
-        ),
-        "restoring_forces": restoring_forces(rows, predictions),
-    }
-
-
-def _predict_systems(data, rows, calc, dp_input, cache, hl_refs=None) -> Predictions:
+def _predict_systems(data, rows, calc, dp_input, cache) -> Predictions:
     paths = sorted(data.glob("*.xyz"))
     if not paths:
         raise FileNotFoundError(f"Expected XYZ files in {data}")
@@ -91,19 +65,17 @@ def _predict_systems(data, rows, calc, dp_input, cache, hl_refs=None) -> Predict
         if path.stem not in systems:
             continue
         if path not in cache:
-            cache[path] = _predict_system(
-                path, calc, dp_input, (hl_refs or {}).get(path.stem)
-            )
+            cache[path] = _predict_system(path, calc, dp_input)
         predictions.update(cache[path])
     return predictions
 
 
-def _predict_system(path, calc, dp_input, hl) -> Predictions:
+def _predict_system(path, calc, dp_input) -> Predictions:
     predictions: Predictions = {}
     frames = read(path, index=":", format="extxyz")
     system = path.stem
     try:
-        fragment_energy = _fragment_energy(frames[0], hl, calc, dp_input)
+        fragment_energy = _fragment_energy(frames[0], calc, dp_input)
     except PREDICTION_ERRORS as exc:
         logging.warning("Electrostatics %s fragment evaluation failed: %s", system, exc)
         return predictions
@@ -117,18 +89,8 @@ def _predict_system(path, calc, dp_input, hl) -> Predictions:
             logging.warning("Electrostatics %s energy failed: %s", frame_id, exc)
             continue
 
-        force = None
-        if hl is not None:
-            try:
-                # The HL bond lies along the x axis.
-                first_atom = _selection(info["selection_mol"]).start
-                force = float(atoms.get_forces()[first_atom, 0])
-            except PREDICTION_ERRORS as exc:
-                logging.warning("Electrostatics %s force failed: %s", frame_id, exc)
-
         predictions[system, frame_id] = Prediction(
             energy_kcal_mol=(energy - fragment_energy) * EV_TO_KCAL_MOL,
-            force_x_ev_angstrom=force,
             distance=float(info["R"]),
             orientation=info["orient"],
             grid=str(info["grid"]),
@@ -136,35 +98,18 @@ def _predict_system(path, calc, dp_input, hl) -> Predictions:
     return predictions
 
 
-def _fragment_energy(
-    first: Atoms, hl: dict | None, calc, dp_input: str | None
-) -> float:
+def _fragment_energy(first: Atoms, calc, dp_input: str | None) -> float:
     info = first.info
-    if hl is None:
-        return sum(
-            _energy(
-                first[_selection(info[f"selection_{part}"])],
-                info[f"charge_{part}"],
-                info.get("spin", 1),
-                calc,
-                dp_input,
-            )
-            for part in ("a", "b")
+    return sum(
+        _energy(
+            first[_selection(info[f"selection_{part}"])],
+            info[f"charge_{part}"],
+            info.get("spin", 1),
+            calc,
+            dp_input,
         )
-
-    molecule = first[_selection(info["selection_mol"])]
-    spectator = _selection(info["selection_spec"]).start
-    molecule_energy = _energy(
-        molecule, hl["mol_charge"], hl["mol_mult"], calc, dp_input
+        for part in ("a", "b")
     )
-    spectator_energy = _energy(
-        first[spectator : spectator + 1],
-        hl["spec_charge"],
-        hl["spec_mult"],
-        calc,
-        dp_input,
-    )
-    return molecule_energy + hl["n_spec"] * spectator_energy
 
 
 def _energy(atoms: Atoms, charge: int, spin: int, calc, dp_input: str | None) -> float:

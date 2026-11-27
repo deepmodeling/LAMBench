@@ -102,16 +102,17 @@ The resulting error metric after averaging over all domains is denoted as $\bar 
 
 ### Long-range Interactions
 
-The calculator task stores per-series fits, per-system aligned energy errors,
-and predicted and reference restoring forces. Post-processing computes
-coverage, dimensionless metrics, and group summaries before exporting under
-`generalizability_long_range_results.electrostatics`. It reports fixed-power
-tail fits (QQ, QP and PP), coefficient errors for matching signs, far-end
-aligned CT and HL energy MAEs in kcal/mol, and HL restoring force direction
-and magnitude ratios. Coverage counts accompany the metrics. A tail series
-or energy curve contributes to the summary when all its frozen reference
-points have predictions. The existing generalizability ranking uses the
-force field and property calculation results.
+Electrostatics stores the mean absolute coefficient error and coverage for
+each fixed-power category (QQ, QP and PP). A category reports `null` for
+the error when all available fits are at or below 0.1% of their reference
+coefficient magnitudes, or when no fits are available. Coefficient errors
+are reported in kcal/mol times Å to the power of the category exponent.
+
+If any category has a detectable response, charge transfer reports the
+equal-weight mean of complete systems' far-end-aligned energy MAEs
+(kcal/mol), along with coverage counts. Otherwise charge transfer is `null`.
+The overall ranking continues to use the force field and property
+calculation results.
 
 ## Applicability
 

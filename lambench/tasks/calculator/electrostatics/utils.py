@@ -9,8 +9,7 @@ import numpy as np
 
 TAIL_POWERS = {"QQ": 1, "QP": 2, "PP": 3}
 TAIL_MIN_DISTANCE = 10.0
-HL_BONDS = (1.9, 2.2)
-HL_MIN_FORCE = 0.05
+MIN_RELATIVE_COEFFICIENT = 1e-3
 
 ReferenceRow = dict[str, str]
 
@@ -18,7 +17,6 @@ ReferenceRow = dict[str, str]
 @dataclass(frozen=True)
 class Prediction:
     energy_kcal_mol: float
-    force_x_ev_angstrom: float | None
     distance: float
     orientation: str
     grid: str
@@ -32,22 +30,17 @@ def read_csv(path: Path) -> list[ReferenceRow]:
         return list(csv.DictReader(file))
 
 
-def _fit_power_law(
-    distances: list[float], energies: list[float], power: int
-) -> tuple[float, float | None]:
-    """Fit E = A / R**power + B and return A and R²."""
-    energy = np.asarray(energies)
-    if not np.ptp(energy):
-        return 0.0, None
+def _fit_power_law(distances: list[float], energies: list[float], power: int) -> float:
+    """Fit E = A / R**power + B and return A."""
+    if not np.ptp(energies):
+        return 0.0
 
     design = np.column_stack([np.asarray(distances) ** -power, np.ones(len(distances))])
-    coefficients = np.linalg.lstsq(design, energy, rcond=None)[0]
-    variance = np.sum((energy - energy.mean()) ** 2)
-    residual = np.sum((energy - design @ coefficients) ** 2)
-    return float(coefficients[0]), float(1 - residual / variance)
+    coefficients = np.linalg.lstsq(design, energies, rcond=None)[0]
+    return float(coefficients[0])
 
 
-def tail_fits(
+def power_law_mae(
     reference: Path, series: list[ReferenceRow], predictions: Predictions
 ) -> dict:
     points = defaultdict(dict)
@@ -63,95 +56,55 @@ def tail_fits(
     for row in read_csv(reference / "tail_points.csv"):
         distances[row["system"], row["orientation"]].append(float(row["R"]))
 
-    fits = {category: [] for category in TAIL_POWERS}
+    summary = {
+        category: {"n_series": 0, "n_evaluated": 0, "coefficient_mae": None}
+        for category in TAIL_POWERS
+    }
+    errors = defaultdict(list)
+    responsive_categories = set()
     for row in series:
         category = row["category"]
+        summary[category]["n_series"] += 1
         key = row["system"], row["orientation"]
         radii = distances[key]
         values = points[key]
-        coefficient = r2 = None
-        if len(radii) >= 3 and all(radius in values for radius in radii):
-            coefficient, r2 = _fit_power_law(
-                radii, [values[radius] for radius in radii], TAIL_POWERS[category]
-            )
-        fits[category].append(
-            {
-                "system": row["system"],
-                "orientation": row["orientation"],
-                "coefficient": coefficient,
-                "reference_coefficient": float(row["A_kcal"]),
-                "r2": r2,
-            }
+        if len(radii) < 3 or any(radius not in values for radius in radii):
+            continue
+
+        coefficient = _fit_power_law(
+            radii, [values[radius] for radius in radii], TAIL_POWERS[category]
         )
-    return fits
+        reference_coefficient = float(row["A_kcal"])
+        errors[category].append(abs(coefficient - reference_coefficient))
+        if abs(coefficient) > MIN_RELATIVE_COEFFICIENT * abs(reference_coefficient):
+            responsive_categories.add(category)
+
+    for category, result in summary.items():
+        result["n_evaluated"] = len(errors[category])
+        if category in responsive_categories:
+            result["coefficient_mae"] = float(np.mean(errors[category]))
+    return summary
 
 
-def _aligned_curve_errors(
-    rows: list[ReferenceRow], predictions: Predictions
-) -> tuple[np.ndarray, np.ndarray] | None:
-    """Compare energy changes relative to the farthest reference point."""
-    ordered = sorted(rows, key=lambda row: float(row["R"]))
-    keys = [(row["system"], row["frame_id"]) for row in ordered]
-    if len(keys) < 2 or any(key not in predictions for key in keys):
-        return None
-
-    model_energy = np.array([predictions[key].energy_kcal_mol for key in keys])
-    ref_energy = np.array([float(row["E_int_kcal"]) for row in ordered])
-    model_shift = model_energy - model_energy[-1]
-    ref_shift = ref_energy - ref_energy[-1]
-    return abs(model_shift - ref_shift), abs(ref_shift)
-
-
-def curve_errors(
-    rows: list[ReferenceRow],
-    predictions: Predictions,
-    *,
-    split_orientations: bool = False,
-) -> dict:
-    """Return aligned MAEs for systems with complete reference coverage."""
+def charge_transfer_mae(rows: list[ReferenceRow], predictions: Predictions) -> dict:
     curves = defaultdict(list)
     for row in rows:
-        branch = row["orientation"] if split_orientations else ""
-        curves[row["system"], branch].append(row)
+        curves[row["system"]].append(row)
 
-    errors = defaultdict(list)
-    changes = defaultdict(list)
-    for (system, _), branch_rows in curves.items():
-        aligned = _aligned_curve_errors(branch_rows, predictions)
-        if aligned is None:
+    maes = []
+    for system, curve in curves.items():
+        ordered = sorted(curve, key=lambda row: float(row["R"]))
+        keys = [(system, row["frame_id"]) for row in ordered]
+        if len(keys) < 2 or any(key not in predictions for key in keys):
             continue
-        error, change = aligned
-        errors[system].extend(error)
-        changes[system].extend(change)
 
-    # A system with several orientations contributes only with full coverage.
-    for row in rows:
-        key = row["system"], row["frame_id"]
-        if key not in predictions:
-            errors.pop(row["system"], None)
+        model = np.array([predictions[key].energy_kcal_mol for key in keys])
+        reference = np.array([float(row["E_int_kcal"]) for row in ordered])
+        error = (model - model[-1]) - (reference - reference[-1])
+        maes.append(float(np.mean(np.abs(error))))
 
     return {
-        system: {
-            "mae_kcal_mol": float(np.mean(values)),
-            "reference_change_kcal_mol": float(np.mean(changes[system])),
-        }
-        for system, values in errors.items()
+        "mae_kcal_mol": float(np.mean(maes)) if maes else None,
+        "n_evaluated": len(maes),
+        "n_systems": len(curves),
     }
-
-
-def restoring_forces(rows: list[ReferenceRow], predictions: Predictions) -> dict:
-    forces = {}
-    for row in rows:
-        ref = float(row["F_bond_dft_eVA"])
-        if not (float(row["r_bond"]) in HL_BONDS and abs(ref) > HL_MIN_FORCE):
-            continue
-        prediction = predictions.get((row["system"], row["frame_id"]))
-        force = prediction.force_x_ev_angstrom if prediction is not None else None
-        forces[row["frame_id"]] = {
-            "predicted_ev_angstrom": force
-            if force is not None and np.isfinite(force)
-            else None,
-            "reference_ev_angstrom": ref,
-        }
-
-    return forces

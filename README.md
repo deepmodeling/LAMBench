@@ -57,7 +57,7 @@ To reproduce the results locally or test a custom model, please refer to the `AS
 ### Long-range electrostatics
 
 The `electrostatics` calculator task uses an external data directory containing
-`inputs/twobody/`, `inputs/hl/` and `reference/`. Once the dataset is available,
+`inputs/twobody/` and `reference/`. Once the dataset is available,
 replace the placeholder `test_data` in `calculator_tasks.yml` with the path to
 its `data` directory. Use a mounted `/bohr/...` path for Bohrium runs.
 
